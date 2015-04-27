@@ -1,7 +1,7 @@
 -- aBLAS
 -- An Ada 2012 binding to BLAS
 
-private generic package aBLAS.Real_BLAS.Interfaces is
+private generic package aBLAS.Real_BLAS.Imports is
 
    subtype FI is IntFort.Fortran_Integer;
 
@@ -23,4 +23,4 @@ private generic package aBLAS.Real_BLAS.Interfaces is
      Convention => Fortran,
      External_Name => "ddot_";
 
-end aBLAS.Real_BLAS.Interfaces;
+end aBLAS.Real_BLAS.Imports;

@@ -1,12 +1,12 @@
 -- aBLAS
 -- An Ada 2012 binding to BLAS
 
-with aBLAS.Real_BLAS.Interfaces;
+with aBLAS.Real_BLAS.Imports;
 
 package body aBLAS.Real_BLAS is
 
-   package BLAS_Interfaces is new aBLAS.Real_BLAS.Interfaces;
-   use BLAS_Interfaces;
+   package Fortran_Imports is new aBLAS.Real_BLAS.Imports;
+   use Fortran_Imports;
 
    ---------
    -- dot --
