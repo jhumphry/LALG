@@ -4,7 +4,7 @@ with Ada.Text_IO, Ada.Float_Text_IO;
 use Ada.Text_IO, Ada.Float_Text_IO;
 with Ada.Numerics.Generic_Real_Arrays;
 
-with aBLAS, aBLAS.Real_BLAS;
+with aBLAS, aBLAS.Real_BLAS, aBLAS.Real_BLAS.Util;
 
 procedure Simple_Example is
    package GRA is new Ada.Numerics.Generic_Real_Arrays(Real => Float);
@@ -13,39 +13,41 @@ procedure Simple_Example is
                                        Real_Vector => GRA.Real_Vector,
                                        Real_Matrix => GRA.Real_Matrix);
 
-
-   procedure Print_Vector(A : in GRA.Real_Vector; Col : Positive := 3) is
-      C : Natural := 0;
-   begin
-      for I in A'Range loop
-            Put(A(I));
-         C := C + 1;
-         if C mod Col = 0 then
-            New_Line;
-         end if;
-      end loop;
-      if C mod Col /= 0 then
-         New_Line;
-      end if;
-   end Print_Vector;
+   package BLAS_Util is new BLAS.Util(Default_Aft => 3, Default_Exp => 0);
+   use BLAS_Util;
 
    SX : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
-   SY : GRA.Real_Vector(1..3) := (4.0, 5.0, 6.0);
-   Dot_Product : Float;
+   SY : GRA.Real_Vector(1..3) := (6.0, 5.0, 4.0);
+
+   X  : GRA.Real_Vector(1..2) := (3.0, 4.0);
+   A  : GRA.Real_Matrix(1..2, 1..2) := ((1.0, -1.0),
+                                        (0.5, 2.0));
+
+   BV : GRA.Real_Vector(1..6) := (others => 3.5);
+   BM : GRA.Real_Matrix(1..6, 1..6) := ((1.0, -1.0, others => 0.7),
+                                        (0.5, 2.0, others => 0.8),
+                                       others => (0.33, 0.67, others => 0.9));
 
 begin
-   Put_Line("SX is:");
-   Print_Vector(SX);
+   Put("SX is: ");
+   Put(SX); New_Line;
+   Put("SY is: ");
+   Put(SY); New_Line;
+
+   Put("Dot Product SX.SY is: ");
+   Put(BLAS.Dot(SX, SY));
    New_Line;
 
-   Put_Line("SY is:");
-   Print_Vector(SY);
    New_Line;
+   Put("X is: ");
+   Put(X); New_Line;
+   Put_Line("A is: ");
+   Put(A); New_Line;
 
-   Dot_Product := BLAS.Dot(SX, SY);
-
-   Put("Dot Product is: ");
-   Put(Dot_Product);
    New_Line;
+   Put("BV is: ");
+   Put(BV);  New_Line;
+   Put_Line("BM is: ");
+   Put(BM); New_Line;
 
 end Simple_Example;
