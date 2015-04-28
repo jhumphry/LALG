@@ -23,4 +23,18 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => "ddot_";
 
+   function SNRM2(N : FI;
+                  X : Real_Vector;
+                  INCX : Increment) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => "snrm2_";
+
+   function DNRM2(N : FI;
+                  X : Real_Vector;
+                  INCX : Increment) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => "dnrm2_";
+
 end aBLAS.Real_BLAS.Imports;

@@ -18,11 +18,23 @@ package aBLAS.Real_BLAS is
                                                       Real'Base'Size = IntFort.Double_Precision'Base'Size then Double
                                                     else Unsupported);
 
+   -- *************
+   -- *************
+   -- ** Level 1 **
+   -- *************
+   -- *************
 
+   -- dot <- SX^T . SY
    function dot(SX, SY: in Real_Vector;
                 INCX : in Increment := 1;
                 INCY : in Increment := 1;
                 N : in Vector_Size := 0) return Real
+     with Inline;
+
+   -- nrm2 <- sqrt(X^T . X)
+   function nrm2(SX : in Real_Vector;
+                 INCX : in Increment := 1;
+                 N : in Vector_Size := 0) return Real
      with Inline;
 
 end aBLAS.Real_BLAS;

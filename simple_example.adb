@@ -5,6 +5,7 @@ use Ada.Text_IO, Ada.Float_Text_IO;
 with Ada.Numerics.Generic_Real_Arrays;
 
 with aBLAS, aBLAS.Real_BLAS, aBLAS.Real_BLAS.Util;
+use aBLAS;
 
 procedure Simple_Example is
    package GRA is new Ada.Numerics.Generic_Real_Arrays(Real => Float);
@@ -36,6 +37,14 @@ begin
 
    Put("Dot Product SX.SY is: ");
    Put(BLAS.Dot(SX, SY));
+   New_Line;
+
+   Put("Dot Product SX.(SY reversed) is: ");
+   Put(BLAS.Dot(SX, SY, INCY => Increment(-1)));
+   New_Line;
+
+   Put("Euclidean norm of SX is: ");
+   Put(BLAS.Nrm2(SX));
    New_Line;
 
    New_Line;

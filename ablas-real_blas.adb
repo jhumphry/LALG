@@ -19,19 +19,33 @@ package body aBLAS.Real_BLAS is
       N : in Vector_Size := 0)
       return Real
    is
-      NN : Vector_Size;
+      NN : Vector_Size := (if N = 0 then SX'Length else N);
    begin
-      if N = 0 then
-         NN := SX'Length;
-      else
-         NN := N;
-      end if;
-
       if Precision = Single then
          return SDOT(NN,SX,INCX,SY,INCY);
       else
          return DDOT(NN,SX,INCX,SY,INCY);
       end if;
    end dot;
+
+   ----------
+   -- nrm2 --
+   ----------
+
+   function nrm2
+     (SX : in Real_Vector;
+      INCX : in Increment := 1;
+      N : in Vector_Size := 0)
+      return Real
+   is
+      NN : Vector_Size := (if N = 0 then SX'Length else N);
+   begin
+      if Precision = Single then
+         return SNRM2(NN,SX,INCX);
+      else
+         return DNRM2(NN,SX,INCX);
+      end if;
+   end nrm2;
+
 
 end aBLAS.Real_BLAS;
