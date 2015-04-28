@@ -20,7 +20,7 @@ package body aBLAS.Real_BLAS.Util is
       Aft : in Field := Default_Aft;
       Exp : in Field := Default_Exp)
    is
-      N : Count := Count(Item'Length);
+      N : constant Count := Count(Item'Length);
    begin
       Put(File, "[");
       if N <= Columns then
@@ -41,7 +41,7 @@ package body aBLAS.Real_BLAS.Util is
                 Exp => Exp);
             Put(File, " ");
          end loop;
-         Put(File, Ada.Strings.Fixed."*"(Fore+Aft+Exp,"."));
+         Put(File, Ada.Strings.Fixed."*"(Fore+Aft+Exp+1,"."));
          Put(File, " ");
          Put(File => File,
              Item => Item(Item'Last),
@@ -80,7 +80,7 @@ package body aBLAS.Real_BLAS.Util is
       Aft : in Field;
       Exp : in Field)
    is
-      N : Count := Count(Item'Length(2));
+      N : constant Count := Count(Item'Length(2));
    begin
       Put(File, "[");
       if N <= Columns then
@@ -101,7 +101,7 @@ package body aBLAS.Real_BLAS.Util is
                 Exp => Exp);
             Put(File, " ");
          end loop;
-         Put(File, Ada.Strings.Fixed."*"(Fore+Aft+Exp,"."));
+         Put(File, Ada.Strings.Fixed."*"(Fore+Aft+Exp+1,"."));
          Put(File, " ");
          Put(File => File,
              Item => Item(Row, Item'Last(2)),
@@ -121,7 +121,7 @@ package body aBLAS.Real_BLAS.Util is
       Aft : in Field := Default_Aft;
       Exp : in Field := Default_Exp)
    is
-      N : Count := Count(Item'Length(1));
+      N : constant Count := Count(Item'Length(1));
    begin
       Set_Col(File, 1);
       Put(File, "[");
@@ -148,7 +148,7 @@ package body aBLAS.Real_BLAS.Util is
                    Exp => Exp);
          end loop;
          Set_Col(File, 3);
-         Put(File, Ada.Strings.Fixed."*"(Fore+Aft+Exp,"."));
+         Put(File, Ada.Strings.Fixed."*"(Fore+Aft+Exp+1,"."));
          New_Line(File);
          Set_Col(File, 2);
          Put_Matrix_Row(File => File,
