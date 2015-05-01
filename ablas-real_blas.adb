@@ -19,7 +19,7 @@ package body aBLAS.Real_BLAS is
       N : in Vector_Size := 0)
       return Real
    is
-      NN : Vector_Size := (if N = 0 then SX'Length else N);
+      NN : constant Vector_Size := (if N = 0 then SX'Length else N);
    begin
       if Precision = Single then
          return SDOT(NN,SX,INCX,SY,INCY);
@@ -38,7 +38,7 @@ package body aBLAS.Real_BLAS is
       N : in Vector_Size := 0)
       return Real
    is
-      NN : Vector_Size := (if N = 0 then SX'Length else N);
+      NN : constant Vector_Size := (if N = 0 then SX'Length else N);
    begin
       if Precision = Single then
          return SNRM2(NN,SX,INCX);
