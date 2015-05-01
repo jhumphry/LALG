@@ -103,5 +103,87 @@ package body aBLAS.Real_BLAS is
       end case;
    end gemv;
 
+   -- *************
+   -- *************
+   -- ** Level 3 **
+   -- *************
+   -- *************
+
+   procedure gemm(A : in Real_Matrix;
+                  B : in Real_Matrix;
+                  C : in out Real_Matrix;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0;
+                  TRANA : in Real_Trans_Op := No_Transpose;
+                  TRANB : in Real_Trans_Op := No_Transpose;
+                  M, N, K : in Vector_Size := 0;
+                  Convention : in Matrix_Convention := Default_Matrix_Convention) is
+      A_P : Real_Matrix := (case Convention is
+                               when Column_Major => A,
+                               when Row_Major => B);
+      B_P : Real_Matrix := (case Convention is
+                               when Column_Major => B,
+                               when Row_Major => A);
+      TRANA_P : Real_Trans_Op := (case Convention is
+                               when Column_Major => TRANA,
+                               when Row_Major => TRANB);
+      TRANB_P : Real_Trans_Op := (case Convention is
+                               when Column_Major => TRANB,
+                               when Row_Major => TRANA);
+      M_P : Vector_Size;
+      N_P : Vector_Size;
+      K_P : Vector_Size;
+   begin
+
+      case TRANA_P is
+         when No_Transpose =>
+            M_P := A_P'Length(2);
+            K_P := A_P'Length(1);
+         when Transpose =>
+            M_P := A_P'Length(1);
+            K_P := A_P'Length(2);
+      end case;
+
+      case TRANB_P is
+         when No_Transpose =>
+            N_P := B_P'Length(1);
+         when Transpose =>
+            N_P := B_P'Length(2);
+      end case;
+
+      case Precision is
+         when Single =>
+            SGEMM(TRANA => Map_Trans_Op(TRANA_P),
+                  TRANB => Map_Trans_Op(TRANB_P),
+                  M => M_P,
+                  N => N_P,
+                  K => K_P,
+                  ALPHA => ALPHA,
+                  A => A_P,
+                  LDA => A_P'Length(2),
+                  B => B_P,
+                  LDB => B_P'Length(2),
+                  BETA => BETA,
+                  C => C,
+                  LDC => C'Length(2)
+                  );
+         when Double =>
+            DGEMM(TRANA => Map_Trans_Op(TRANA_P),
+                   TRANB => Map_Trans_Op(TRANB_P),
+                  M => M_P,
+                  N => N_P,
+                  K => K_P,
+                  ALPHA => ALPHA,
+                  A => A_P,
+                  LDA => A_P'Length(2),
+                  B => B_P,
+                  LDB => B_P'Length(2),
+                  BETA => BETA,
+                  C => C,
+                  LDC => C'Length(2)
+                  );
+         when Unsupported => raise Program_Error;
+      end case;
+   end gemm;
 
 end aBLAS.Real_BLAS;

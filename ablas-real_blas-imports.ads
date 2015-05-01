@@ -6,6 +6,12 @@ private generic package aBLAS.Real_BLAS.Imports is
    subtype FI is IntFort.Fortran_Integer;
    subtype FC is IntFort.Character_Set;
 
+   -- *************
+   -- *************
+   -- ** Level 1 **
+   -- *************
+   -- *************
+
    function SDOT(N : FI;
                   SX : Real_Vector;
                   INCX : Increment;
@@ -38,6 +44,12 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => "dnrm2_";
 
+   -- *************
+   -- *************
+   -- ** Level 2 **
+   -- *************
+   -- *************
+
    procedure SGEMV(TRANS : FC;
                    M: FI;
                    N : FI;
@@ -69,5 +81,47 @@ private generic package aBLAS.Real_BLAS.Imports is
      with Import => True,
      Convention => Fortran,
      External_Name => "dgemv_";
+
+   -- *************
+   -- *************
+   -- ** Level 3 **
+   -- *************
+   -- *************
+
+   procedure SGEMM(TRANA : FC;
+                   TRANB : FC;
+                   M: FI;
+                   N : FI;
+                   K : FI;
+                   ALPHA : Real;
+                   A : Real_Matrix;
+                   LDA : FI;
+                   B : Real_Matrix;
+                   LDB : FI;
+                   BETA : Real;
+                   C : in out Real_Matrix;
+                   LDC : FI
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => "sgemm_";
+
+   procedure DGEMM(TRANA : FC;
+                   TRANB : FC;
+                   M: FI;
+                   N : FI;
+                   K : FI;
+                   ALPHA : Real;
+                   A : Real_Matrix;
+                   LDA : FI;
+                   B : Real_Matrix;
+                   LDB : FI;
+                   BETA : Real;
+                   C : in out Real_Matrix;
+                   LDC : FI
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => "dgemm_";
 
 end aBLAS.Real_BLAS.Imports;

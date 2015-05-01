@@ -26,12 +26,20 @@ procedure Simple_Example is
                                         (7.0, 8.0, 9.0));
    Y  : GRA.Real_Vector(1..2) := (100.0, 100.0);
 
+   B  : GRA.Real_Matrix(1..3, 1..2) := ((11.0, 12.0),
+                                        (13.0, 14.0),
+                                        (15.0, 16.0));
+
+   C  : GRA.Real_Matrix(1..2, 1..2) := (others => (others => 99.0));
+
    BV : GRA.Real_Vector(1..6) := (others => 3.5);
    BM : GRA.Real_Matrix(1..6, 1..6) := ((1.0, -1.0, others => 0.7),
                                         (0.5, 2.0, others => 0.8),
                                        others => (0.33, 0.67, others => 0.9));
 
 begin
+
+   Put_Line("*** Level 1 ***");
    Put("SX is: ");
    Put(SX); New_Line;
    Put("SY is: ");
@@ -52,6 +60,7 @@ begin
    Put(BLAS.Nrm2(SX)); New_Line;
 
    New_Line;
+   Put_Line("*** Level 2 ***");
    Put("Y is: ");
    Put(Y); New_Line;
    Put("X is: ");
@@ -63,6 +72,23 @@ begin
    Put("Perform Y <- A*x with BLAS. Y is now: ");
    BLAS.gemv(A, X, Y);
    Put(Y); New_Line;
+
+   New_Line;
+   Put_Line("*** Level 3 ***");
+   Put("A is: ");
+   Put(A); New_Line;
+   Put("B is: ");
+   Put(B); New_Line;
+   Put("C is: ");
+   Put(C); New_Line;
+   Put("A*B via Ada library: ");
+   Put(A*B); New_Line;
+   Put("Perform C <- A*B with BLAS. C is now: ");
+   BLAS.gemm(A, B, C);
+   Put(C); New_Line;
+   Put("Perform C <- Bt*At with BLAS. C is now: ");
+   BLAS.gemm(B, A, C, TRANA => Transpose, TRANB => Transpose);
+   Put(C); New_Line;
 
    New_Line;
    Put("BV is: ");
