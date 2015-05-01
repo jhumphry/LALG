@@ -9,6 +9,7 @@ use aBLAS;
 
 procedure Simple_Example is
    package GRA is new Ada.Numerics.Generic_Real_Arrays(Real => Float);
+   use GRA;
 
    package BLAS is new aBLAS.Real_BLAS(Real => Float,
                                        Real_Vector => GRA.Real_Vector,
@@ -20,9 +21,10 @@ procedure Simple_Example is
    SX : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
    SY : GRA.Real_Vector(1..3) := (6.0, 5.0, 4.0);
 
-   X  : GRA.Real_Vector(1..2) := (3.0, 4.0);
-   A  : GRA.Real_Matrix(1..2, 1..2) := ((1.0, -1.0),
-                                        (0.5, 2.0));
+   X  : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
+   A  : GRA.Real_Matrix(1..2, 1..3) := ((4.0, 5.0, 6.0),
+                                        (7.0, 8.0, 9.0));
+   Y  : GRA.Real_Vector(1..2) := (100.0, 100.0);
 
    BV : GRA.Real_Vector(1..6) := (others => 3.5);
    BM : GRA.Real_Matrix(1..6, 1..6) := ((1.0, -1.0, others => 0.7),
@@ -48,10 +50,17 @@ begin
    New_Line;
 
    New_Line;
+   Put("Y is: ");
+   Put(Y); New_Line;
    Put("X is: ");
    Put(X); New_Line;
    Put_Line("A is: ");
    Put(A); New_Line;
+   Put("A*x via Ada library: ");
+   Put(A*x); New_Line;
+   Put("Perform Y <- A*x with BLAS. Y is now: ");
+   BLAS.gemv(A, X, Y);
+   Put(Y); New_Line;
 
    New_Line;
    Put("BV is: ");

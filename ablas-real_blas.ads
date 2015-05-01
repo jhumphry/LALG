@@ -37,4 +37,22 @@ package aBLAS.Real_BLAS is
                  N : in Vector_Size := 0) return Real
      with Inline;
 
+   -- *************
+   -- *************
+   -- ** Level 2 **
+   -- *************
+   -- *************
+
+   -- y <- alpha*A*x + beta*y
+   procedure gemv(A : in Real_Matrix;
+                  X : in Real_Vector;
+                  Y : in out Real_Vector;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0;
+                  TRANS : in Real_Trans_Op := No_Transpose;
+                  INCX, INCY : in Increment := 1;
+                  M, N : in Vector_Size := 0;
+                  Convention : in Matrix_Convention := Default_Matrix_Convention)
+     with Inline;
+
 end aBLAS.Real_BLAS;

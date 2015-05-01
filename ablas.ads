@@ -41,7 +41,8 @@ package aBLAS is
    type UpLo is (Upper, Lower);
 
    -- Transpose operation specifier
-   type Trans_Op is (No_Trans, Trans, Conj_Trans);
+   type Trans_Op is (No_Transpose, Transpose, Conj_Transpose);
+   subtype Real_Trans_Op is Trans_Op range No_Transpose..Transpose;
 
    -- Conjugate operation specifier
    type Conj_Op is (No_Conj, Conj);
