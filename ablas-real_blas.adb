@@ -24,11 +24,11 @@ package body aBLAS.Real_BLAS is
    is
       NN : constant Vector_Size := (if N = 0 then SX'Length else N);
    begin
-      if Precision = Single then
-         return SDOT(NN,SX,INCX,SY,INCY);
-      else
-         return DDOT(NN,SX,INCX,SY,INCY);
-      end if;
+      case Precision is
+         when Single => return SDOT(NN,SX,INCX,SY,INCY);
+         when Double => return DDOT(NN,SX,INCX,SY,INCY);
+         when Unsupported => raise Program_Error;
+      end case;
    end dot;
 
    ----------
@@ -43,11 +43,11 @@ package body aBLAS.Real_BLAS is
    is
       NN : constant Vector_Size := (if N = 0 then SX'Length else N);
    begin
-      if Precision = Single then
-         return SNRM2(NN,SX,INCX);
-      else
-         return DNRM2(NN,SX,INCX);
-      end if;
+      case Precision is
+         when Single => return SNRM2(NN,SX,INCX);
+         when Double => return DNRM2(NN,SX,INCX);
+         when Unsupported => raise Program_Error;
+      end case;
    end nrm2;
 
    ----------
@@ -67,36 +67,40 @@ package body aBLAS.Real_BLAS is
       M_P : constant Vector_Size := (if M = 0 then A'Length(2) else M);
       N_P : constant Vector_Size := (if N = 0 then A'Length(1) else N);
    begin
-      if Convention = Row_Major then
-         TRANS_P := (if TRANS = No_Transpose then Transpose else No_Transpose);
-      else
-         TRANS_P := TRANS;
-      end if;
-      if Precision = Single then
-         SGEMV(TRANS => Map_Trans_Op(TRANS_P),
-               M => M_P,
-               N => N_P,
-               ALPHA => ALPHA,
-               A => A,
-               LDA => A'Length(2),
-               X => X,
-               INCX => INCX,
-               BETA => BETA,
-               Y => Y,
-               INCY => INCY);
-      else
-         DGEMV(TRANS => Map_Trans_Op(TRANS_P),
-               M => M_P,
-               N => N_P,
-               ALPHA => ALPHA,
-               A => A,
-               LDA => A'Length(1),
-               X => X,
-               INCX => INCX,
-               BETA => BETA,
-               Y => Y,
-               INCY => INCY);
-      end if;
+      case Convention is
+         when Row_Major =>
+            TRANS_P := (if TRANS = No_Transpose then Transpose else No_Transpose);
+         when Column_Major =>
+            TRANS_P := TRANS;
+      end case;
+
+      case Precision is
+         when Single =>
+            SGEMV(TRANS => Map_Trans_Op(TRANS_P),
+                  M => M_P,
+                  N => N_P,
+                  ALPHA => ALPHA,
+                  A => A,
+                  LDA => A'Length(2),
+                  X => X,
+                  INCX => INCX,
+                  BETA => BETA,
+                  Y => Y,
+                  INCY => INCY);
+         when Double =>
+            DGEMV(TRANS => Map_Trans_Op(TRANS_P),
+                  M => M_P,
+                  N => N_P,
+                  ALPHA => ALPHA,
+                  A => A,
+                  LDA => A'Length(2),
+                  X => X,
+                  INCX => INCX,
+                  BETA => BETA,
+                  Y => Y,
+                  INCY => INCY);
+         when Unsupported => raise Program_Error;
+      end case;
    end gemv;
 
 
