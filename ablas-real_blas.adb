@@ -27,7 +27,6 @@ package body aBLAS.Real_BLAS is
       case Precision is
          when Single => return SDOT(NN,SX,INCX,SY,INCY);
          when Double => return DDOT(NN,SX,INCX,SY,INCY);
-         when Unsupported => raise Program_Error;
       end case;
    end dot;
 
@@ -46,7 +45,6 @@ package body aBLAS.Real_BLAS is
       case Precision is
          when Single => return SNRM2(NN,SX,INCX);
          when Double => return DNRM2(NN,SX,INCX);
-         when Unsupported => raise Program_Error;
       end case;
    end nrm2;
 
@@ -99,7 +97,6 @@ package body aBLAS.Real_BLAS is
                   BETA => BETA,
                   Y => Y,
                   INCY => INCY);
-         when Unsupported => raise Program_Error;
       end case;
    end gemv;
 
@@ -182,7 +179,6 @@ package body aBLAS.Real_BLAS is
                   C => C,
                   LDC => C'Length(2)
                   );
-         when Unsupported => raise Program_Error;
       end case;
    end gemm;
 

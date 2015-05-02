@@ -12,11 +12,12 @@ package aBLAS.Real_BLAS is
 
    package IntFort renames Interfaces.Fortran;
 
-   Precision : constant Precision_Specification := (if Real'Base'Digits = IntFort.Real'Base'Digits and
-                                                      Real'Base'Size = IntFort.Real'Base'Size then Single
-                                                    elsif Real'Base'Digits = IntFort.Double_Precision'Base'Digits and
-                                                      Real'Base'Size = IntFort.Double_Precision'Base'Size then Double
-                                                    else Unsupported);
+   Precision : constant Precision_Specification :=
+     (if Real'Base'Digits = IntFort.Real'Base'Digits and
+        Real'Base'Size = IntFort.Real'Base'Size then Single
+      elsif Real'Base'Digits = IntFort.Double_Precision'Base'Digits and
+        Real'Base'Size = IntFort.Double_Precision'Base'Size then Double
+      else raise Program_Error with "Precision not supported for interfacing with Fortran code");
 
    -- *************
    -- *************
