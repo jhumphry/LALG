@@ -48,16 +48,18 @@ begin
    Put("Dot Product SX*SY via Ada library is: ");
    Put(Float'(SX * SY)); New_Line;
    Put("Dot Product SX*SY via BLAS is: ");
-   Put(BLAS.Dot(SX, SY)); New_Line;
+   Put(BLAS.dot(SX, SY)); New_Line;
+   Put("Dot Product SX*SY via BLAS with extended precision accumulation is: ");
+   Put(BLAS.sdsdot(SX, SY)); New_Line;
 
    Put("Dot Product SX*(SY reversed) is: ");
-   Put(BLAS.Dot(SX, SY, INCY => Increment(-1)));
+   Put(BLAS.dot(SX, SY, INCY => Increment(-1)));
    New_Line;
 
    Put("Euclidean norm of SX is via Ada library is: ");
    Put(Float'(abs(SX))); New_Line;
    Put("Euclidean norm of SX is via BLAS library is: ");
-   Put(BLAS.Nrm2(SX)); New_Line;
+   Put(BLAS.nrm2(SX)); New_Line;
 
    New_Line;
    Put_Line("*** Level 2 ***");

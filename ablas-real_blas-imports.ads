@@ -33,6 +33,16 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => BLAS_Prefix & "ddot" & BLAS_Suffix;
 
+   function SDSDOT(N : FI;
+                   SB : Real;
+                   SX : Real_Vector;
+                   INCX : Increment;
+                   SY : Real_Vector;
+                   INCY : Increment) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sdsdot" & BLAS_Suffix;
+
    function SNRM2(N : FI;
                   X : Real_Vector;
                   INCX : Increment) return Real

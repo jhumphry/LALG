@@ -30,6 +30,26 @@ package body aBLAS.Real_BLAS is
       end case;
    end dot;
 
+   ------------
+   -- sdsdot --
+   ------------
+
+   function sdsdot
+     (SX, SY: in Real_Vector;
+      SB : Real := 0.0;
+      INCX : in Increment := 1;
+      INCY : in Increment := 1;
+      N : in Vector_Size := 0)
+      return Real
+   is
+      NN : constant Vector_Size := (if N = 0 then SX'Length else N);
+   begin
+      case Precision is
+         when Single => return SDSDOT(NN,SB,SX,INCX,SY,INCY);
+         when Double => return DDOT(NN,SX,INCX,SY,INCY) + SB;
+      end case;
+   end sdsdot;
+
    ----------
    -- nrm2 --
    ----------

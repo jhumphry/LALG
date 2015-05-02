@@ -32,6 +32,16 @@ package aBLAS.Real_BLAS is
                 N : in Vector_Size := 0) return Real
      with Inline;
 
+   -- sdsdot <- SX^T . SY + SB with accumulation done in extended precision
+   -- If Real is already double precision, this is the same as using the regular
+   -- dot function and adding SB
+   function sdsdot(SX, SY: in Real_Vector;
+                   SB : Real := 0.0;
+                   INCX : in Increment := 1;
+                   INCY : in Increment := 1;
+                   N : in Vector_Size := 0) return Real
+     with Inline;
+
    -- nrm2 <- sqrt(X^T . X)
    function nrm2(SX : in Real_Vector;
                  INCX : in Increment := 1;
