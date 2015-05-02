@@ -20,7 +20,7 @@ procedure Simple_Example is
 
    SX : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
    SY : GRA.Real_Vector(1..3) := (6.0, 5.0, 4.0);
-   SZ : GRA.Real_Vector(1..3) := SY;
+   SZ : GRA.Real_Vector(1..3) := (others => 0.0);
 
    X  : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
    A  : GRA.Real_Matrix(1..2, 1..3) := ((4.0, 5.0, 6.0),
@@ -47,6 +47,22 @@ begin
    Put(SY); New_Line;
    Put("SZ is: ");
    Put(SZ); New_Line;
+
+   Put("Copy SX -> SZ using BLAS. SZ now: ");
+   BLAS.copy(SX, SZ);
+   Put(SZ); New_Line;
+   Put("Scale SZ <- 2 * SZ using BLAS. SZ now: ");
+   BLAS.scal(SZ, 2.0);
+   Put(SZ); New_Line;
+   Put("Swap SX <-> SZ using BLAS"); New_Line;
+   BLAS.swap(SX, SZ);
+   Put("SX is now: ");
+   Put(SX); New_Line;
+   Put("SZ is now: ");
+   Put(SZ); New_Line;
+   Put("Swap SX <-> SZ back using BLAS"); New_Line;
+   BLAS.swap(SX, SZ);
+   New_Line;
 
    Put("SX+SZ via Ada library is: ");
    Put(SX+SZ); New_Line;

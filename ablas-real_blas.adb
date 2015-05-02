@@ -12,6 +12,59 @@ package body aBLAS.Real_BLAS is
    Map_Trans_Op : Internal.Map_Trans_Op_Array renames Internal.Map_Trans_Op;
 
    ----------
+   -- swap --
+   ----------
+
+   procedure swap(X : in out Real_Vector;
+                  Y : in out Real_Vector;
+                  INCX : in Increment := 1;
+                  INCY : in Increment := 1;
+                  N : in Vector_Size := 0)
+    is
+       NN : constant Vector_Size := (if N = 0 then X'Length else N);
+   begin
+      case Precision is
+         when Single => SSWAP(NN,X,INCX,Y,INCY);
+         when Double => DSWAP(NN,X,INCX,Y,INCY);
+      end case;
+   end swap;
+
+   ----------
+   -- swap --
+   ----------
+
+   procedure scal(X : in out Real_Vector;
+                  A : in Real := 1.0;
+                  INCX : in Increment := 1;
+                  N : in Vector_Size := 0)
+    is
+       NN : constant Vector_Size := (if N = 0 then X'Length else N);
+   begin
+      case Precision is
+         when Single => SSCAL(NN,A,X,INCX);
+         when Double => DSCAL(NN,A,X,INCX);
+      end case;
+   end scal;
+
+   ----------
+   -- copy --
+   ----------
+
+   procedure copy(X : in Real_Vector;
+                  Y : out Real_Vector;
+                  INCX : in Increment := 1;
+                  INCY : in Increment := 1;
+                  N : in Vector_Size := 0)
+    is
+       NN : constant Vector_Size := (if N = 0 then X'Length else N);
+   begin
+      case Precision is
+         when Single => SCOPY(NN,X,INCX,Y,INCY);
+         when Double => DCOPY(NN,X,INCX,Y,INCY);
+      end case;
+   end copy;
+
+   ----------
    -- axpy --
    ----------
 

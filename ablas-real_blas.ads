@@ -25,6 +25,29 @@ package aBLAS.Real_BLAS is
    -- *************
    -- *************
 
+   -- Y <-> X
+   procedure swap(X : in out Real_Vector;
+                  Y : in out Real_Vector;
+                  INCX : in Increment := 1;
+                  INCY : in Increment := 1;
+                  N : in Vector_Size := 0)
+     with Inline;
+
+   -- X <- aX
+   procedure scal(X : in out Real_Vector;
+                  A : in Real := 1.0;
+                  INCX : in Increment := 1;
+                  N : in Vector_Size := 0)
+     with Inline;
+
+   -- Y <- X
+   procedure copy(X : in Real_Vector;
+                  Y : out Real_Vector;
+                  INCX : in Increment := 1;
+                  INCY : in Increment := 1;
+                  N : in Vector_Size := 0)
+     with Inline;
+
    -- Y <- aX + Y
    procedure axpy(X : in Real_Vector;
                   Y : in out Real_Vector;

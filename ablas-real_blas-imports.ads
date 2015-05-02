@@ -15,6 +15,58 @@ private generic package aBLAS.Real_BLAS.Imports is
    -- *************
    -- *************
 
+   procedure SSWAP(N : FI;
+                   SX : in out Real_Vector;
+                   INCX : Increment;
+                   SY : in out Real_Vector;
+                   INCY : Increment)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sswap" & BLAS_Suffix;
+
+   procedure DSWAP(N : FI;
+                   DX : in out Real_Vector;
+                   INCX : Increment;
+                   DY : in out Real_Vector;
+                   INCY : Increment)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dswap" & BLAS_Suffix;
+
+   procedure SSCAL(N : FI;
+                   SA : Real;
+                   SX : in out Real_Vector;
+                   INCX : Increment)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sscal" & BLAS_Suffix;
+
+   procedure DSCAL(N : FI;
+                   DA : Real;
+                   DX : in out Real_Vector;
+                   INCX : Increment)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dscal" & BLAS_Suffix;
+
+   procedure SCOPY(N : FI;
+                   SX : Real_Vector;
+                   INCX : Increment;
+                   SY : out Real_Vector;
+                   INCY : Increment)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "scopy" & BLAS_Suffix;
+
+   procedure DCOPY(N : FI;
+                   DX : Real_Vector;
+                   INCX : Increment;
+                   DY : out Real_Vector;
+                   INCY : Increment)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dcopy" & BLAS_Suffix;
+
    procedure SAXPY(N : FI;
                    SA : Real;
                    SX : Real_Vector;
