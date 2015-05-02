@@ -6,6 +6,9 @@ private generic package aBLAS.Real_BLAS.Imports is
    subtype FI is IntFort.Fortran_Integer;
    subtype FC is IntFort.Character_Set;
 
+   BLAS_Prefix : constant String := "";
+   BLAS_Suffix : constant String := "_";
+
    -- *************
    -- *************
    -- ** Level 1 **
@@ -19,7 +22,7 @@ private generic package aBLAS.Real_BLAS.Imports is
                   INCY : Increment) return Real
      with Import => True,
      Convention => Fortran,
-     External_Name => "sdot_";
+     External_Name => BLAS_Prefix & "sdot" & BLAS_Suffix;
 
    function DDOT(N : FI;
                   SX : Real_Vector;
@@ -28,21 +31,21 @@ private generic package aBLAS.Real_BLAS.Imports is
                   INCY : Increment) return Real
      with Import => True,
      Convention => Fortran,
-     External_Name => "ddot_";
+     External_Name => BLAS_Prefix & "ddot" & BLAS_Suffix;
 
    function SNRM2(N : FI;
                   X : Real_Vector;
                   INCX : Increment) return Real
      with Import => True,
      Convention => Fortran,
-     External_Name => "snrm2_";
+     External_Name => BLAS_Prefix & "snrm2" & BLAS_Suffix;
 
    function DNRM2(N : FI;
                   X : Real_Vector;
                   INCX : Increment) return Real
      with Import => True,
      Convention => Fortran,
-     External_Name => "dnrm2_";
+     External_Name => BLAS_Prefix & "dnrm2" & BLAS_Suffix;
 
    -- *************
    -- *************
@@ -64,7 +67,7 @@ private generic package aBLAS.Real_BLAS.Imports is
                   )
      with Import => True,
      Convention => Fortran,
-     External_Name => "sgemv_";
+     External_Name => BLAS_Prefix & "sgemv" & BLAS_Suffix;
 
    procedure DGEMV(TRANS : FC;
                    M: FI;
@@ -80,7 +83,7 @@ private generic package aBLAS.Real_BLAS.Imports is
                   )
      with Import => True,
      Convention => Fortran,
-     External_Name => "dgemv_";
+     External_Name => BLAS_Prefix & "dgemv" & BLAS_Suffix;
 
    -- *************
    -- *************
@@ -104,7 +107,7 @@ private generic package aBLAS.Real_BLAS.Imports is
                   )
      with Import => True,
      Convention => Fortran,
-     External_Name => "sgemm_";
+     External_Name => BLAS_Prefix & "sgemm" & BLAS_Suffix;
 
    procedure DGEMM(TRANA : FC;
                    TRANB : FC;
@@ -122,6 +125,6 @@ private generic package aBLAS.Real_BLAS.Imports is
                   )
      with Import => True,
      Convention => Fortran,
-     External_Name => "dgemm_";
+     External_Name => BLAS_Prefix & "dgemm" & BLAS_Suffix;
 
 end aBLAS.Real_BLAS.Imports;
