@@ -11,6 +11,25 @@ package body aBLAS.Real_BLAS is
 
    Map_Trans_Op : Internal.Map_Trans_Op_Array renames Internal.Map_Trans_Op;
 
+   ----------
+   -- axpy --
+   ----------
+
+   procedure axpy(X : in Real_Vector;
+                  Y : in out Real_Vector;
+                  A : Real := 1.0;
+                  INCX : in Increment := 1;
+                  INCY : in Increment := 1;
+                  N : in Vector_Size := 0)
+   is
+       NN : constant Vector_Size := (if N = 0 then X'Length else N);
+   begin
+      case Precision is
+         when Single => SAXPY(NN,A,X,INCX,Y,INCY);
+         when Double => DAXPY(NN,A,X,INCX,Y,INCY);
+      end case;
+   end axpy;
+
    ---------
    -- dot --
    ---------

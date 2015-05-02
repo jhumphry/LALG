@@ -20,6 +20,7 @@ procedure Simple_Example is
 
    SX : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
    SY : GRA.Real_Vector(1..3) := (6.0, 5.0, 4.0);
+   SZ : GRA.Real_Vector(1..3) := SY;
 
    X  : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
    A  : GRA.Real_Matrix(1..2, 1..3) := ((4.0, 5.0, 6.0),
@@ -44,6 +45,15 @@ begin
    Put(SX); New_Line;
    Put("SY is: ");
    Put(SY); New_Line;
+   Put("SZ is: ");
+   Put(SZ); New_Line;
+
+   Put("SX+SZ via Ada library is: ");
+   Put(SX+SZ); New_Line;
+   Put("SX+SZ via BLAS is: ");
+   BLAS.axpy(SX, SZ);
+   Put(SZ); New_Line;
+   New_Line;
 
    Put("Dot Product SX*SY via Ada library is: ");
    Put(Float'(SX * SY)); New_Line;
