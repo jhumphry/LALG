@@ -70,7 +70,7 @@ package body aBLAS.Real_BLAS is
 
    procedure axpy(X : in Real_Vector;
                   Y : in out Real_Vector;
-                  A : Real := 1.0;
+                  A : in Real := 1.0;
                   INCX : in Increment := 1;
                   INCY : in Increment := 1;
                   N : in Vector_Size := 0)
@@ -88,7 +88,7 @@ package body aBLAS.Real_BLAS is
    ---------
 
    function dot
-     (X, Y: in Real_Vector;
+     (X, Y : in Real_Vector;
       INCX : in Increment := 1;
       INCY : in Increment := 1;
       N : in Vector_Size := 0)
@@ -108,7 +108,7 @@ package body aBLAS.Real_BLAS is
 
    function sdsdot
      (SX, SY: in Real_Vector;
-      SB : Real := 0.0;
+      SB : in Real := 0.0;
       INCX : in Increment := 1;
       INCY : in Increment := 1;
       N : in Vector_Size := 0)
@@ -163,7 +163,7 @@ package body aBLAS.Real_BLAS is
    ----------
 
    procedure gemv(A : in Real_Matrix;
-                  X: in Real_Vector;
+                  X : in Real_Vector;
                   Y : in out Real_Vector;
                   ALPHA : in Real := 1.0;
                   BETA : in Real := 0.0;

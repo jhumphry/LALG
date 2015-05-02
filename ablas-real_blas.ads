@@ -51,14 +51,14 @@ package aBLAS.Real_BLAS is
    -- Y <- aX + Y
    procedure axpy(X : in Real_Vector;
                   Y : in out Real_Vector;
-                  A : Real := 1.0;
+                  A : in Real := 1.0;
                   INCX : in Increment := 1;
                   INCY : in Increment := 1;
                   N : in Vector_Size := 0)
      with Inline;
 
    -- dot <- X^T . Y
-   function dot(X, Y: in Real_Vector;
+   function dot(X, Y : in Real_Vector;
                 INCX : in Increment := 1;
                 INCY : in Increment := 1;
                 N : in Vector_Size := 0) return Real
@@ -67,8 +67,8 @@ package aBLAS.Real_BLAS is
    -- sdsdot <- SX^T . SY + SB with accumulation done in extended precision
    -- If Real is already double precision, this is the same as using the regular
    -- dot function and adding SB
-   function sdsdot(SX, SY: in Real_Vector;
-                   SB : Real := 0.0;
+   function sdsdot(SX, SY : in Real_Vector;
+                   SB : in Real := 0.0;
                    INCX : in Increment := 1;
                    INCY : in Increment := 1;
                    N : in Vector_Size := 0) return Real
