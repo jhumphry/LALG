@@ -25,8 +25,8 @@ package aBLAS.Real_BLAS is
    -- *************
    -- *************
 
-   -- dot <- SX^T . SY
-   function dot(SX, SY: in Real_Vector;
+   -- dot <- X^T . Y
+   function dot(X, Y: in Real_Vector;
                 INCX : in Increment := 1;
                 INCY : in Increment := 1;
                 N : in Vector_Size := 0) return Real
@@ -43,7 +43,13 @@ package aBLAS.Real_BLAS is
      with Inline;
 
    -- nrm2 <- sqrt(X^T . X)
-   function nrm2(SX : in Real_Vector;
+   function nrm2(X : in Real_Vector;
+                 INCX : in Increment := 1;
+                 N : in Vector_Size := 0) return Real
+     with Inline;
+
+   --  asum <- |X|_1
+   function asum(X : in Real_Vector;
                  INCX : in Increment := 1;
                  N : in Vector_Size := 0) return Real
      with Inline;

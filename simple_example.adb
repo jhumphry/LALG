@@ -51,11 +51,12 @@ begin
    Put(BLAS.dot(SX, SY)); New_Line;
    Put("Dot Product SX*SY via BLAS with extended precision accumulation is: ");
    Put(BLAS.sdsdot(SX, SY)); New_Line;
-
    Put("Dot Product SX*(SY reversed) is: ");
    Put(BLAS.dot(SX, SY, INCY => Increment(-1)));
    New_Line;
 
+   Put("|SX|_1 is via BLAS library is: ");
+   Put(BLAS.asum(SX)); New_Line;
    Put("Euclidean norm of SX is via Ada library is: ");
    Put(Float'(abs(SX))); New_Line;
    Put("Euclidean norm of SX is via BLAS library is: ");

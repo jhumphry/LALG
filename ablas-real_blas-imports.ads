@@ -25,10 +25,10 @@ private generic package aBLAS.Real_BLAS.Imports is
      External_Name => BLAS_Prefix & "sdot" & BLAS_Suffix;
 
    function DDOT(N : FI;
-                  SX : Real_Vector;
-                  INCX : Increment;
-                  SY : Real_Vector;
-                  INCY : Increment) return Real
+                 DX : Real_Vector;
+                 INCX : Increment;
+                 DY : Real_Vector;
+                 INCY : Increment) return Real
      with Import => True,
      Convention => Fortran,
      External_Name => BLAS_Prefix & "ddot" & BLAS_Suffix;
@@ -56,6 +56,20 @@ private generic package aBLAS.Real_BLAS.Imports is
      with Import => True,
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dnrm2" & BLAS_Suffix;
+
+   function SASUM(N : FI;
+                  SX : Real_Vector;
+                  INCX : Increment) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sasum" & BLAS_Suffix;
+
+   function DASUM(N : FI;
+                  DX : Real_Vector;
+                  INCX : Increment) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dasum" & BLAS_Suffix;
 
    -- *************
    -- *************

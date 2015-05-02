@@ -16,17 +16,17 @@ package body aBLAS.Real_BLAS is
    ---------
 
    function dot
-     (SX, SY: in Real_Vector;
+     (X, Y: in Real_Vector;
       INCX : in Increment := 1;
       INCY : in Increment := 1;
       N : in Vector_Size := 0)
       return Real
    is
-      NN : constant Vector_Size := (if N = 0 then SX'Length else N);
+      NN : constant Vector_Size := (if N = 0 then X'Length else N);
    begin
       case Precision is
-         when Single => return SDOT(NN,SX,INCX,SY,INCY);
-         when Double => return DDOT(NN,SX,INCX,SY,INCY);
+         when Single => return SDOT(NN,X,INCX,Y,INCY);
+         when Double => return DDOT(NN,X,INCX,Y,INCY);
       end case;
    end dot;
 
@@ -55,18 +55,36 @@ package body aBLAS.Real_BLAS is
    ----------
 
    function nrm2
-     (SX : in Real_Vector;
+     (X : in Real_Vector;
       INCX : in Increment := 1;
       N : in Vector_Size := 0)
       return Real
    is
-      NN : constant Vector_Size := (if N = 0 then SX'Length else N);
+      NN : constant Vector_Size := (if N = 0 then X'Length else N);
    begin
       case Precision is
-         when Single => return SNRM2(NN,SX,INCX);
-         when Double => return DNRM2(NN,SX,INCX);
+         when Single => return SNRM2(NN,X,INCX);
+         when Double => return DNRM2(NN,X,INCX);
       end case;
    end nrm2;
+
+   ----------
+   -- asum --
+   ----------
+
+   function asum
+     (X : in Real_Vector;
+      INCX : in Increment := 1;
+      N : in Vector_Size := 0)
+      return Real
+   is
+      NN : constant Vector_Size := (if N = 0 then X'Length else N);
+   begin
+      case Precision is
+         when Single => return SASUM(NN,X,INCX);
+         when Double => return DASUM(NN,X,INCX);
+      end case;
+   end asum;
 
    ----------
    -- gemv --
