@@ -104,6 +104,17 @@ package aBLAS.Real_BLAS is
                   Convention : in Matrix_Convention := Default_Matrix_Convention)
      with Inline;
 
+   -- gemv <- alpha*A*x
+   function gemv(A : in Real_Matrix;
+                 X : in Real_Vector;
+                 ALPHA : in Real := 1.0;
+                 TRANS : in Real_Trans_Op := No_Transpose;
+                 INCX : in Increment := 1;
+                 M, N : in Vector_Size := 0;
+                 Convention : in Matrix_Convention := Default_Matrix_Convention)
+                 return Real_Vector
+     with Inline;
+
    -- *************
    -- *************
    -- ** Level 3 **
@@ -120,6 +131,17 @@ package aBLAS.Real_BLAS is
                   TRANB : in Real_Trans_Op := No_Transpose;
                   M, N, K : in Vector_Size := 0;
                   Convention : in Matrix_Convention := Default_Matrix_Convention)
+     with Inline;
+
+   -- gemm <- alpha*A*B
+   function gemm(A : in Real_Matrix;
+                 B : in Real_Matrix;
+                 ALPHA : in Real := 1.0;
+                 TRANA : in Real_Trans_Op := No_Transpose;
+                 TRANB : in Real_Trans_Op := No_Transpose;
+                 M, N, K : in Vector_Size := 0;
+                 Convention : in Matrix_Convention := Default_Matrix_Convention)
+                 return Real_Matrix
      with Inline;
 
 end aBLAS.Real_BLAS;

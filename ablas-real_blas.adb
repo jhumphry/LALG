@@ -210,6 +210,32 @@ package body aBLAS.Real_BLAS is
       end case;
    end gemv;
 
+   function gemv(A : in Real_Matrix;
+                 X : in Real_Vector;
+                 ALPHA : in Real := 1.0;
+                 TRANS : in Real_Trans_Op := No_Transpose;
+                 INCX : in Increment := 1;
+                 M, N : in Vector_Size := 0;
+                 Convention : in Matrix_Convention := Default_Matrix_Convention)
+                 return Real_Vector is
+      Y : Real_Vector(1..A'Length(1));
+      -- As Beta is being set to zero, Y should only be written to and not read
+      -- so it does not matter that it is uninitialised.
+   begin
+      gemv(A => A,
+           X => X,
+           Y => Y,
+           ALPHA => ALPHA,
+           BETA => 0.0,
+           TRANS => TRANS,
+           INCX => INCX,
+           INCY => 1,
+           M => M,
+           N => N,
+           Convention => Convention);
+      return Y;
+   end gemv;
+
    -- *************
    -- *************
    -- ** Level 3 **
@@ -290,6 +316,32 @@ package body aBLAS.Real_BLAS is
                   LDC => C'Length(2)
                   );
       end case;
+   end gemm;
+
+   function gemm(A : in Real_Matrix;
+                 B : in Real_Matrix;
+                 ALPHA : in Real := 1.0;
+                 TRANA : in Real_Trans_Op := No_Transpose;
+                 TRANB : in Real_Trans_Op := No_Transpose;
+                 M, N, K : in Vector_Size := 0;
+                 Convention : in Matrix_Convention := Default_Matrix_Convention)
+                 return Real_Matrix is
+      C : Real_Matrix(1..A'Length(1), 1..B'Length(2));
+      -- As Beta is being set to zero, C should only be written to and not read
+      -- so it does not matter that it is uninitialised.
+   begin
+      gemm(A => A,
+           B => B,
+           C => C,
+           ALPHA => ALPHA,
+           BETA => 0.0,
+           TRANA => TRANA,
+           TRANB => TRANB,
+           M => M,
+           N => N,
+           K => K,
+           Convention => Convention);
+      return C;
    end gemm;
 
 end aBLAS.Real_BLAS;

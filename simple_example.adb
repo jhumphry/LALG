@@ -96,9 +96,11 @@ begin
    Put(X); New_Line;
    Put_Line("A is: ");
    Put(A); New_Line;
-   Put("A*x via Ada library: ");
+   Put("A*X via Ada library: ");
    Put(A*x); New_Line;
-   Put("Perform Y <- A*x with BLAS. Y is now: ");
+   Put("A*X via BLAS: ");
+   Put(BLAS.gemv(A,X)); New_Line;
+   Put("Perform Y <- A*X with BLAS. Y is now: ");
    BLAS.gemv(A, X, Y);
    Put(Y); New_Line;
 
@@ -112,6 +114,8 @@ begin
    Put(C); New_Line;
    Put("A*B via Ada library: ");
    Put(A*B); New_Line;
+   Put("A*B via BLAS: ");
+   Put(BLAS.gemm(A,B)); New_Line;
    Put("Perform C <- A*B with BLAS. C is now: ");
    BLAS.gemm(A, B, C);
    Put(C); New_Line;
