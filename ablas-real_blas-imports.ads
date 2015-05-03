@@ -143,6 +143,20 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dasum" & BLAS_Suffix;
 
+   function ISAMAX(N : FI;
+                   SX : Real_Vector;
+                   INCX : Increment) return FI
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "isamax" & BLAS_Suffix;
+
+   function IDAMAX(N : FI;
+                   DX : Real_Vector;
+                   INCX : Increment) return FI
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "idamax" & BLAS_Suffix;
+
    -- *************
    -- *************
    -- ** Level 2 **

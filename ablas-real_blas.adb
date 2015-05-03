@@ -164,6 +164,18 @@ package body aBLAS.Real_BLAS is
       end case;
    end asum;
 
+   function iamax(X : in Real_Vector;
+                  INCX : in Increment := 1;
+                  N : in Vector_Size := 0) return Integer
+   is
+      NN : constant Vector_Size := (if N = 0 then X'Length else N);
+   begin
+      case Precision is
+         when Single => return Natural(ISAMAX(NN,X,INCX))+X'First-1;
+         when Double => return Natural(IDAMAX(NN,X,INCX))+X'First-1;
+      end case;
+   end iamax;
+
    -- *************
    -- *************
    -- ** Level 2 **

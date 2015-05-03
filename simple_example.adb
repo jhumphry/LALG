@@ -87,6 +87,8 @@ begin
    Put(Float'(abs(SX))); New_Line;
    Put("Euclidean norm of SX is via BLAS library is: ");
    Put(BLAS.nrm2(SX)); New_Line;
+   Put("Index of largest element of SX is: ");
+   Put(Integer'Image(BLAS.iamax(SX))); New_Line;
 
    New_Line;
    Put_Line("*** Level 2 ***");
