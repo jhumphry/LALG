@@ -15,6 +15,38 @@ private generic package aBLAS.Real_BLAS.Imports is
    -- *************
    -- *************
 
+   procedure SROTG(SA, SB : in out Real; C, S : out Real)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "srotg" & BLAS_Suffix;
+
+   procedure DROTG(SA, SB : in out Real; C, S : out Real)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "drotg" & BLAS_Suffix;
+
+   procedure SROT(N : FI;
+                  SX : in out Real_Vector;
+                  INCX : Increment;
+                  SY : in out Real_Vector;
+                  INCY : Increment;
+                  C : Real;
+                  S : Real)
+   with Import => True,
+   Convention => Fortran,
+   External_Name => BLAS_Prefix & "srot" & BLAS_Suffix;
+
+   procedure DROT(N : FI;
+                  SX : in out Real_Vector;
+                  INCX : Increment;
+                  SY : in out Real_Vector;
+                  INCY : Increment;
+                  C : Real;
+                  S : Real)
+   with Import => True,
+   Convention => Fortran,
+   External_Name => BLAS_Prefix & "drot" & BLAS_Suffix;
+
    procedure SSWAP(N : FI;
                    SX : in out Real_Vector;
                    INCX : Increment;

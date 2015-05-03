@@ -18,6 +18,12 @@ procedure Simple_Example is
    package BLAS_Util is new BLAS.Util(Default_Aft => 3, Default_Exp => 0);
    use BLAS_Util;
 
+   GA : GRA.Real_Vector(1..3) := (6.0, 5.0, 0.0);
+   GB : GRA.Real_Vector(1..3) := (5.0, 1.0, 4.0);
+   GA1 : Float := 6.0;
+   GB1 : Float := 5.0;
+   GC,GS : Float := 0.0;
+
    SX : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
    SY : GRA.Real_Vector(1..3) := (6.0, 5.0, 4.0);
    SZ : GRA.Real_Vector(1..3) := (others => 0.0);
@@ -41,6 +47,19 @@ procedure Simple_Example is
 begin
 
    Put_Line("*** Level 1 ***");
+   Put_Line("GA and GB starts as: ");
+   Put(GA); New_Line;
+   Put(GB); New_Line;
+   Put_Line("Compute Givens rotation for [6, 5]. ");
+   BLAS.rotg(GA1, GB1, GC, GS);
+   Put("GA(1)= ");Put(GA1); Put("  GB(1)= "); Put(GB1); New_Line;
+   Put("GC= ");Put(GC); Put("  GS= "); Put(GS); New_Line;
+   Put_Line("Apply Givens rotation to top lines of GA: ");
+   BLAS.rot(GA, GB, GC, GS);
+   Put(GA); New_Line;
+   Put(GB); New_Line;
+   New_Line;
+
    Put("SX is: ");
    Put(SX); New_Line;
    Put("SY is: ");

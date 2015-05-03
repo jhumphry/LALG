@@ -25,6 +25,21 @@ package aBLAS.Real_BLAS is
    -- *************
    -- *************
 
+   -- Generate Givens plane rotation c<-cos(theta), s<-sin(theta) which would
+   -- turn a vector [a, b] into [r, 0]. On exit a<-r and b is s or 1/c
+   procedure rotg(a, b : in out Real; c, s : out Real)
+     with Inline;
+
+   -- Apply a Givens rotation to X and Y where c=cos(theta) and s=sin(theta)
+   procedure rot(X : in out Real_Vector;
+                 Y : in out Real_Vector;
+                 C : in Real;
+                 S : in Real;
+                 INCX : in Increment := 1;
+                 INCY : in Increment := 1;
+                 N : in Vector_Size := 0)
+     with Inline;
+
    -- Y <-> X
    procedure swap(X : in out Real_Vector;
                   Y : in out Real_Vector;

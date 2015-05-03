@@ -18,6 +18,38 @@ package body aBLAS.Real_BLAS is
    -- *************
 
    ----------
+   -- rotg --
+   ----------
+
+   procedure rotg(a, b : in out Real; c, s : out Real) is
+   begin
+       case Precision is
+         when Single => SROTG(A,B,C,S);
+         when Double => DROTG(A,B,C,S);
+      end case;
+   end rotg;
+
+   ---------
+   -- rot --
+   ---------
+
+   procedure rot(X : in out Real_Vector;
+                 Y : in out Real_Vector;
+                 C : in Real;
+                 S : in Real;
+                 INCX : in Increment := 1;
+                 INCY : in Increment := 1;
+                 N : in Vector_Size := 0)
+   is
+      NN : constant Vector_Size := (if N = 0 then X'Length else N);
+   begin
+      case Precision is
+         when Single => SROT(NN,X,INCX,Y,INCY,C,S);
+         when Double => DROT(NN,X,INCX,Y,INCY,C,S);
+      end case;
+   end rot;
+
+   ----------
    -- swap --
    ----------
 
