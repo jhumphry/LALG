@@ -11,6 +11,12 @@ package body aBLAS.Real_BLAS is
 
    Map_Trans_Op : Internal.Map_Trans_Op_Array renames Internal.Map_Trans_Op;
 
+   -- *************
+   -- *************
+   -- ** Level 1 **
+   -- *************
+   -- *************
+
    ----------
    -- swap --
    ----------
@@ -30,7 +36,7 @@ package body aBLAS.Real_BLAS is
    end swap;
 
    ----------
-   -- swap --
+   -- scal --
    ----------
 
    procedure scal(X : in out Real_Vector;
@@ -157,6 +163,12 @@ package body aBLAS.Real_BLAS is
          when Double => return DASUM(NN,X,INCX);
       end case;
    end asum;
+
+   -- *************
+   -- *************
+   -- ** Level 2 **
+   -- *************
+   -- *************
 
    ----------
    -- gemv --
