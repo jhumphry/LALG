@@ -25,6 +25,22 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => BLAS_Prefix & "drotg" & BLAS_Suffix;
 
+   procedure SROTMG(SD1, SD2 : in out Real;
+                    SX1 : in out Real;
+                    SY1 : in Real;
+                    PARAMS : in out Modified_Givens_Params)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "srotmg" & BLAS_Suffix;
+
+   procedure DROTMG(DD1, DD2 : in out Real;
+                    DX1 : in out Real;
+                    DY1 : in Real;
+                    PARAMS : in out Modified_Givens_Params)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "drotmg" & BLAS_Suffix;
+
    procedure SROT(N : FI;
                   SX : in out Real_Vector;
                   INCX : Increment;
@@ -46,6 +62,26 @@ private generic package aBLAS.Real_BLAS.Imports is
    with Import => True,
    Convention => Fortran,
    External_Name => BLAS_Prefix & "drot" & BLAS_Suffix;
+
+   procedure SROTM(N : FI;
+                  SX : in out Real_Vector;
+                  INCX : Increment;
+                  SY : in out Real_Vector;
+                  INCY : Increment;
+                  PARAMS : in out Modified_Givens_Params)
+   with Import => True,
+   Convention => Fortran,
+   External_Name => BLAS_Prefix & "srotm" & BLAS_Suffix;
+
+   procedure DROTM(N : FI;
+                  DX : in out Real_Vector;
+                  INCX : Increment;
+                  DY : in out Real_Vector;
+                  INCY : Increment;
+                  PARAMS : in out Modified_Givens_Params)
+   with Import => True,
+   Convention => Fortran,
+   External_Name => BLAS_Prefix & "drotm" & BLAS_Suffix;
 
    procedure SSWAP(N : FI;
                    SX : in out Real_Vector;

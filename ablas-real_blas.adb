@@ -29,6 +29,21 @@ package body aBLAS.Real_BLAS is
       end case;
    end rotg;
 
+   -----------
+   -- rotmg --
+   -----------
+
+   procedure rotmg(d1, d2 : in out Real;
+                   x1 : in out Real;
+                   y1 : in Real;
+                   params : out Modified_Givens_Params) is
+   begin
+       case Precision is
+         when Single => SROTMG(D1, D2, X1, Y1, PARAMS);
+         when Double => DROTMG(D1, D2, X1, Y1, PARAMS);
+      end case;
+   end rotmg;
+
    ---------
    -- rot --
    ---------
@@ -48,6 +63,25 @@ package body aBLAS.Real_BLAS is
          when Double => DROT(NN,X,INCX,Y,INCY,C,S);
       end case;
    end rot;
+
+   ----------
+   -- rotm --
+   ----------
+
+   procedure rotm(X : in out Real_Vector;
+                  Y : in out Real_Vector;
+                  PARAMS : in out Modified_Givens_Params;
+                  INCX : in Increment := 1;
+                  INCY : in Increment := 1;
+                  N : in Vector_Size := 0)
+   is
+      NN : constant Vector_Size := (if N = 0 then X'Length else N);
+   begin
+      case Precision is
+         when Single => SROTM(NN, X, INCX, Y, INCY, PARAMS);
+         when Double => DROTM(NN, X, INCX, Y, INCY, PARAMS);
+      end case;
+   end rotm;
 
    ----------
    -- swap --

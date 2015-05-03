@@ -24,6 +24,13 @@ procedure Simple_Example is
    GB1 : Float := 5.0;
    GC,GS : Float := 0.0;
 
+   MGX : GRA.Real_Vector(1..3) := (6.0, 5.0, 0.0);
+   MGY : GRA.Real_Vector(1..3) := (5.0, 1.0, 4.0);
+   MGD1, MGD2 : Float := 1.0;
+   MGX1 : Float := 6.0;
+   MGY1 : Float := 5.0;
+   MGPARAMS : BLAS.Modified_Givens_Params;
+
    SX : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
    SY : GRA.Real_Vector(1..3) := (6.0, 5.0, 4.0);
    SZ : GRA.Real_Vector(1..3) := (others => 0.0);
@@ -58,6 +65,20 @@ begin
    BLAS.rot(GA, GB, GC, GS);
    Put(GA); New_Line;
    Put(GB); New_Line;
+   New_Line;
+
+   Put_Line("MGX and MGY starts as: ");
+   Put(MGX); New_Line;
+   Put(MGY); New_Line;
+   Put_Line("Compute Givens rotation for [6, 5]. ");
+   BLAS.rotmg(MGD1, MGD2, MGX1, MGY1, MGPARAMS);
+   Put("MGD1= ");Put(MGD1); Put("  MGD2= "); Put(MGD2); New_Line;
+   Put("MGX1= ");Put(MGX1); Put("  MGY1= "); Put(MGY1); New_Line;
+   PUT("MGPARAMS= "); Put(MGPARAMS); New_Line;
+   Put_Line("Apply Modified Givens rotation to top lines of GA: ");
+   BLAS.rotm(MGX,MGY,MGPARAMS);
+   Put(MGX); New_Line;
+   Put(MGY); New_Line;
    New_Line;
 
    Put("SX is: ");
