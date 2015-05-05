@@ -158,6 +158,17 @@ package aBLAS.Real_BLAS is
                  return Real_Vector
      with Inline;
 
+   -- A <- alpha*x*yT + A
+   procedure ger(X : in Real_Vector;
+                 Y : in Real_Vector;
+                 A : in out Real_Matrix;
+                 ALPHA : in Real := 1.0;
+                 INCX : in Increment := 1;
+                 INCY : in Increment := 1;
+                 M, N : in Vector_Size := 0;
+                 Convention : in Matrix_Convention := Default_Matrix_Convention)
+     with Inline;
+
    -- *************
    -- *************
    -- ** Level 3 **

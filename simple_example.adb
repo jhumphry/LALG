@@ -40,6 +40,8 @@ procedure Simple_Example is
                                         (7.0, 8.0, 9.0));
    Y  : GRA.Real_Vector(1..2) := (100.0, 100.0);
 
+   XY : GRA.Real_Matrix(1..3,1..2) := (others => (others => 0.0));
+
    B  : GRA.Real_Matrix(1..3, 1..2) := ((11.0, 12.0),
                                         (13.0, 14.0),
                                         (15.0, 16.0));
@@ -145,6 +147,11 @@ begin
    Put("Perform Y <- A*X with BLAS. Y is now: ");
    BLAS.gemv(A, X, Y);
    Put(Y); New_Line;
+   Put("Matrix XY starts as: ");
+   Put(XY); New_Line;
+   Put("Calculate outer product XY <- X * YT + XY with BLAS. XY is now: ");
+   BLAS.ger(X,Y,XY);
+   Put(XY); New_Line;
 
    New_Line;
    Put_Line("*** Level 3 ***");
