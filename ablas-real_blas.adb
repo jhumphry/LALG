@@ -407,71 +407,113 @@ package body aBLAS.Real_BLAS is
                   TRANB : in Real_Trans_Op := No_Transpose;
                   M, N, K : in Vector_Size := 0;
                   Convention : in Matrix_Convention := Default_Matrix_Convention) is
-      A_P : Real_Matrix := (case Convention is
-                               when Column_Major => A,
-                               when Row_Major => B);
-      B_P : Real_Matrix := (case Convention is
-                               when Column_Major => B,
-                               when Row_Major => A);
-      TRANA_P : Real_Trans_Op := (case Convention is
-                               when Column_Major => TRANA,
-                               when Row_Major => TRANB);
-      TRANB_P : Real_Trans_Op := (case Convention is
-                               when Column_Major => TRANB,
-                               when Row_Major => TRANA);
       M_P : Vector_Size;
       N_P : Vector_Size;
       K_P : Vector_Size;
    begin
+      case Convention is
+         when Column_Major =>
+            case TRANA is
+            when No_Transpose =>
+               M_P := (if M = 0 then A'Length(2) else M);
+               K_P := (if K = 0 then A'Length(1) else K);
+            when Transpose =>
+               M_P := (if M = 0 then A'Length(1) else M);
+               K_P := (if K = 0 then A'Length(2) else K);
+            end case;
 
-      case TRANA_P is
-         when No_Transpose =>
-            M_P := A_P'Length(2);
-            K_P := A_P'Length(1);
-         when Transpose =>
-            M_P := A_P'Length(1);
-            K_P := A_P'Length(2);
+            case TRANB is
+            when No_Transpose =>
+               N_P := (if N = 0 then B'Length(1) else N);
+            when Transpose =>
+               N_P := (if N = 0 then B'Length(2) else N);
+            end case;
+
+            case Precision is
+            when Single =>
+               SGEMM(TRANA => Map_Trans_Op(TRANA),
+                     TRANB => Map_Trans_Op(TRANB),
+                     M => M_P,
+                     N => N_P,
+                     K => K_P,
+                     ALPHA => ALPHA,
+                     A => A,
+                     LDA => A'Length(2),
+                     B => B,
+                     LDB => B'Length(2),
+                     BETA => BETA,
+                     C => C,
+                     LDC => C'Length(2)
+                    );
+            when Double =>
+               DGEMM(TRANA => Map_Trans_Op(TRANA),
+                     TRANB => Map_Trans_Op(TRANB),
+                     M => M_P,
+                     N => N_P,
+                     K => K_P,
+                     ALPHA => ALPHA,
+                     A => A,
+                     LDA => A'Length(2),
+                     B => B,
+                     LDB => B'Length(2),
+                     BETA => BETA,
+                     C => C,
+                     LDC => C'Length(2)
+                    );
+            end case;
+
+         when Row_Major =>
+            case TRANA is
+            when No_Transpose =>
+               M_P := (if M = 0 then B'Length(2) else M);
+               K_P := (if K = 0 then B'Length(1) else K);
+            when Transpose =>
+               M_P := (if M = 0 then B'Length(1) else M);
+               K_P := (if K = 0 then B'Length(2) else K);
+            end case;
+
+            case TRANB is
+            when No_Transpose =>
+               N_P := (if N = 0 then A'Length(1) else N);
+            when Transpose =>
+               N_P := (if N = 0 then A'Length(2) else N);
+            end case;
+
+            case Precision is
+            when Single =>
+               SGEMM(TRANA => Map_Trans_Op(TRANB),
+                     TRANB => Map_Trans_Op(TRANA),
+                     M => M_P,
+                     N => N_P,
+                     K => K_P,
+                     ALPHA => ALPHA,
+                     A => B,
+                     LDA => B'Length(2),
+                     B => A,
+                     LDB => A'Length(2),
+                     BETA => BETA,
+                     C => C,
+                     LDC => C'Length(2)
+                    );
+            when Double =>
+               DGEMM(TRANA => Map_Trans_Op(TRANB),
+                     TRANB => Map_Trans_Op(TRANA),
+                     M => M_P,
+                     N => N_P,
+                     K => K_P,
+                     ALPHA => ALPHA,
+                     A => B,
+                     LDA => B'Length(2),
+                     B => A,
+                     LDB => A'Length(2),
+                     BETA => BETA,
+                     C => C,
+                     LDC => C'Length(2)
+                    );
+            end case;
+
       end case;
 
-      case TRANB_P is
-         when No_Transpose =>
-            N_P := B_P'Length(1);
-         when Transpose =>
-            N_P := B_P'Length(2);
-      end case;
-
-      case Precision is
-         when Single =>
-            SGEMM(TRANA => Map_Trans_Op(TRANA_P),
-                  TRANB => Map_Trans_Op(TRANB_P),
-                  M => M_P,
-                  N => N_P,
-                  K => K_P,
-                  ALPHA => ALPHA,
-                  A => A_P,
-                  LDA => A_P'Length(2),
-                  B => B_P,
-                  LDB => B_P'Length(2),
-                  BETA => BETA,
-                  C => C,
-                  LDC => C'Length(2)
-                  );
-         when Double =>
-            DGEMM(TRANA => Map_Trans_Op(TRANA_P),
-                   TRANB => Map_Trans_Op(TRANB_P),
-                  M => M_P,
-                  N => N_P,
-                  K => K_P,
-                  ALPHA => ALPHA,
-                  A => A_P,
-                  LDA => A_P'Length(2),
-                  B => B_P,
-                  LDB => B_P'Length(2),
-                  BETA => BETA,
-                  C => C,
-                  LDC => C'Length(2)
-                  );
-      end case;
    end gemm;
 
    function gemm(A : in Real_Matrix;
