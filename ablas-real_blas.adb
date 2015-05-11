@@ -9,16 +9,14 @@ package body aBLAS.Real_BLAS is
    package Fortran_Imports is new aBLAS.Real_BLAS.Imports;
    use Fortran_Imports;
 
-   use all type Interfaces.Fortran.Fortran_Integer;
-
    --
    -- Concrete_Real_Vector
    --
 
-   function Length(V : Concrete_Real_Vector) return Fortran_Integer is
-     (Fortran_Integer(V.N));
+   function Length(V : Concrete_Real_Vector) return Positive is
+     (V.N);
 
-   function Stride(V : Concrete_Real_Vector) return Fortran_Integer is (1);
+   function Stride(V : Concrete_Real_Vector) return Positive is (1);
 
    function Handle(V : in out Concrete_Real_Vector) return Real_Vector_Handle is
      (V.Data(1)'Unchecked_Access);
@@ -38,11 +36,11 @@ package body aBLAS.Real_BLAS is
    -- Real_Vector_View
    --
 
-   function Length(V : Real_Vector_View) return Fortran_Integer is
-     (Fortran_Integer(V.Length));
+   function Length(V : Real_Vector_View) return Positive is
+     (V.Length);
 
-   function Stride(V : Real_Vector_View) return Fortran_Integer is
-     (Fortran_Integer(V.Stride));
+   function Stride(V : Real_Vector_View) return Positive is
+     (V.Stride);
 
    function Handle(V : in out Real_Vector_View) return Real_Vector_Handle is
      (V.Handle);
@@ -95,14 +93,14 @@ package body aBLAS.Real_BLAS is
     is
    begin
       case Precision is
-         when Single => SSCAL(N => X.Length,
+         when Single => SSCAL(N => FP(X.Length),
                               SA => A,
                               SX => X.Handle,
-                              INCX => X.Stride);
-         when Double => DSCAL(N => X.Length,
+                              INCX =>  FP(X.Stride));
+         when Double => DSCAL(N =>  FP(X.Length),
                               DA => A,
                               DX => X.Handle,
-                              INCX => X.Stride);
+                              INCX =>  FP(X.Stride));
       end case;
    end scal;
 
@@ -114,13 +112,13 @@ package body aBLAS.Real_BLAS is
    begin
       case Precision is
          when Single =>
-            return SASUM(N => X.Length,
+            return SASUM(N => FP(X.Length),
                          SX => X.Handle,
-                         INCX => X.Stride);
+                         INCX => FP(X.Stride));
          when Double=>
-            return DASUM(N => X.Length,
+            return DASUM(N => FP(X.Length),
                          DX => X.Handle,
-                         INCX => X.Stride);
+                         INCX => FP(X.Stride));
       end case;
    end asum;
 

@@ -1,14 +1,11 @@
 -- aBLAS
 -- An Ada 2012 binding to BLAS
 
-with Interfaces.Fortran;
 private with Interfaces.C.Pointers;
 
 generic
    type Real is digits <>;
 package aBLAS.Real_BLAS is
-
-   subtype Fortran_Integer is Interfaces.Fortran.Fortran_Integer;
 
    type Real_Scalar(Element : access Real'Base) is null record
      with Implicit_Dereference => Element;
@@ -19,8 +16,8 @@ package aBLAS.Real_BLAS is
    type Real_Vector_Handle is limited private;
 
    type Real_Vector is interface;
-   function Length(V : Real_Vector) return Fortran_Integer is abstract;
-   function Stride(V : Real_Vector) return Fortran_Integer is abstract;
+   function Length(V : Real_Vector) return Positive is abstract;
+   function Stride(V : Real_Vector) return Positive is abstract;
    function Handle(V : in out Real_Vector) return Real_Vector_Handle is abstract;
    function Item(V : aliased in Real_Vector; I : Integer) return Real is abstract;
    function Variable_Reference(V: aliased in out Real_Vector; I : Integer)
@@ -29,8 +26,8 @@ package aBLAS.Real_BLAS is
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with private
      with Constant_Indexing => Item,
      Variable_Indexing => Variable_Reference;
-   function Length(V : Concrete_Real_Vector) return Fortran_Integer;
-   function Stride(V : Concrete_Real_Vector) return Fortran_Integer;
+   function Length(V : Concrete_Real_Vector) return Positive;
+   function Stride(V : Concrete_Real_Vector) return Positive;
    function Handle(V : in out Concrete_Real_Vector) return Real_Vector_Handle;
    function Values(V : Concrete_Real_Vector) return Real_1D_Array;
 
@@ -40,8 +37,8 @@ package aBLAS.Real_BLAS is
    with private
      with Constant_Indexing => Item,
      Variable_Indexing => Variable_Reference;
-   function Length(V : Real_Vector_View) return Fortran_Integer;
-   function Stride(V : Real_Vector_View) return Fortran_Integer;
+   function Length(V : Real_Vector_View) return Positive;
+   function Stride(V : Real_Vector_View) return Positive;
    function Handle(V : in out Real_Vector_View) return Real_Vector_Handle;
 
    function Make(V : access Concrete_Real_Vector'Class;
@@ -95,7 +92,7 @@ private
    with
       record
          Start : Positive;
-         Stride : Integer;
+         Stride : Positive;
          Length : Positive;
          Handle : Real_Vector_Handle;
       end record;
