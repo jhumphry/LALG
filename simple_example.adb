@@ -2,180 +2,39 @@
 
 with Ada.Text_IO, Ada.Float_Text_IO;
 use Ada.Text_IO, Ada.Float_Text_IO;
-with Ada.Numerics.Generic_Real_Arrays;
 
 with aBLAS, aBLAS.Real_BLAS, aBLAS.Real_BLAS.Util;
 use aBLAS;
 
 procedure Simple_Example is
-   package GRA is new Ada.Numerics.Generic_Real_Arrays(Real => Float);
-   use GRA;
 
-   package BLAS is new aBLAS.Real_BLAS(Real => Float,
-                                       Real_Vector => GRA.Real_Vector,
-                                       Real_Matrix => GRA.Real_Matrix);
+
+   package BLAS is new aBLAS.Real_BLAS(Real => Float);
 
    package BLAS_Util is new BLAS.Util(Default_Aft => 3, Default_Exp => 0);
    use BLAS_Util;
 
-   GA : GRA.Real_Vector(1..3) := (6.0, 5.0, 0.0);
-   GB : GRA.Real_Vector(1..3) := (5.0, 1.0, 4.0);
-   GA1 : Float := 6.0;
-   GB1 : Float := 5.0;
-   GC,GS : Float := 0.0;
+   package FI_Text_IO is new Ada.Text_IO.Integer_IO(Num => BLAS.Fortran_Integer);
+   use FI_Text_IO;
 
-   MGX : GRA.Real_Vector(1..3) := (6.0, 5.0, 0.0);
-   MGY : GRA.Real_Vector(1..3) := (5.0, 1.0, 4.0);
-   MGD1, MGD2 : Float := 1.0;
-   MGX1 : Float := 6.0;
-   MGY1 : Float := 5.0;
-   MGPARAMS : BLAS.Modified_Givens_Params;
-
-   SX : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
-   SY : GRA.Real_Vector(1..3) := (6.0, 5.0, 4.0);
-   SZ : GRA.Real_Vector(1..3) := (others => 0.0);
-
-   X  : GRA.Real_Vector(1..3) := (1.0, 2.0, 3.0);
-   A  : GRA.Real_Matrix(1..2, 1..3) := ((4.0, 5.0, 6.0),
-                                        (7.0, 8.0, 9.0));
-   Y  : GRA.Real_Vector(1..2) := (100.0, 100.0);
-
-   XY : GRA.Real_Matrix(1..3,1..2) := (others => (others => 0.0));
-
-   B  : GRA.Real_Matrix(1..3, 1..2) := ((11.0, 12.0),
-                                        (13.0, 14.0),
-                                        (15.0, 16.0));
-
-   C  : GRA.Real_Matrix(1..2, 1..2) := (others => (others => 99.0));
-
-   BV : GRA.Real_Vector(1..6) := (others => 3.5);
-   BM : GRA.Real_Matrix(1..6, 1..6) := ((1.0, -1.0, others => 0.7),
-                                        (0.5, 2.0, others => 0.8),
-                                       others => (0.33, 0.67, others => 0.9));
+   X : aliased BLAS.Concrete_Real_Vector := BLAS.Make((1.0, 2.0, 3.0, 4.0, 5.0));
+   X_View : aliased Blas.Real_Vector_View := BLAS.Make(X'Access, 2, 2);
 
 begin
 
    Put_Line("*** Level 1 ***");
-   Put_Line("GA and GB starts as: ");
-   Put(GA); New_Line;
-   Put(GB); New_Line;
-   Put_Line("Compute Givens rotation for [6, 5]. ");
-   BLAS.rotg(GA1, GB1, GC, GS);
-   Put("GA(1)= ");Put(GA1); Put("  GB(1)= "); Put(GB1); New_Line;
-   Put("GC= ");Put(GC); Put("  GS= "); Put(GS); New_Line;
-   Put_Line("Apply Givens rotation to top lines of GA: ");
-   BLAS.rot(GA, GB, GC, GS);
-   Put(GA); New_Line;
-   Put(GB); New_Line;
-   New_Line;
 
-   Put_Line("MGX and MGY starts as: ");
-   Put(MGX); New_Line;
-   Put(MGY); New_Line;
-   Put_Line("Compute Givens rotation for [6, 5]. ");
-   BLAS.rotmg(MGD1, MGD2, MGX1, MGY1, MGPARAMS);
-   Put("MGD1= ");Put(MGD1); Put("  MGD2= "); Put(MGD2); New_Line;
-   Put("MGX1= ");Put(MGX1); Put("  MGY1= "); Put(MGY1); New_Line;
-   PUT("MGPARAMS= "); Put(MGPARAMS); New_Line;
-   Put_Line("Apply Modified Givens rotation to top lines of GA: ");
-   BLAS.rotm(MGX,MGY,MGPARAMS);
-   Put(MGX); New_Line;
-   Put(MGY); New_Line;
-   New_Line;
+   Put("X => "); Put(X); New_Line;
+   Put("X_View => "); Put(X_View); New_Line;
 
-   Put("SX is: ");
-   Put(SX); New_Line;
-   Put("SY is: ");
-   Put(SY); New_Line;
-   Put("SZ is: ");
-   Put(SZ); New_Line;
+   Put("|X|_1 is via BLAS library is: ");
+   Put(BLAS.asum(X)); New_Line;
+   Put("|X_View|_1 is via BLAS library is: ");
+   Put(BLAS.asum(X_View)); New_Line;
 
-   Put("Copy SX -> SZ using BLAS. SZ now: ");
-   BLAS.copy(SX, SZ);
-   Put(SZ); New_Line;
-   Put("Scale SZ <- 2 * SZ using BLAS. SZ now: ");
-   BLAS.scal(SZ, 2.0);
-   Put(SZ); New_Line;
-   Put("Swap SX <-> SZ using BLAS"); New_Line;
-   BLAS.swap(SX, SZ);
-   Put("SX is now: ");
-   Put(SX); New_Line;
-   Put("SZ is now: ");
-   Put(SZ); New_Line;
-   Put("Swap SX <-> SZ back using BLAS"); New_Line;
-   BLAS.swap(SX, SZ);
-   New_Line;
-
-   Put("SX+SZ via Ada library is: ");
-   Put(SX+SZ); New_Line;
-   Put("SX+SZ via BLAS is: ");
-   BLAS.axpy(SX, SZ);
-   Put(SZ); New_Line;
-   New_Line;
-
-   Put("Dot Product SX*SY via Ada library is: ");
-   Put(Float'(SX * SY)); New_Line;
-   Put("Dot Product SX*SY via BLAS is: ");
-   Put(BLAS.dot(SX, SY)); New_Line;
-   Put("Dot Product SX*SY via BLAS with extended precision accumulation is: ");
-   Put(BLAS.sdsdot(SX, SY)); New_Line;
-   Put("Dot Product SX*(SY reversed) is: ");
-   Put(BLAS.dot(SX, SY, INCY => Increment(-1)));
-   New_Line;
-
-   Put("|SX|_1 is via BLAS library is: ");
-   Put(BLAS.asum(SX)); New_Line;
-   Put("Euclidean norm of SX is via Ada library is: ");
-   Put(Float'(abs(SX))); New_Line;
-   Put("Euclidean norm of SX is via BLAS library is: ");
-   Put(BLAS.nrm2(SX)); New_Line;
-   Put("Index of largest element of SX is: ");
-   Put(Integer'Image(BLAS.iamax(SX))); New_Line;
-
-   New_Line;
-   Put_Line("*** Level 2 ***");
-   Put("Y is: ");
-   Put(Y); New_Line;
-   Put("X is: ");
-   Put(X); New_Line;
-   Put_Line("A is: ");
-   Put(A); New_Line;
-   Put("A*X via Ada library: ");
-   Put(A*x); New_Line;
-   Put("A*X via BLAS: ");
-   Put(BLAS.gemv(A,X)); New_Line;
-   Put("Perform Y <- A*X with BLAS. Y is now: ");
-   BLAS.gemv(A, X, Y);
-   Put(Y); New_Line;
-   Put("Matrix XY starts as: ");
-   Put(XY); New_Line;
-   Put("Calculate outer product XY <- X * YT + XY with BLAS. XY is now: ");
-   BLAS.ger(X,Y,XY);
-   Put(XY); New_Line;
-
-   New_Line;
-   Put_Line("*** Level 3 ***");
-   Put("A is: ");
-   Put(A); New_Line;
-   Put("B is: ");
-   Put(B); New_Line;
-   Put("C is: ");
-   Put(C); New_Line;
-   Put("A*B via Ada library: ");
-   Put(A*B); New_Line;
-   Put("A*B via BLAS: ");
-   Put(BLAS.gemm(A,B)); New_Line;
-   Put("Perform C <- A*B with BLAS. C is now: ");
-   BLAS.gemm(A, B, C);
-   Put(C); New_Line;
-   Put("Perform C <- Bt*At with BLAS. C is now: ");
-   BLAS.gemm(B, A, C, TRANA => Transpose, TRANB => Transpose);
-   Put(C); New_Line;
-
-   New_Line;
-   Put("BV is: ");
-   Put(BV);  New_Line;
-   Put_Line("BM is: ");
-   Put(BM); New_Line;
+   Put_Line("Scaling X_View by 2.0");
+   BLAS.scal(X_View, 2.0);
+   Put("X => "); Put(X); New_Line;
+   Put("X_View => "); Put(X_View); New_Line;
 
 end Simple_Example;

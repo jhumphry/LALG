@@ -54,12 +54,11 @@ package aBLAS is
    type JRot is (Inner, Outer, Sorted);
 
    -- Increments can never be zero
-   subtype Increment is IntFort.Fortran_Integer
-   with Static_Predicate => Increment in
+   subtype Incr is IntFort.Fortran_Integer
+   with Static_Predicate => Incr in
      IntFort.Fortran_Integer'First..-1|+1..IntFort.Fortran_Integer'Last;
 
    -- 0 is used as a sentinel for the natural array size
    subtype Vector_Size is IntFort.Fortran_Integer range 0..IntFort.Fortran_Integer'Last;
-
 
 end aBLAS;

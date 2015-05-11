@@ -15,31 +15,31 @@ package aBLAS.Real_BLAS.Util is
    subtype Row_Column_Count is Count range 3..Count'Last;
 
    procedure Put(File : in File_Type;
-                 Item : in Real_Vector;
+                 Item : in Real_Vector'Class;
                  Columns : in Row_Column_Count := Default_Columns;
                  Fore : in Field := Default_Fore;
                  Aft : in Field := Default_Aft;
                  Exp : in Field := Default_Exp);
 
-   procedure Put(Item : in Real_Vector;
+   procedure Put(Item : in Real_Vector'Class;
                  Columns : in Row_Column_Count := Default_Columns;
                  Fore : in Field := Default_Fore;
                  Aft : in Field := Default_Aft;
                  Exp : in Field := Default_Exp);
 
-   procedure Put(File : in File_Type;
-                 Item : in Real_Matrix;
-                 Columns : in Row_Column_Count := Default_Columns;
-                 Rows : in Row_Column_Count := Default_Rows;
-                 Fore : in Field := Default_Fore;
-                 Aft : in Field := Default_Aft;
-                 Exp : in Field := Default_Exp);
-
-   procedure Put(Item : in Real_Matrix;
-                 Columns : in Row_Column_Count := Default_Columns;
-                 Rows : in Row_Column_Count := Default_Rows;
-                 Fore : in Field := Default_Fore;
-                 Aft : in Field := Default_Aft;
-                 Exp : in Field := Default_Exp);
+--     procedure Put(File : in File_Type;
+--                   Item : in Real_Matrix;
+--                   Columns : in Row_Column_Count := Default_Columns;
+--                   Rows : in Row_Column_Count := Default_Rows;
+--                   Fore : in Field := Default_Fore;
+--                   Aft : in Field := Default_Aft;
+--                   Exp : in Field := Default_Exp);
+--
+--     procedure Put(Item : in Real_Matrix;
+--                   Columns : in Row_Column_Count := Default_Columns;
+--                   Rows : in Row_Column_Count := Default_Rows;
+--                   Fore : in Field := Default_Fore;
+--                   Aft : in Field := Default_Aft;
+--                   Exp : in Field := Default_Exp);
 
 end aBLAS.Real_BLAS.Util;
