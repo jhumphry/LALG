@@ -27,19 +27,19 @@ package aBLAS.Real_BLAS.Util is
                  Aft : in Field := Default_Aft;
                  Exp : in Field := Default_Exp);
 
---     procedure Put(File : in File_Type;
---                   Item : in Real_Matrix;
---                   Columns : in Row_Column_Count := Default_Columns;
---                   Rows : in Row_Column_Count := Default_Rows;
---                   Fore : in Field := Default_Fore;
---                   Aft : in Field := Default_Aft;
---                   Exp : in Field := Default_Exp);
---
---     procedure Put(Item : in Real_Matrix;
---                   Columns : in Row_Column_Count := Default_Columns;
---                   Rows : in Row_Column_Count := Default_Rows;
---                   Fore : in Field := Default_Fore;
---                   Aft : in Field := Default_Aft;
---                   Exp : in Field := Default_Exp);
+   procedure Put(File : in File_Type;
+                 Item : in Real_Matrix'Class;
+                 Columns : in Row_Column_Count := Default_Columns;
+                 Rows : in Row_Column_Count := Default_Rows;
+                 Fore : in Field := Default_Fore;
+                 Aft : in Field := Default_Aft;
+                 Exp : in Field := Default_Exp);
+
+   procedure Put(Item : in Real_Matrix'Class;
+                 Columns : in Row_Column_Count := Default_Columns;
+                 Rows : in Row_Column_Count := Default_Rows;
+                 Fore : in Field := Default_Fore;
+                 Aft : in Field := Default_Aft;
+                 Exp : in Field := Default_Exp);
 
 end aBLAS.Real_BLAS.Util;

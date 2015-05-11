@@ -12,8 +12,11 @@ package aBLAS.Real_BLAS is
 
    type Real_1D_Array is array (Integer range <>) of aliased Real'Base
      with Pack, Convention => Fortran;
+   type Real_2D_Array is array (Integer range <>, Integer range <>) of aliased Real'Base
+     with Pack, Convention => Fortran;
 
    type Real_Vector_Handle is limited private;
+   type Real_Matrix_Handle is limited private;
 
    type Real_Vector is interface;
    function Length(V : Real_Vector) return Positive is abstract;
@@ -46,6 +49,27 @@ package aBLAS.Real_BLAS is
                  Stride : Positive;
                  Length : Natural := 0) return Real_Vector_View;
 
+   type Real_Matrix is interface;
+   function Rows(V : Real_Matrix) return Positive is abstract;
+   function Columns(V : Real_Matrix) return Positive is abstract;
+   function Leading_Dimension(V : Real_Matrix) return Positive is abstract;
+   function Handle(V : in out Real_Matrix) return Real_Matrix_Handle is abstract;
+   function Item(V : aliased in Real_Matrix; R, C : Integer) return Real is abstract;
+   function Variable_Reference(V: aliased in out Real_Matrix; R, C : Integer)
+                               return Real_Scalar is abstract;
+
+   type Concrete_Real_Matrix(M, N : Positive) is new Real_Matrix with private
+     with Constant_Indexing => Item,
+     Variable_Indexing => Variable_Reference;
+   function Rows(V : Concrete_Real_Matrix) return Positive;
+   function Columns(V : Concrete_Real_Matrix) return Positive;
+   function Leading_Dimension(V : Concrete_Real_Matrix) return Positive;
+   function Handle(V : in out Concrete_Real_Matrix) return Real_Matrix_Handle;
+   function Item(V : aliased in Concrete_Real_Matrix; R, C : Integer) return Real;
+   function Variable_Reference(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
+                               return Real_Scalar;
+   function Make(A : Real_2D_Array) return Concrete_Real_Matrix;
+
    -- *************
    -- *************
    -- ** Level 1 **
@@ -60,6 +84,20 @@ package aBLAS.Real_BLAS is
    -- X <- aX
    procedure scal(X : in out Real_Vector'Class;
                   A : in Real := 1.0);
+
+   -- *************
+   -- *************
+   -- ** Level 2 **
+   -- *************
+   -- *************
+
+   -- y <- alpha*A*x + beta*y
+   procedure gemv(A : in out Real_Matrix'Class;
+                  X : in out Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0;
+                  TRANS : in Real_Trans_Op := No_Transpose);
 
 private
 
@@ -77,6 +115,7 @@ private
                                                 Element_Array => Real_1D_Array,
                                                 Default_Terminator => 0.0);
    type Real_Vector_Handle is new RA_Ptrs.Pointer;
+   type Real_Matrix_Handle is new RA_Ptrs.Pointer;
 
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with
       record
@@ -101,12 +140,12 @@ private
    function Variable_Reference(V: aliased in out Real_Vector_View; I : Integer)
                                return Real_Scalar with Inline;
 
-   --     -- *************
-   --     -- *************
-   --     -- ** Level 1 **
-   --     -- *************
---     -- *************
---
+   type Concrete_Real_Matrix(M, N : Positive) is new Real_Matrix with
+      record
+         Data : Real_2D_Array(1..M, 1..N);
+      end record;
+
+
 --     -- Generate Givens plane rotation c<-cos(theta), s<-sin(theta) which would
 --     -- turn a vector [a, b] into [r, 0]. On exit a<-r and b is s or 1/c
 --     procedure rotg(a, b : in out Real; c, s : out Real)
@@ -206,23 +245,7 @@ private
 --                    N : in Vector_Size := 0) return Integer
 --       with Inline;
 --
---     -- *************
---     -- *************
---     -- ** Level 2 **
---     -- *************
---     -- *************
---
---     -- y <- alpha*A*x + beta*y
---     procedure gemv(A : in Real_Matrix;
---                    X : in Real_Vector;
---                    Y : in out Real_Vector;
---                    ALPHA : in Real := 1.0;
---                    BETA : in Real := 0.0;
---                    TRANS : in Real_Trans_Op := No_Transpose;
---                    INCX, INCY : in Increment := 1;
---                    M, N : in Vector_Size := 0;
---                    Convention : in Matrix_Convention := Default_Matrix_Convention)
---       with Inline;
+
 --
 --     -- gemv <- alpha*A*x
 --     function gemv(A : in Real_Matrix;

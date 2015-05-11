@@ -226,43 +226,43 @@ private generic package aBLAS.Real_BLAS.Imports is
 --       Convention => Fortran,
 --       External_Name => BLAS_Prefix & "idamax" & BLAS_Suffix;
 --
---     -- *************
---     -- *************
---     -- ** Level 2 **
---     -- *************
---     -- *************
---
---     procedure SGEMV(TRANS : FC;
---                     M: FI;
---                     N : FI;
---                     ALPHA : Real;
---                     A : Real_Matrix;
---                     LDA : FI;
---                     X : Real_Vector;
---                     INCX : Increment;
---                     BETA : Real;
---                     Y : in out Real_Vector;
---                     INCY : Increment
---                    )
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "sgemv" & BLAS_Suffix;
---
---     procedure DGEMV(TRANS : FC;
---                     M: FI;
---                     N : FI;
---                     ALPHA : Real;
---                     A : Real_Matrix;
---                     LDA : FI;
---                     X : Real_Vector;
---                     INCX : Increment;
---                     BETA : Real;
---                     Y : in out Real_Vector;
---                     INCY : Increment
---                    )
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "dgemv" & BLAS_Suffix;
+   -- *************
+   -- *************
+   -- ** Level 2 **
+   -- *************
+   -- *************
+
+   procedure SGEMV(TRANS : FC;
+                   M: FP;
+                   N : FP;
+                   ALPHA : Real;
+                   A : Real_Matrix_Handle;
+                   LDA : FP;
+                   X : Real_Vector_Handle;
+                   INCX : FP;
+                   BETA : Real;
+                   Y : Real_Vector_Handle;
+                   INCY : FP
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sgemv" & BLAS_Suffix;
+
+   procedure DGEMV(TRANS : FC;
+                   M: FP;
+                   N : FP;
+                   ALPHA : Real;
+                   A : Real_Matrix_Handle;
+                   LDA : FP;
+                   X : Real_Vector_Handle;
+                   INCX : FP;
+                   BETA : Real;
+                   Y : Real_Vector_Handle;
+                   INCY : FP
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dgemv" & BLAS_Suffix;
 --
 --     procedure SGER( M: FI;
 --                     N : FI;

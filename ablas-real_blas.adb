@@ -76,6 +76,23 @@ package body aBLAS.Real_BLAS is
       return Result;
    end Make;
 
+   --
+   -- Concrete_Real_Matrix
+   --
+
+   function Rows(V : Concrete_Real_Matrix) return Positive is (V.M);
+   function Columns(V : Concrete_Real_Matrix) return Positive is (V.N);
+   function Leading_Dimension(V : Concrete_Real_Matrix) return Positive is (V.N);
+   function Handle(V : in out Concrete_Real_Matrix) return Real_Matrix_Handle is
+      (V.Data(1,1)'Unchecked_Access);
+   function Item(V : aliased in Concrete_Real_Matrix; R, C : Integer) return Real is
+      (V.Data(R, C));
+   function Variable_Reference(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
+                               return Real_Scalar is
+      ((Element => V.Data(R,C)'Access));
+   function Make(A : Real_2D_Array) return Concrete_Real_Matrix is
+      ((M => A'Length(1), N => A'Length(2), Data => A));
+
    Map_Trans_Op : Internal.Map_Trans_Op_Array renames Internal.Map_Trans_Op;
 
    -- *************
@@ -121,6 +138,51 @@ package body aBLAS.Real_BLAS is
                          INCX => FP(X.Stride));
       end case;
    end asum;
+
+   -- *************
+   -- *************
+   -- ** Level 2 **
+   -- *************
+   -- *************
+
+   ----------
+   -- gemv --
+   ----------
+
+   procedure gemv(A : in out Real_Matrix'Class;
+                  X : in out Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0;
+                  TRANS : in Real_Trans_Op := No_Transpose) is
+   begin
+      case Precision is
+         when Single =>
+            SGEMV(TRANS => Map_Trans_Op(TRANS),
+                  M => FP(A.Rows),
+                  N => FP(A.Columns),
+                  ALPHA => ALPHA,
+                  A => A.Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  X => X.Handle,
+                  INCX => FP(X.Stride),
+                  BETA => BETA,
+                  Y => Y.Handle,
+                  INCY => FP(Y.Stride));
+         when Double =>
+            DGEMV(TRANS => Map_Trans_Op(TRANS),
+                  M => FP(A.Rows),
+                  N => FP(A.Columns),
+                  ALPHA => ALPHA,
+                  A => A.Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  X => X.Handle,
+                  INCX => FP(X.Stride),
+                  BETA => BETA,
+                  Y => Y.Handle,
+                  INCY => FP(Y.Stride));
+      end case;
+   end gemv;
 
 --
 --     ----------
@@ -317,63 +379,7 @@ package body aBLAS.Real_BLAS is
 --        end case;
 --     end iamax;
 --
---     -- *************
---     -- *************
---     -- ** Level 2 **
---     -- *************
---     -- *************
---
---     ----------
---     -- gemv --
---     ----------
---
---     procedure gemv(A : in Real_Matrix;
---                    X : in Real_Vector;
---                    Y : in out Real_Vector;
---                    ALPHA : in Real := 1.0;
---                    BETA : in Real := 0.0;
---                    TRANS : in Real_Trans_Op := No_Transpose;
---                    INCX, INCY : in Increment := 1;
---                    M, N : in Vector_Size := 0;
---                    Convention : in Matrix_Convention := Default_Matrix_Convention) is
---        TRANS_P : Real_Trans_Op;
---        M_P : constant Vector_Size := (if M = 0 then A'Length(2) else M);
---        N_P : constant Vector_Size := (if N = 0 then A'Length(1) else N);
---     begin
---        case Convention is
---           when Row_Major =>
---              TRANS_P := (if TRANS = No_Transpose then Transpose else No_Transpose);
---           when Column_Major =>
---              TRANS_P := TRANS;
---        end case;
---
---        case Precision is
---           when Single =>
---              SGEMV(TRANS => Map_Trans_Op(TRANS_P),
---                    M => M_P,
---                    N => N_P,
---                    ALPHA => ALPHA,
---                    A => A,
---                    LDA => A'Length(2),
---                    X => X,
---                    INCX => INCX,
---                    BETA => BETA,
---                    Y => Y,
---                    INCY => INCY);
---           when Double =>
---              DGEMV(TRANS => Map_Trans_Op(TRANS_P),
---                    M => M_P,
---                    N => N_P,
---                    ALPHA => ALPHA,
---                    A => A,
---                    LDA => A'Length(2),
---                    X => X,
---                    INCX => INCX,
---                    BETA => BETA,
---                    Y => Y,
---                    INCY => INCY);
---        end case;
---     end gemv;
+
 --
 --     function gemv(A : in Real_Matrix;
 --                   X : in Real_Vector;
