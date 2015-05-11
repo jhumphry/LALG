@@ -46,7 +46,8 @@ package aBLAS.Real_BLAS is
 
    function Make(V : access Concrete_Real_Vector'Class;
                  Start : Positive;
-                 Stride : Positive) return Real_Vector_View;
+                 Stride : Positive;
+                 Length : Natural := 0) return Real_Vector_View;
 
    -- *************
    -- *************
