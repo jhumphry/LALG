@@ -1,8 +1,6 @@
 -- aBLAS
 -- An Ada 2012 binding to BLAS
 
-private with Interfaces.C.Pointers;
-
 generic
    type Real is digits <>;
 package aBLAS.Real_BLAS is
@@ -16,12 +14,15 @@ package aBLAS.Real_BLAS is
      with Pack, Convention => Fortran;
 
    type Real_Vector_Handle is limited private;
+   type Real_Vector_Constant_Handle is limited private;
    type Real_Matrix_Handle is limited private;
+   type Real_Matrix_Constant_Handle is limited private;
 
    type Real_Vector is interface;
    function Length(V : Real_Vector) return Positive is abstract;
    function Stride(V : Real_Vector) return Positive is abstract;
    function Handle(V : in out Real_Vector) return Real_Vector_Handle is abstract;
+   function Constant_Handle(V : in Real_Vector) return Real_Vector_Constant_Handle is abstract;
    function Item(V : aliased in Real_Vector; I : Integer) return Real is abstract;
    function Variable_Reference(V: aliased in out Real_Vector; I : Integer)
                                return Real_Scalar is abstract;
@@ -32,6 +33,7 @@ package aBLAS.Real_BLAS is
    function Length(V : Concrete_Real_Vector) return Positive;
    function Stride(V : Concrete_Real_Vector) return Positive;
    function Handle(V : in out Concrete_Real_Vector) return Real_Vector_Handle;
+   function Constant_Handle(V : in Concrete_Real_Vector) return Real_Vector_Constant_Handle;
    function Values(V : Concrete_Real_Vector) return Real_1D_Array;
 
    function Make(A : Real_1D_Array) return Concrete_Real_Vector;
@@ -43,7 +45,7 @@ package aBLAS.Real_BLAS is
    function Length(V : Real_Vector_View) return Positive;
    function Stride(V : Real_Vector_View) return Positive;
    function Handle(V : in out Real_Vector_View) return Real_Vector_Handle;
-
+   function Constant_Handle(V : in Real_Vector_View) return Real_Vector_Constant_Handle;
    function Make(V : access Concrete_Real_Vector'Class;
                  Start : Positive;
                  Stride : Positive;
@@ -54,6 +56,7 @@ package aBLAS.Real_BLAS is
    function Columns(V : Real_Matrix) return Positive is abstract;
    function Leading_Dimension(V : Real_Matrix) return Positive is abstract;
    function Handle(V : in out Real_Matrix) return Real_Matrix_Handle is abstract;
+   function Constant_Handle(V : in Real_Matrix) return Real_Matrix_Constant_Handle is abstract;
    function Item(V : aliased in Real_Matrix; R, C : Integer) return Real is abstract;
    function Variable_Reference(V: aliased in out Real_Matrix; R, C : Integer)
                                return Real_Scalar is abstract;
@@ -65,6 +68,7 @@ package aBLAS.Real_BLAS is
    function Columns(V : Concrete_Real_Matrix) return Positive;
    function Leading_Dimension(V : Concrete_Real_Matrix) return Positive;
    function Handle(V : in out Concrete_Real_Matrix) return Real_Matrix_Handle;
+   function Constant_Handle(V : in Concrete_Real_Matrix) return Real_Matrix_Constant_Handle;
    function Item(V : aliased in Concrete_Real_Matrix; R, C : Integer) return Real;
    function Variable_Reference(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
                                return Real_Scalar;
@@ -79,7 +83,7 @@ package aBLAS.Real_BLAS is
    subtype Modified_Givens_Params is Real_1D_Array(1..5);
 
    --  asum <- |X|_1
-   function asum(X : in out Real_Vector'Class) return Real;
+   function asum(X : in Real_Vector'Class) return Real;
 
    -- X <- aX
    procedure scal(X : in out Real_Vector'Class;
@@ -92,8 +96,8 @@ package aBLAS.Real_BLAS is
    -- *************
 
    -- y <- alpha*A*x + beta*y
-   procedure gemv(A : in out Real_Matrix'Class;
-                  X : in out Real_Vector'Class;
+   procedure gemv(A : in Real_Matrix'Class;
+                  X : in Real_Vector'Class;
                   Y : in out Real_Vector'Class;
                   ALPHA : in Real := 1.0;
                   BETA : in Real := 0.0;
@@ -110,12 +114,17 @@ private
         Real'Base'Size = IntFort.Double_Precision'Base'Size then Double
       else raise Program_Error with "Precision not supported for interfacing with Fortran code");
 
-   package RA_Ptrs is new Interfaces.C.Pointers(Index => Integer,
-                                                Element => Real'Base,
-                                                Element_Array => Real_1D_Array,
-                                                Default_Terminator => 0.0);
-   type Real_Vector_Handle is new RA_Ptrs.Pointer;
-   type Real_Matrix_Handle is new RA_Ptrs.Pointer;
+   -- The Constant_Handle types only give an indication to the Ada compiler of
+   -- the mode of the related FORTRAN parameters. There is no way for the Ada
+   -- compiler to enforce that the FORTRAN code does not modify data that it
+   -- should not.
+   type Real_Handle is access all Real'Base;
+   type Real_Constant_Handle is access constant Real'Base;
+
+   type Real_Vector_Handle is new Real_Handle;
+   type Real_Vector_Constant_Handle is new Real_Constant_Handle;
+   type Real_Matrix_Handle is new Real_Handle;
+   type Real_Matrix_Constant_Handle is new Real_Constant_Handle;
 
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with
       record

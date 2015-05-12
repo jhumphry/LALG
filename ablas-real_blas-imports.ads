@@ -199,14 +199,14 @@ private generic package aBLAS.Real_BLAS.Imports is
 --       External_Name => BLAS_Prefix & "dnrm2" & BLAS_Suffix;
 
    function SASUM(N : FP;
-                  SX : Real_Vector_Handle;
+                  SX : Real_Vector_Constant_Handle;
                   INCX : FP) return Real
      with Import => True,
      Convention => Fortran,
      External_Name => BLAS_Prefix & "sasum" & BLAS_Suffix;
 
    function DASUM(N : FP;
-                  DX : Real_Vector_Handle;
+                  DX : Real_Vector_Constant_Handle;
                   INCX : FP) return Real
      with Import => True,
      Convention => Fortran,
@@ -236,9 +236,9 @@ private generic package aBLAS.Real_BLAS.Imports is
                    M: FP;
                    N : FP;
                    ALPHA : Real;
-                   A : Real_Matrix_Handle;
+                   A : Real_Matrix_Constant_Handle;
                    LDA : FP;
-                   X : Real_Vector_Handle;
+                   X : Real_Vector_Constant_Handle;
                    INCX : FP;
                    BETA : Real;
                    Y : Real_Vector_Handle;
@@ -252,9 +252,9 @@ private generic package aBLAS.Real_BLAS.Imports is
                    M: FP;
                    N : FP;
                    ALPHA : Real;
-                   A : Real_Matrix_Handle;
+                   A : Real_Matrix_Constant_Handle;
                    LDA : FP;
-                   X : Real_Vector_Handle;
+                   X : Real_Vector_Constant_Handle;
                    INCX : FP;
                    BETA : Real;
                    Y : Real_Vector_Handle;

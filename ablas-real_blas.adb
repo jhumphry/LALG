@@ -21,6 +21,9 @@ package body aBLAS.Real_BLAS is
    function Handle(V : in out Concrete_Real_Vector) return Real_Vector_Handle is
      (V.Data(1)'Unchecked_Access);
 
+   function Constant_Handle(V : in Concrete_Real_Vector) return Real_Vector_Constant_Handle is
+     (V.Data(1)'Unchecked_Access);
+
    function Values(V : Concrete_Real_Vector) return Real_1D_Array is (V.Data);
 
    function Item(V : aliased in Concrete_Real_Vector; I : Integer)
@@ -44,6 +47,9 @@ package body aBLAS.Real_BLAS is
 
    function Handle(V : in out Real_Vector_View) return Real_Vector_Handle is
      (V.Handle);
+
+   function Constant_Handle(V : in Real_Vector_View) return Real_Vector_Constant_Handle is
+     (Real_Vector_Constant_Handle(V.Handle));
 
    function Item(V : aliased in Real_Vector_View; I : Integer)
                  return Real is
@@ -84,7 +90,9 @@ package body aBLAS.Real_BLAS is
    function Columns(V : Concrete_Real_Matrix) return Positive is (V.N);
    function Leading_Dimension(V : Concrete_Real_Matrix) return Positive is (V.N);
    function Handle(V : in out Concrete_Real_Matrix) return Real_Matrix_Handle is
-      (V.Data(1,1)'Unchecked_Access);
+     (V.Data(1,1)'Unchecked_Access);
+   function Constant_Handle(V : in Concrete_Real_Matrix) return Real_Matrix_Constant_Handle is
+     (V.Data(1,1)'Unchecked_Access);
    function Item(V : aliased in Concrete_Real_Matrix; R, C : Integer) return Real is
       (V.Data(R, C));
    function Variable_Reference(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
@@ -125,16 +133,16 @@ package body aBLAS.Real_BLAS is
    -- asum --
    ----------
 
-   function asum(X : in out Real_Vector'Class) return Real is
+   function asum(X : in Real_Vector'Class) return Real is
    begin
       case Precision is
          when Single =>
             return SASUM(N => FP(X.Length),
-                         SX => X.Handle,
+                         SX => X.Constant_Handle,
                          INCX => FP(X.Stride));
          when Double=>
             return DASUM(N => FP(X.Length),
-                         DX => X.Handle,
+                         DX => X.Constant_Handle,
                          INCX => FP(X.Stride));
       end case;
    end asum;
@@ -149,8 +157,8 @@ package body aBLAS.Real_BLAS is
    -- gemv --
    ----------
 
-   procedure gemv(A : in out Real_Matrix'Class;
-                  X : in out Real_Vector'Class;
+   procedure gemv(A : in Real_Matrix'Class;
+                  X : in Real_Vector'Class;
                   Y : in out Real_Vector'Class;
                   ALPHA : in Real := 1.0;
                   BETA : in Real := 0.0;
@@ -162,9 +170,9 @@ package body aBLAS.Real_BLAS is
                   M => FP(A.Rows),
                   N => FP(A.Columns),
                   ALPHA => ALPHA,
-                  A => A.Handle,
+                  A => A.Constant_Handle,
                   LDA => FP(A.Leading_Dimension),
-                  X => X.Handle,
+                  X => X.Constant_Handle,
                   INCX => FP(X.Stride),
                   BETA => BETA,
                   Y => Y.Handle,
@@ -174,9 +182,9 @@ package body aBLAS.Real_BLAS is
                   M => FP(A.Rows),
                   N => FP(A.Columns),
                   ALPHA => ALPHA,
-                  A => A.Handle,
+                  A => A.Constant_Handle,
                   LDA => FP(A.Leading_Dimension),
-                  X => X.Handle,
+                  X => X.Constant_Handle,
                   INCX => FP(X.Stride),
                   BETA => BETA,
                   Y => Y.Handle,
