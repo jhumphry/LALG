@@ -27,6 +27,10 @@ package aBLAS.Real_BLAS is
    function Variable_Reference(V: aliased in out Real_Vector; I : Integer)
                                return Real_Scalar is abstract;
 
+   function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean is
+     (Left.Length = Right'Length and then
+        (for all I in 1..Left.Length => Left.Item(I) = Right(Right'First+I-1)));
+
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with private
      with Constant_Indexing => Item,
      Variable_Indexing => Variable_Reference;
