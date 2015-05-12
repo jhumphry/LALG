@@ -16,73 +16,73 @@ private generic package aBLAS.Real_BLAS.Imports is
    -- *************
    -- *************
 
---     procedure SROTG(SA, SB : in out Real; C, S : out Real)
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "srotg" & BLAS_Suffix;
---
---     procedure DROTG(SA, SB : in out Real; C, S : out Real)
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "drotg" & BLAS_Suffix;
---
---     procedure SROTMG(SD1, SD2 : in out Real;
---                      SX1 : in out Real;
---                      SY1 : in Real;
---                      PARAMS : in out Modified_Givens_Params)
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "srotmg" & BLAS_Suffix;
---
---     procedure DROTMG(DD1, DD2 : in out Real;
---                      DX1 : in out Real;
---                      DY1 : in Real;
---                      PARAMS : in out Modified_Givens_Params)
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "drotmg" & BLAS_Suffix;
---
---     procedure SROT(N : FI;
---                    SX : in out Real_Vector;
---                    INCX : Increment;
---                    SY : in out Real_Vector;
---                    INCY : Increment;
---                    C : Real;
---                    S : Real)
---     with Import => True,
---     Convention => Fortran,
---     External_Name => BLAS_Prefix & "srot" & BLAS_Suffix;
---
---     procedure DROT(N : FI;
---                    SX : in out Real_Vector;
---                    INCX : Increment;
---                    SY : in out Real_Vector;
---                    INCY : Increment;
---                    C : Real;
---                    S : Real)
---     with Import => True,
---     Convention => Fortran,
---     External_Name => BLAS_Prefix & "drot" & BLAS_Suffix;
---
---     procedure SROTM(N : FI;
---                    SX : in out Real_Vector;
---                    INCX : Increment;
---                    SY : in out Real_Vector;
---                    INCY : Increment;
---                    PARAMS : in out Modified_Givens_Params)
---     with Import => True,
---     Convention => Fortran,
---     External_Name => BLAS_Prefix & "srotm" & BLAS_Suffix;
---
---     procedure DROTM(N : FI;
---                    DX : in out Real_Vector;
---                    INCX : Increment;
---                    DY : in out Real_Vector;
---                    INCY : Increment;
---                    PARAMS : in out Modified_Givens_Params)
---     with Import => True,
---     Convention => Fortran,
---     External_Name => BLAS_Prefix & "drotm" & BLAS_Suffix;
+   procedure SROTG(SA, SB : in out Real; C, S : out Real)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "srotg" & BLAS_Suffix;
+
+   procedure DROTG(SA, SB : in out Real; C, S : out Real)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "drotg" & BLAS_Suffix;
+
+   procedure SROTMG(SD1, SD2 : in out Real;
+                    SX1 : in out Real;
+                    SY1 : in Real;
+                    PARAMS : in out Modified_Givens_Params)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "srotmg" & BLAS_Suffix;
+
+   procedure DROTMG(DD1, DD2 : in out Real;
+                    DX1 : in out Real;
+                    DY1 : in Real;
+                    PARAMS : in out Modified_Givens_Params)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "drotmg" & BLAS_Suffix;
+
+   procedure SROT(N : FI;
+                  SX : Real_Vector_Handle;
+                  INCX : FP;
+                  SY : Real_Vector_Handle;
+                  INCY : FP;
+                  C : Real;
+                  S : Real)
+   with Import => True,
+   Convention => Fortran,
+   External_Name => BLAS_Prefix & "srot" & BLAS_Suffix;
+
+   procedure DROT(N : FI;
+                  DX : Real_Vector_Handle;
+                  INCX : FP;
+                  DY : Real_Vector_Handle;
+                  INCY : FP;
+                  C : Real;
+                  S : Real)
+   with Import => True,
+   Convention => Fortran,
+   External_Name => BLAS_Prefix & "drot" & BLAS_Suffix;
+
+   procedure SROTM(N : FP;
+                   SX : Real_Vector_Handle;
+                   INCX : FP;
+                   SY : Real_Vector_Handle;
+                   INCY : FP;
+                   PARAMS : in out Modified_Givens_Params)
+   with Import => True,
+   Convention => Fortran,
+   External_Name => BLAS_Prefix & "srotm" & BLAS_Suffix;
+
+   procedure DROTM(N : FP;
+                   DX : Real_Vector_Handle;
+                   INCX : FP;
+                   DY : Real_Vector_Handle;
+                   INCY : FP;
+                   PARAMS : in out Modified_Givens_Params)
+   with Import => True,
+   Convention => Fortran,
+   External_Name => BLAS_Prefix & "drotm" & BLAS_Suffix;
 --
 --     procedure SSWAP(N : FI;
 --                     SX : in out Real_Vector;

@@ -166,6 +166,86 @@ package body aBLAS.Real_BLAS is
    -- *************
 
    ----------
+   -- rotg --
+   ----------
+
+   procedure rotg(a, b : in out Real; c, s : out Real) is
+   begin
+       case Precision is
+         when Single => SROTG(A,B,C,S);
+         when Double => DROTG(A,B,C,S);
+      end case;
+   end rotg;
+
+   -----------
+   -- rotmg --
+   -----------
+
+   procedure rotmg(d1, d2 : in out Real;
+                   x1 : in out Real;
+                   y1 : in Real;
+                   params : out Modified_Givens_Params) is
+   begin
+       case Precision is
+         when Single => SROTMG(D1, D2, X1, Y1, PARAMS);
+         when Double => DROTMG(D1, D2, X1, Y1, PARAMS);
+      end case;
+   end rotmg;
+
+   ---------
+   -- rot --
+   ---------
+
+   procedure rot(X : in out Real_Vector'Class;
+                 Y : in out Real_Vector'Class;
+                 C : in Real;
+                 S : in Real)
+   is
+   begin
+      case Precision is
+         when Single => SROT(N => FP(X.Length),
+                             SX => X.Handle,
+                             INCX => FP(X.Stride),
+                             SY => Y.Handle,
+                             INCY => FP(Y.Stride),
+                             C => C,
+                             S => S);
+         when Double => DROT(N => FP(X.Length),
+                             DX => X.Handle,
+                             INCX => FP(X.Stride),
+                             DY => Y.Handle,
+                             INCY => FP(Y.Stride),
+                             C => C,
+                             S => S);
+      end case;
+   end rot;
+
+   ----------
+   -- rotm --
+   ----------
+
+   procedure rotm(X : in out Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  PARAMS : in out Modified_Givens_Params)
+   is
+   begin
+      case Precision is
+         when Single => SROTM(N => FP(X.Length),
+                              SX => X.Handle,
+                              INCX => FP(X.Stride),
+                              SY => Y.Handle,
+                              INCY => FP(Y.Stride),
+                              PARAMS => PARAMS);
+         when Double => DROTM(N => FP(X.Length),
+                              DX => X.Handle,
+                              INCX => FP(X.Stride),
+                              DY => Y.Handle,
+                              INCY => FP(Y.Stride),
+                              PARAMS => PARAMS);
+      end case;
+   end rotm;
+
+   ----------
    -- scal --
    ----------
 
@@ -248,73 +328,6 @@ package body aBLAS.Real_BLAS is
       end case;
    end gemv;
 
---
---     ----------
---     -- rotg --
---     ----------
---
---     procedure rotg(a, b : in out Real; c, s : out Real) is
---     begin
---         case Precision is
---           when Single => SROTG(A,B,C,S);
---           when Double => DROTG(A,B,C,S);
---        end case;
---     end rotg;
---
---     -----------
---     -- rotmg --
---     -----------
---
---     procedure rotmg(d1, d2 : in out Real;
---                     x1 : in out Real;
---                     y1 : in Real;
---                     params : out Modified_Givens_Params) is
---     begin
---         case Precision is
---           when Single => SROTMG(D1, D2, X1, Y1, PARAMS);
---           when Double => DROTMG(D1, D2, X1, Y1, PARAMS);
---        end case;
---     end rotmg;
---
---     ---------
---     -- rot --
---     ---------
---
---     procedure rot(X : in out Real_Vector;
---                   Y : in out Real_Vector;
---                   C : in Real;
---                   S : in Real;
---                   INCX : in Increment := 1;
---                   INCY : in Increment := 1;
---                   N : in Vector_Size := 0)
---     is
---        NN : constant Vector_Size := (if N = 0 then X'Length else N);
---     begin
---        case Precision is
---           when Single => SROT(NN,X,INCX,Y,INCY,C,S);
---           when Double => DROT(NN,X,INCX,Y,INCY,C,S);
---        end case;
---     end rot;
---
---     ----------
---     -- rotm --
---     ----------
---
---     procedure rotm(X : in out Real_Vector;
---                    Y : in out Real_Vector;
---                    PARAMS : in out Modified_Givens_Params;
---                    INCX : in Increment := 1;
---                    INCY : in Increment := 1;
---                    N : in Vector_Size := 0)
---     is
---        NN : constant Vector_Size := (if N = 0 then X'Length else N);
---     begin
---        case Precision is
---           when Single => SROTM(NN, X, INCX, Y, INCY, PARAMS);
---           when Double => DROTM(NN, X, INCX, Y, INCY, PARAMS);
---        end case;
---     end rotm;
---
 --     ----------
 --     -- swap --
 --     ----------
