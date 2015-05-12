@@ -101,6 +101,62 @@ package body aBLAS.Real_BLAS is
    function Make(A : Real_2D_Array) return Concrete_Real_Matrix is
       ((M => A'Length(1), N => A'Length(2), Data => A));
 
+   --
+   -- Real_Matrix_Vector
+   --
+   function Length(V : Real_Matrix_Vector) return Positive is
+     (V.Length);
+
+   function Stride(V : Real_Matrix_Vector) return Positive is
+     (V.Stride);
+
+   function Handle(V : in out Real_Matrix_Vector) return Real_Vector_Handle is
+     (V.Handle);
+
+   function Constant_Handle(V : in Real_Matrix_Vector) return Real_Vector_Constant_Handle is
+     (Real_Vector_Constant_Handle(V.Handle));
+
+   function Item(V : aliased in Real_Matrix_Vector; I : Integer)
+                 return Real is
+     (V.Base.Data(V.Start_Row + (I-1)*V.Offset_Row,
+                  V.Start_Column + (I-1)*V.Offset_Column ));
+
+   function Variable_Reference(V: aliased in out Real_Matrix_Vector; I : Integer)
+                               return Real_Scalar is
+     ((Element => V.Base.Data(V.Start_Row + (I-1)*V.Offset_Row,
+                  V.Start_Column + (I-1)*V.Offset_Column )'Access));
+
+   function Row(V : in out Concrete_Real_Matrix'Class; R : Positive) return Real_Matrix_Vector is
+     (Real_Matrix_Vector'(Base => V'Access,
+                          Start_Row => R,
+                          Start_Column => 1,
+                          Offset_Row => 0,
+                          Offset_Column => 1,
+                          Stride => V.M,
+                          Length => V.N,
+                          Handle => V.Data(R, 1)'Unchecked_Access));
+
+    function Column(V : in out Concrete_Real_Matrix'Class; C : Positive) return Real_Matrix_Vector is
+     (Real_Matrix_Vector'(Base => V'Access,
+                          Start_Row => 1,
+                          Start_Column => C,
+                          Offset_Row => 1,
+                          Offset_Column => 0,
+                          Stride => 1,
+                          Length => V.M,
+                          Handle => V.Data(1, C)'Unchecked_Access));
+
+    function Trace(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector is
+     (Real_Matrix_Vector'(Base => V'Access,
+                          Start_Row => 1,
+                          Start_Column => 1,
+                          Offset_Row => 1,
+                          Offset_Column => 1,
+                          Stride => V.M+1,
+                          Length => V.M,
+                          Handle => V.Data(1, 1)'Unchecked_Access));
+
+
    Map_Trans_Op : Internal.Map_Trans_Op_Array renames Internal.Map_Trans_Op;
 
    -- *************

@@ -74,6 +74,22 @@ package aBLAS.Real_BLAS is
                                return Real_Scalar;
    function Make(A : Real_2D_Array) return Concrete_Real_Matrix;
 
+   type Real_Matrix_Vector(Base : access Concrete_Real_Matrix'Class) is new Real_Vector
+   with private
+     with Constant_Indexing => Item,
+     Variable_Indexing => Variable_Reference;
+   function Length(V : Real_Matrix_Vector) return Positive;
+   function Stride(V : Real_Matrix_Vector) return Positive;
+   function Handle(V : in out Real_Matrix_Vector) return Real_Vector_Handle;
+   function Constant_Handle(V : in Real_Matrix_Vector) return Real_Vector_Constant_Handle;
+
+   function Row(V : in out Concrete_Real_Matrix'Class; R : Positive) return Real_Matrix_Vector
+     with Pre => R <= V.Rows;
+   function Column(V : in out Concrete_Real_Matrix'Class; C : Positive) return Real_Matrix_Vector
+     with Pre => C <= V.Columns;
+   function Trace(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector
+     with Pre => V.Rows = V.Columns;
+
    -- *************
    -- *************
    -- ** Level 1 **
@@ -154,6 +170,19 @@ private
          Data : Real_2D_Array(1..M, 1..N);
       end record;
 
+   type Real_Matrix_Vector(Base : access Concrete_Real_Matrix'Class) is new Real_Vector with
+      record
+         Start_Row, Start_Column : Positive;
+         Offset_Row, Offset_Column : Natural;
+         Stride : Positive;
+         Length : Positive;
+         Handle : Real_Vector_Handle;
+      end record;
+
+   function Item(V : aliased in Real_Matrix_Vector; I : Integer)
+                    return Real with Inline;
+   function Variable_Reference(V: aliased in out Real_Matrix_Vector; I : Integer)
+                               return Real_Scalar with Inline;
 
 --     -- Generate Givens plane rotation c<-cos(theta), s<-sin(theta) which would
 --     -- turn a vector [a, b] into [r, 0]. On exit a<-r and b is s or 1/c

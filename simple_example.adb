@@ -49,11 +49,28 @@ begin
    New_Line;
    Put_Line("*** Level 2 ***");
    Put("A => "); Put(A); New_Line;
-   Put("A(2,1) => "); Put(A(2,1)); New_Line;
    Put("X => "); Put(X); New_Line;
    Put("Y => "); Put(Y); New_Line;
    Put_Line("Perform Y <- A*X + Y");
    BLAS.gemv(A, X, Y, ALPHA => 1.0, BETA => 1.0);
    Put("Y => "); Put(Y); New_Line;
+
+   New_Line;
+   Put_Line("*** Slicing vectors from matrices ***");
+   Put("A => "); Put(A); New_Line;
+   Put("A(2,1) => "); Put(A(2,1)); New_Line;
+   Put("|A(1,j)|_1 => "); Put(BLAS.asum(A.Row(1))); New_Line;
+   Put("|A(i,2)|_1 => "); Put(BLAS.asum(A.Column(2))); New_Line;
+   Put("trace(A) => "); Put(A.Trace); New_Line;
+   Put("|trace(A)|_1 => "); Put(BLAS.asum(A.Trace)); New_Line;
+   Put_Line("Scale trace(A) by 2.5.");
+   declare
+      T : BLAS.Real_Matrix_Vector := A.Trace;
+   begin
+      BLAS.scal(T, 2.5);
+   end;
+   Put("A => "); Put(A); New_Line;
+   Put("|trace(A)|_1 => "); Put(BLAS.asum(A.Trace)); New_Line;
+
 
 end Simple_Example;
