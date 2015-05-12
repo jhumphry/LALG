@@ -156,6 +156,53 @@ package body aBLAS.Real_BLAS is
                           Length => V.M,
                           Handle => V.Data(1, 1)'Unchecked_Access));
 
+   -- Some equality operators
+
+   function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean is
+     (Left.Length = Right'Length and then
+        (for all I in 1..Left.Length => Left.Item(I) = Right(Right'First+I-1)));
+
+   function Approx_Equal(Left : Real_Vector'Class;
+                         Right : Real_1D_Array;
+                         Epsilon : Real := 0.001) return Boolean is
+     (
+      Left.Length = Right'Length and then
+        (for all I in 1..Left.Length => abs(Left.Item(I)-Right(Right'First+I-1)) <= Epsilon)
+     );
+
+   function "="(Left : Real_Matrix'Class; Right : Real_2D_Array) return Boolean is
+   begin
+      if Left.Rows /= Right'Length(1) or Left.Columns /= Right'Length(2) then
+         return False;
+      else
+         for I in 1..Left.Rows loop
+            for J in 1..Left.Columns loop
+               if Left.Item(I, J) /= Right(Right'First(1)+I-1, Right'First(2)+J-1) then
+                  return False;
+               end if;
+            end loop;
+         end loop;
+         return true;
+      end if;
+   end "=";
+
+   function Approx_Equal(Left : Real_Matrix'Class;
+                         Right : Real_2D_Array;
+                         Epsilon : Real := 0.001) return Boolean is
+   begin
+      if Left.Rows /= Right'Length(1) or Left.Columns /= Right'Length(2) then
+         return False;
+      else
+         for I in 1..Left.Rows loop
+            for J in 1..Left.Columns loop
+               if abs(Left.Item(I, J) - Right(Right'First(1)+I-1, Right'First(2)+J-1)) > Epsilon then
+                  return False;
+               end if;
+            end loop;
+         end loop;
+         return true;
+      end if;
+   end Approx_Equal;
 
    Map_Trans_Op : Internal.Map_Trans_Op_Array renames Internal.Map_Trans_Op;
 

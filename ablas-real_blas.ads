@@ -27,9 +27,6 @@ package aBLAS.Real_BLAS is
    function Variable_Reference(V: aliased in out Real_Vector; I : Integer)
                                return Real_Scalar is abstract;
 
-   function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean is
-     (Left.Length = Right'Length and then
-        (for all I in 1..Left.Length => Left.Item(I) = Right(Right'First+I-1)));
 
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with private
      with Constant_Indexing => Item,
@@ -93,6 +90,20 @@ package aBLAS.Real_BLAS is
      with Pre => C <= V.Columns;
    function Trace(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector
      with Pre => V.Rows = V.Columns;
+
+   -- Some equality operators
+
+   function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean;
+
+   function Approx_Equal(Left : Real_Vector'Class;
+                         Right : Real_1D_Array;
+                         Epsilon : Real := 0.001) return Boolean;
+
+   function "="(Left : Real_Matrix'Class; Right : Real_2D_Array) return Boolean;
+
+   function Approx_Equal(Left : Real_Matrix'Class;
+                         Right : Real_2D_Array;
+                         Epsilon : Real := 0.001) return Boolean;
 
    -- *************
    -- *************
