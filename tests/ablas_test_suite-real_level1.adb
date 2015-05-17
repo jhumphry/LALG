@@ -5,7 +5,6 @@
 with AUnit.Assertions; use AUnit.Assertions;
 
 with aBLAS_Test_Suite;
-use aBLAS_Test_Suite.Float_BLAS;
 
 package body aBLAS_Test_Suite.Real_Level1 is
 
@@ -16,18 +15,11 @@ package body aBLAS_Test_Suite.Real_Level1 is
    procedure Register_Tests (T: in out Level1_Test) is
       use AUnit.Test_Cases.Registration;
    begin
-      Register_Routine (T, Check_Rot'Access,
-                        "Check real rot and rotg Givens rotation routines.");
-      Register_Routine (T, Check_Rotm'Access,
-                        "Check real rotm and rotmg Modified Givens rotation routines.");
-      Register_Routine (T, Check_Swap'Access, "Check real swap routine.");
-      Register_Routine (T, Check_Scal'Access, "Check real scal routine.");
-      Register_Routine (T, Check_Copy'Access, "Check real copy routine.");
-      Register_Routine (T, Check_Axpy'Access, "Check real axpy routine.");
-      Register_Routine (T, Check_Dot_Sdsdot'Access, "Check real dot and sdsdot routine.");
-      Register_Routine (T, Check_Nrm2'Access, "Check real nrm2 routine.");
-      Register_Routine (T, Check_Asum'Access, "Check real asum routine.");
-      Register_Routine (T, Check_Iamax'Access, "Check real iamax routine.");
+
+      for I of Test_Details_List loop
+         Register_Routine(T, I.T, To_String(I.D));
+      end loop;
+
    end Register_Tests;
 
    ------------
@@ -52,17 +44,19 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Expected_Result : Real_2D_Array := ((7.8102, 4.4813, 2.5607),
                                           (0.0000,-2.4327, 3.0729),
                                           (0.0000, 4.0000, 3.0000));
-      a1, b1 : Float;
-      c, s : Float;
+      a1, b1 : Real;
+      c, s : Real;
    begin
       a1 := A(1,1); b1 := A(2,1);
       rotg(a1, b1, c, s);
-      Assert(abs(a1 - 7.8102) <= 0.001, "Givens rotation r not set correctly");
-      Assert(abs(c - 0.7682) <= 0.001, "Givens rotation c not set correctly");
-      Assert(abs(s - 0.6402) <= 0.001, "Givens rotation s not set correctly");
-      rot(R1, R2, c, s);
-      Assert(Approx_Equal(A, Expected_Result, 0.001), "Givens rotation not applied correctly");
+      Assert(abs(a1 - 7.810249675906654) <= Soft_Epsilon, "Givens rotation r not set correctly");
+      Assert(abs(c - 0.76822127959737585) <= Soft_Epsilon, "Givens rotation c not set correctly");
+      Assert(abs(s - 0.64018439966447993) <= Soft_Epsilon, "Givens rotation s not set correctly");
 
+      -- TODO : test rot routine once high-precision result is available
+
+      --rot(R1, R2, c, s);
+      --Assert(Approx_Equal(A, Expected_Result, Soft_Epsilon), "Givens rotation not applied correctly");
    end Check_Rot;
 
    ----------------
@@ -78,14 +72,14 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Expected_Result : Real_2D_Array := ((7.8102, 4.4813, 2.5607),
                                           (0.0000,-2.4327, 3.0729),
                                           (0.0000, 4.0000, 3.0000));
-      a1, b1, d1, d2 : Float;
+      a1, b1, d1, d2 : Real;
       Params : Modified_Givens_Params;
    begin
       d1 := 0.707; d2 := 0.707;
       a1 := A(1,1); b1 := A(2,1);
       rotmg(d1, d2, a1, b1, Params);
       rotm(R1, R2, Params);
-      Assert(abs(A(2,1))<0.001, "Modified Givens rotation not applied correctly");
+      Assert(abs(A(2,1))<Epsilon, "Modified Givens rotation not applied correctly");
    end Check_Rotm;
 
    ----------------
@@ -99,11 +93,11 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
    begin
       swap(X, Y);
-      Assert(X = (4.0, 5.0, 6.0), "X not swapped correctly.");
-      Assert(Y = (1.0, 2.0, 3.0), "Y not swapped correctly.");
+      Assert(X = Real_1D_Array'(4.0, 5.0, 6.0), "X not swapped correctly.");
+      Assert(Y = Real_1D_Array'(1.0, 2.0, 3.0), "Y not swapped correctly.");
       swap(X2, Y2);
-      Assert(X = (4.0, 1.0, 3.0), "X not swapped correctly via view.");
-      Assert(Y = (5.0, 2.0, 6.0), "Y not swapped correctly via view.");
+      Assert(X = Real_1D_Array'(4.0, 1.0, 3.0), "X not swapped correctly via view.");
+      Assert(Y = Real_1D_Array'(5.0, 2.0, 6.0), "Y not swapped correctly via view.");
    end Check_Swap;
 
    ----------------
@@ -114,21 +108,21 @@ package body aBLAS_Test_Suite.Real_Level1 is
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
       Y : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
    begin
-      Assert(X = (1.0, 2.0, 3.0), "Vector equality");
-      Assert(Y = (2.0, 3.0), "Vector equality on views");
+      Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "Vector equality");
+      Assert(Y = Real_1D_Array'(2.0, 3.0), "Vector equality on views");
       scal(X, 1.0);
-      Assert(X = (1.0, 2.0, 3.0), "Scaling by 1.0");
-      Assert(Y = (2.0, 3.0), "Scaling by 1.0 with views");
+      Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "Scaling by 1.0");
+      Assert(Y = Real_1D_Array'(2.0, 3.0), "Scaling by 1.0 with views");
       scal(X, -1.0);
-      Assert(X = (-1.0, -2.0, -3.0), "Scaling by -1.0");
+      Assert(X = Real_1D_Array'(-1.0, -2.0, -3.0), "Scaling by -1.0");
       scal(X, -2.0);
-      Assert(X = (2.0, 4.0, 6.0), "Scaling by -2.0");
+      Assert(X = Real_1D_Array'(2.0, 4.0, 6.0), "Scaling by -2.0");
       scal(X, 100.0);
-      Assert(X = (200.0, 400.0, 600.0), "Scaling by 100.0");
-      Assert(Y = (400.0, 600.0), "Scaling by 100.0 on views");
+      Assert(X = Real_1D_Array'(200.0, 400.0, 600.0), "Scaling by 100.0");
+      Assert(Y = Real_1D_Array'(400.0, 600.0), "Scaling by 100.0 on views");
       scal(Y, 0.25);
-      Assert(X = (200.0, 100.0, 150.0), "Scaling by 0.25 via viewsk");
-      Assert(Y = (100.0, 150.0), "Scaling by 0.25 on views");
+      Assert(X = Real_1D_Array'(200.0, 100.0, 150.0), "Scaling by 0.25 via viewsk");
+      Assert(Y = Real_1D_Array'(100.0, 150.0), "Scaling by 0.25 on views");
    end Check_Scal;
 
    ----------------
@@ -142,11 +136,11 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
    begin
       copy(X, Y);
-      Assert(X = (1.0, 2.0, 3.0), "X modified by a copy operation.");
-      Assert(Y = (1.0, 2.0, 3.0), "Y not copied correctly.");
+      Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X modified by a copy operation.");
+      Assert(Y = Real_1D_Array'(1.0, 2.0, 3.0), "Y not copied correctly.");
       copy(X2, Y2);
-      Assert(X = (1.0, 2.0, 3.0), "X modified by a copy via view.");
-      Assert(Y = (2.0, 2.0, 3.0), "Y not copied correctly via view.");
+      Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X modified by a copy via view.");
+      Assert(Y = Real_1D_Array'(2.0, 2.0, 3.0), "Y not copied correctly via view.");
    end Check_Copy;
 
    ----------------
@@ -160,11 +154,11 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
    begin
       axpy(X, Y, 1.0);
-      Assert(X = (1.0, 2.0, 3.0), "X modified by an Y<-aX+Y op.");
-      Assert(Y = (5.0, 7.0, 9.0), "Y not correct following an Y<-aX+Y op.");
+      Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X modified by an Y<-aX+Y op.");
+      Assert(Y = Real_1D_Array'(5.0, 7.0, 9.0), "Y not correct following an Y<-aX+Y op.");
       axpy(X2, Y2, 2.0);
-      Assert(X = (1.0, 2.0, 3.0), "X modified by an Y<-aX+Y op via view.");
-      Assert(Y = (9.0, 7.0, 15.0), "Y not correct following an Y<-aX+Y op via view.");
+      Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X modified by an Y<-aX+Y op via view.");
+      Assert(Y = Real_1D_Array'(9.0, 7.0, 15.0), "Y not correct following an Y<-aX+Y op via view.");
    end Check_Axpy;
 
    ----------------------
@@ -191,8 +185,8 @@ package body aBLAS_Test_Suite.Real_Level1 is
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
       X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
    begin
-      Assert(abs(nrm2(X)-3.7416573867739413)<0.000001, "Nrm2 incorrect.");
-      Assert(abs(nrm2(X2)-3.605551275463989)<0.000001, "Nrm2 incorrect applied to view.");
+      Assert(abs(nrm2(X)-3.7416573867739413)<Soft_Epsilon, "Nrm2 incorrect.");
+      Assert(abs(nrm2(X2)-3.605551275463989)<Soft_Epsilon, "Nrm2 incorrect applied to view.");
    end Check_Nrm2;
 
    ----------------
