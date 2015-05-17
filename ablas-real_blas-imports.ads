@@ -156,33 +156,33 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => BLAS_Prefix & "daxpy" & BLAS_Suffix;
 
---     function SDOT(N : FI;
---                    SX : Real_Vector;
---                    INCX : Increment;
---                    SY : Real_Vector;
---                    INCY : Increment) return Real
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "sdot" & BLAS_Suffix;
---
---     function DDOT(N : FI;
---                   DX : Real_Vector;
---                   INCX : Increment;
---                   DY : Real_Vector;
---                   INCY : Increment) return Real
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "ddot" & BLAS_Suffix;
---
---     function SDSDOT(N : FI;
---                     SB : Real;
---                     SX : Real_Vector;
---                     INCX : Increment;
---                     SY : Real_Vector;
---                     INCY : Increment) return Real
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "sdsdot" & BLAS_Suffix;
+   function SDOT(N : FI;
+                  SX : Real_Vector_Constant_Handle;
+                  INCX : FP;
+                  SY : Real_Vector_Constant_Handle;
+                  INCY : FP) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sdot" & BLAS_Suffix;
+
+   function DDOT(N : FI;
+                 DX : Real_Vector_Constant_Handle;
+                 INCX : FP;
+                 DY : Real_Vector_Constant_Handle;
+                 INCY : FP) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "ddot" & BLAS_Suffix;
+
+   function SDSDOT(N : FI;
+                   SB : Real;
+                   SX : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   SY : Real_Vector_Constant_Handle;
+                   INCY : FP) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sdsdot" & BLAS_Suffix;
 --
 --     function SNRM2(N : FI;
 --                    X : Real_Vector;

@@ -381,6 +381,54 @@ package body aBLAS.Real_BLAS is
       end case;
    end axpy;
 
+   ---------
+   -- dot --
+   ---------
+
+   function dot
+     (X, Y : in Real_Vector'Class)
+      return Real
+   is
+   begin
+      case Precision is
+         when Single => return SDOT(N => FP(X.Length),
+                                    SX => X.Constant_Handle,
+                                    INCX => FP(X.Stride),
+                                    SY => Y.Constant_Handle,
+                                    INCY => FP(Y.Stride));
+         when Double => return DDOT(N => FP(X.Length),
+                                    DX => X.Constant_Handle,
+                                    INCX => FP(X.Stride),
+                                    DY => Y.Constant_Handle,
+                                    INCY => FP(Y.Stride));
+      end case;
+   end dot;
+
+   ------------
+   -- sdsdot --
+   ------------
+
+   function sdsdot
+     (X, Y: in Real_Vector'Class;
+      B : in Real := 0.0)
+      return Real
+   is
+   begin
+      case Precision is
+         when Single => return SDSDOT(N => FP(X.Length),
+                                      SB => B,
+                                      SX => X.Constant_Handle,
+                                      INCX => FP(X.Stride),
+                                      SY => Y.Constant_Handle,
+                                      INCY => FP(Y.Stride));
+         when Double => return DDOT(N => FP(X.Length),
+                                    DX => X.Constant_Handle,
+                                    INCX => FP(X.Stride),
+                                    DY => Y.Constant_Handle,
+                                    INCY => FP(Y.Stride)) + B;
+      end case;
+   end sdsdot;
+
    ----------
    -- asum --
    ----------
@@ -448,44 +496,6 @@ package body aBLAS.Real_BLAS is
 
 
 
---     ---------
---     -- dot --
---     ---------
---
---     function dot
---       (X, Y : in Real_Vector;
---        INCX : in Increment := 1;
---        INCY : in Increment := 1;
---        N : in Vector_Size := 0)
---        return Real
---     is
---        NN : constant Vector_Size := (if N = 0 then X'Length else N);
---     begin
---        case Precision is
---           when Single => return SDOT(NN,X,INCX,Y,INCY);
---           when Double => return DDOT(NN,X,INCX,Y,INCY);
---        end case;
---     end dot;
---
---     ------------
---     -- sdsdot --
---     ------------
---
---     function sdsdot
---       (SX, SY: in Real_Vector;
---        SB : in Real := 0.0;
---        INCX : in Increment := 1;
---        INCY : in Increment := 1;
---        N : in Vector_Size := 0)
---        return Real
---     is
---        NN : constant Vector_Size := (if N = 0 then SX'Length else N);
---     begin
---        case Precision is
---           when Single => return SDSDOT(NN,SB,SX,INCX,SY,INCY);
---           when Double => return DDOT(NN,SX,INCX,SY,INCY) + SB;
---        end case;
---     end sdsdot;
 --
 --     ----------
 --     -- nrm2 --

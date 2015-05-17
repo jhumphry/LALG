@@ -24,6 +24,7 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Register_Routine (T, Check_Scal'Access, "Check real scal routine.");
       Register_Routine (T, Check_Copy'Access, "Check real copy routine.");
       Register_Routine (T, Check_Axpy'Access, "Check real axpy routine.");
+      Register_Routine (T, Check_Dot_Sdsdot'Access, "Check real dot and sdsdot routine.");
       Register_Routine (T, Check_Asum'Access, "Check real asum routine.");
    end Register_Tests;
 
@@ -163,6 +164,22 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Assert(X = (1.0, 2.0, 3.0), "X modified by an Y<-aX+Y op via view.");
       Assert(Y = (9.0, 7.0, 15.0), "Y not correct following an Y<-aX+Y op via view.");
    end Check_Axpy;
+
+   ----------------------
+   -- Check_Dot_Sdsdot --
+   ----------------------
+
+   procedure Check_Dot_Sdsdot (T : in out Test_Cases.Test_Case'Class) is
+      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+      Y : aliased Concrete_Real_Vector := Make((4.0, 5.0, 6.0));
+      Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
+   begin
+      Assert(dot(X, Y) = 32.0, "dot incorrect.");
+      Assert(sdsdot(X, Y, 4.0) = 36.0, "sdsdot incorrect.");
+      Assert(dot(X2, Y2) = 26.0, "dot incorrect applied to views.");
+      Assert(sdsdot(X2, Y2, -4.0) = 22.0, "sdsdot incorrect applied to views.");
+   end Check_Dot_Sdsdot;
 
    ----------------
    -- Check_Asum --
