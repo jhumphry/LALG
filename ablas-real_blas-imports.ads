@@ -83,25 +83,25 @@ private generic package aBLAS.Real_BLAS.Imports is
    with Import => True,
    Convention => Fortran,
    External_Name => BLAS_Prefix & "drotm" & BLAS_Suffix;
---
---     procedure SSWAP(N : FI;
---                     SX : in out Real_Vector;
---                     INCX : Increment;
---                     SY : in out Real_Vector;
---                     INCY : Increment)
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "sswap" & BLAS_Suffix;
---
---     procedure DSWAP(N : FI;
---                     DX : in out Real_Vector;
---                     INCX : Increment;
---                     DY : in out Real_Vector;
---                     INCY : Increment)
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "dswap" & BLAS_Suffix;
---
+
+   procedure SSWAP(N : FI;
+                   SX : Real_Vector_Handle;
+                   INCX : FP;
+                   SY : Real_Vector_Handle;
+                   INCY : FP)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sswap" & BLAS_Suffix;
+
+   procedure DSWAP(N : FI;
+                   DX : Real_Vector_Handle;
+                   INCX : FP;
+                   DY : Real_Vector_Handle;
+                   INCY : FP)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dswap" & BLAS_Suffix;
+
    procedure SSCAL(N : FP;
                    SA : Real;
                    SX : Real_Vector_Handle;

@@ -20,6 +20,7 @@ package body aBLAS_Test_Suite.Real_Level1 is
                         "Check real rot and rotg Givens rotation routines.");
       Register_Routine (T, Check_Rotm'Access,
                         "Check real rotm and rotmg Modified Givens rotation routines.");
+      Register_Routine (T, Check_Swap'Access, "Check real swap routine.");
       Register_Routine (T, Check_Scal'Access, "Check real scal routine.");
       Register_Routine (T, Check_Asum'Access, "Check real asum routine.");
    end Register_Tests;
@@ -81,6 +82,24 @@ package body aBLAS_Test_Suite.Real_Level1 is
       rotm(R1, R2, Params);
       Assert(abs(A(2,1))<0.001, "Modified Givens rotation not applied correctly");
    end Check_Rotm;
+
+   ----------------
+   -- Check_Swap --
+   ----------------
+
+   procedure Check_Swap (T : in out Test_Cases.Test_Case'Class) is
+      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+      Y : aliased Concrete_Real_Vector := Make((4.0, 5.0, 6.0));
+      Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
+   begin
+      swap(X, Y);
+      Assert(X = (4.0, 5.0, 6.0), "X not swapped correctly.");
+      Assert(Y = (1.0, 2.0, 3.0), "Y not swapped correctly.");
+      swap(X2, Y2);
+      Assert(X = (4.0, 1.0, 3.0), "X not swapped correctly via view.");
+      Assert(Y = (5.0, 2.0, 6.0), "Y not swapped correctly via view.");
+   end Check_Swap;
 
    ----------------
    -- Check_Scal --

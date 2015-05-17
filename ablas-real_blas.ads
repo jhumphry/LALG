@@ -141,6 +141,9 @@ package aBLAS.Real_BLAS is
    --  asum <- |X|_1
    function asum(X : in Real_Vector'Class) return Real;
 
+   -- Y <-> X
+   procedure swap(X : in out Real_Vector'Class;
+                  Y : in out Real_Vector'Class);
    -- X <- aX
    procedure scal(X : in out Real_Vector'Class;
                   A : in Real := 1.0);
@@ -225,15 +228,7 @@ private
                                return Real_Scalar with Inline;
 
 
---
---     -- Y <-> X
---     procedure swap(X : in out Real_Vector;
---                    Y : in out Real_Vector;
---                    INCX : in Increment := 1;
---                    INCY : in Increment := 1;
---                    N : in Vector_Size := 0)
---       with Inline;
---
+
 
 --
 --     -- Y <- X

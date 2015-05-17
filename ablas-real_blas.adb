@@ -293,6 +293,28 @@ package body aBLAS.Real_BLAS is
    end rotm;
 
    ----------
+   -- swap --
+   ----------
+
+   procedure swap(X : in out Real_Vector'Class;
+                  Y : in out Real_Vector'Class)
+    is
+   begin
+      case Precision is
+         when Single => SSWAP(N => FP(X.Length),
+                              SX => X.Handle,
+                              INCX => FP(X.Stride),
+                              SY => Y.Handle,
+                              INCY => FP(Y.Stride));
+         when Double => DSWAP(N => FP(X.Length),
+                              DX => X.Handle,
+                              INCX => FP(X.Stride),
+                              DY => Y.Handle,
+                              INCY => FP(Y.Stride));
+      end case;
+   end swap;
+
+   ----------
    -- scal --
    ----------
 
@@ -375,24 +397,7 @@ package body aBLAS.Real_BLAS is
       end case;
    end gemv;
 
---     ----------
---     -- swap --
---     ----------
---
---     procedure swap(X : in out Real_Vector;
---                    Y : in out Real_Vector;
---                    INCX : in Increment := 1;
---                    INCY : in Increment := 1;
---                    N : in Vector_Size := 0)
---      is
---         NN : constant Vector_Size := (if N = 0 then X'Length else N);
---     begin
---        case Precision is
---           when Single => SSWAP(NN,X,INCX,Y,INCY);
---           when Double => DSWAP(NN,X,INCX,Y,INCY);
---        end case;
---     end swap;
---
+
 
 --
 --     ----------

@@ -18,6 +18,7 @@ package aBLAS_Test_Suite.Real_Level1 is
 
    procedure Check_Rot (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Rotm (T : in out Test_Cases.Test_Case'Class);
+   procedure Check_Swap (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Scal (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Asum (T : in out Test_Cases.Test_Case'Class);
 
