@@ -430,6 +430,25 @@ package body aBLAS.Real_BLAS is
    end sdsdot;
 
    ----------
+   -- nrm2 --
+   ----------
+
+   function nrm2
+     (X : in Real_Vector'Class)
+      return Real
+   is
+   begin
+      case Precision is
+         when Single => return SNRM2(N => FP(X.Length),
+                                     X => X.Constant_Handle,
+                                     INCX => FP(X.Stride));
+         when Double => return DNRM2(N => FP(X.Length),
+                                     X => X.Constant_Handle,
+                                     INCX => FP(X.Stride));
+      end case;
+   end nrm2;
+
+   ----------
    -- asum --
    ----------
 
@@ -497,23 +516,7 @@ package body aBLAS.Real_BLAS is
 
 
 --
---     ----------
---     -- nrm2 --
---     ----------
---
---     function nrm2
---       (X : in Real_Vector;
---        INCX : in Increment := 1;
---        N : in Vector_Size := 0)
---        return Real
---     is
---        NN : constant Vector_Size := (if N = 0 then X'Length else N);
---     begin
---        case Precision is
---           when Single => return SNRM2(NN,X,INCX);
---           when Double => return DNRM2(NN,X,INCX);
---        end case;
---     end nrm2;
+
 --
 
 --

@@ -183,20 +183,20 @@ private generic package aBLAS.Real_BLAS.Imports is
      with Import => True,
      Convention => Fortran,
      External_Name => BLAS_Prefix & "sdsdot" & BLAS_Suffix;
---
---     function SNRM2(N : FI;
---                    X : Real_Vector;
---                    INCX : Increment) return Real
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "snrm2" & BLAS_Suffix;
---
---     function DNRM2(N : FI;
---                    X : Real_Vector;
---                    INCX : Increment) return Real
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "dnrm2" & BLAS_Suffix;
+
+   function SNRM2(N : FI;
+                  X : Real_Vector_Constant_Handle;
+                  INCX : FP) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "snrm2" & BLAS_Suffix;
+
+   function DNRM2(N : FI;
+                  X : Real_Vector_Constant_Handle;
+                  INCX : FP) return Real
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dnrm2" & BLAS_Suffix;
 
    function SASUM(N : FP;
                   SX : Real_Vector_Constant_Handle;

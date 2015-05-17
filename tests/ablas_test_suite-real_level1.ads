@@ -23,6 +23,7 @@ package aBLAS_Test_Suite.Real_Level1 is
    procedure Check_Copy (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Axpy (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Dot_Sdsdot (T : in out Test_Cases.Test_Case'Class);
+   procedure Check_Nrm2 (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Asum (T : in out Test_Cases.Test_Case'Class);
 
 end aBLAS_Test_Suite.Real_Level1;

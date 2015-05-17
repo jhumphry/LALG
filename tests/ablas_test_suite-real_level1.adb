@@ -25,6 +25,7 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Register_Routine (T, Check_Copy'Access, "Check real copy routine.");
       Register_Routine (T, Check_Axpy'Access, "Check real axpy routine.");
       Register_Routine (T, Check_Dot_Sdsdot'Access, "Check real dot and sdsdot routine.");
+      Register_Routine (T, Check_Nrm2'Access, "Check real nrm2 routine.");
       Register_Routine (T, Check_Asum'Access, "Check real asum routine.");
    end Register_Tests;
 
@@ -180,6 +181,18 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Assert(dot(X2, Y2) = 26.0, "dot incorrect applied to views.");
       Assert(sdsdot(X2, Y2, -4.0) = 22.0, "sdsdot incorrect applied to views.");
    end Check_Dot_Sdsdot;
+
+   ----------------
+   -- Check_Nrm2 --
+   ----------------
+
+   procedure Check_Nrm2 (T : in out Test_Cases.Test_Case'Class) is
+      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+   begin
+      Assert(abs(nrm2(X)-3.7416573867739413)<0.000001, "Nrm2 incorrect.");
+      Assert(abs(nrm2(X2)-3.605551275463989)<0.000001, "Nrm2 incorrect applied to view.");
+   end Check_Nrm2;
 
    ----------------
    -- Check_Asum --
