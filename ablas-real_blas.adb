@@ -357,6 +357,31 @@ package body aBLAS.Real_BLAS is
    end copy;
 
    ----------
+   -- axpy --
+   ----------
+
+   procedure axpy(X : in Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  A : in Real := 1.0)
+   is
+   begin
+      case Precision is
+         when Single => SAXPY(N => FP(X.Length),
+                              SA => A,
+                              SX => X.Constant_Handle,
+                              INCX => FP(X.Stride),
+                              SY => Y.Handle,
+                              INCY => FP(Y.Stride));
+         when Double => DAXPY(N => FP(X.Length),
+                              DA => A,
+                              DX => X.Constant_Handle,
+                              INCX => FP(X.Stride),
+                              DY => Y.Handle,
+                              INCY => FP(Y.Stride));
+      end case;
+   end axpy;
+
+   ----------
    -- asum --
    ----------
 
@@ -422,26 +447,7 @@ package body aBLAS.Real_BLAS is
 
 
 
---
---     ----------
---     -- axpy --
---     ----------
---
---     procedure axpy(X : in Real_Vector;
---                    Y : in out Real_Vector;
---                    A : in Real := 1.0;
---                    INCX : in Increment := 1;
---                    INCY : in Increment := 1;
---                    N : in Vector_Size := 0)
---     is
---         NN : constant Vector_Size := (if N = 0 then X'Length else N);
---     begin
---        case Precision is
---           when Single => SAXPY(NN,A,X,INCX,Y,INCY);
---           when Double => DAXPY(NN,A,X,INCX,Y,INCY);
---        end case;
---     end axpy;
---
+
 --     ---------
 --     -- dot --
 --     ---------

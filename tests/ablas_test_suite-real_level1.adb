@@ -23,6 +23,7 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Register_Routine (T, Check_Swap'Access, "Check real swap routine.");
       Register_Routine (T, Check_Scal'Access, "Check real scal routine.");
       Register_Routine (T, Check_Copy'Access, "Check real copy routine.");
+      Register_Routine (T, Check_Axpy'Access, "Check real axpy routine.");
       Register_Routine (T, Check_Asum'Access, "Check real asum routine.");
    end Register_Tests;
 
@@ -144,6 +145,24 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Assert(X = (1.0, 2.0, 3.0), "X modified by a copy via view.");
       Assert(Y = (2.0, 2.0, 3.0), "Y not copied correctly via view.");
    end Check_Copy;
+
+   ----------------
+   -- Check_Axpy --
+   ----------------
+
+   procedure Check_Axpy (T : in out Test_Cases.Test_Case'Class) is
+      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+      Y : aliased Concrete_Real_Vector := Make((4.0, 5.0, 6.0));
+      Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
+   begin
+      axpy(X, Y, 1.0);
+      Assert(X = (1.0, 2.0, 3.0), "X modified by an Y<-aX+Y op.");
+      Assert(Y = (5.0, 7.0, 9.0), "Y not correct following an Y<-aX+Y op.");
+      axpy(X2, Y2, 2.0);
+      Assert(X = (1.0, 2.0, 3.0), "X modified by an Y<-aX+Y op via view.");
+      Assert(Y = (9.0, 7.0, 15.0), "Y not correct following an Y<-aX+Y op via view.");
+   end Check_Axpy;
 
    ----------------
    -- Check_Asum --

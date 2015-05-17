@@ -135,27 +135,27 @@ private generic package aBLAS.Real_BLAS.Imports is
      with Import => True,
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dcopy" & BLAS_Suffix;
---
---     procedure SAXPY(N : FI;
---                     SA : Real;
---                     SX : Real_Vector;
---                     INCX : Increment;
---                     SY : in out Real_Vector;
---                     INCY : Increment)
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "saxpy" & BLAS_Suffix;
---
---     procedure DAXPY(N : FI;
---                     DA : Real;
---                     DX : Real_Vector;
---                     INCX : Increment;
---                     DY : in out Real_Vector;
---                     INCY : Increment)
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "daxpy" & BLAS_Suffix;
---
+
+   procedure SAXPY(N : FI;
+                   SA : Real;
+                   SX : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   SY : Real_Vector_Handle;
+                   INCY : FP)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "saxpy" & BLAS_Suffix;
+
+   procedure DAXPY(N : FI;
+                   DA : Real;
+                   DX : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   DY : Real_Vector_Handle;
+                   INCY : FP)
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "daxpy" & BLAS_Suffix;
+
 --     function SDOT(N : FI;
 --                    SX : Real_Vector;
 --                    INCX : Increment;

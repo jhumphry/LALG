@@ -148,6 +148,11 @@ package aBLAS.Real_BLAS is
    procedure copy(X : in Real_Vector'Class;
                   Y : out Real_Vector'Class);
 
+   -- Y <- aX + Y
+   procedure axpy(X : in Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  A : in Real := 1.0);
+
    --  asum <- |X|_1
    function asum(X : in Real_Vector'Class) return Real;
 
@@ -231,26 +236,6 @@ private
                                return Real_Scalar with Inline;
 
 
-
-
---
---     -- Y <- X
---     procedure copy(X : in Real_Vector;
---                    Y : out Real_Vector;
---                    INCX : in Increment := 1;
---                    INCY : in Increment := 1;
---                    N : in Vector_Size := 0)
---       with Inline;
---
---     -- Y <- aX + Y
---     procedure axpy(X : in Real_Vector;
---                    Y : in out Real_Vector;
---                    A : in Real := 1.0;
---                    INCX : in Increment := 1;
---                    INCY : in Increment := 1;
---                    N : in Vector_Size := 0)
---       with Inline;
---
 --     -- dot <- X^T . Y
 --     function dot(X, Y : in Real_Vector;
 --                  INCX : in Increment := 1;
@@ -273,30 +258,11 @@ private
 --                   INCX : in Increment := 1;
 --                   N : in Vector_Size := 0) return Real
 --       with Inline;
---
---     --  asum <- |X|_1
---     function asum(X : in Real_Vector;
---                   INCX : in Increment := 1;
---                   N : in Vector_Size := 0) return Real
---       with Inline;
---
+
 --     --  iamax <- 1st k where X_k = MAX(abs(X_k))
 --     function iamax(X : in Real_Vector;
 --                    INCX : in Increment := 1;
 --                    N : in Vector_Size := 0) return Integer
---       with Inline;
---
-
---
---     -- gemv <- alpha*A*x
---     function gemv(A : in Real_Matrix;
---                   X : in Real_Vector;
---                   ALPHA : in Real := 1.0;
---                   TRANS : in Real_Trans_Op := No_Transpose;
---                   INCX : in Increment := 1;
---                   M, N : in Vector_Size := 0;
---                   Convention : in Matrix_Convention := Default_Matrix_Convention)
---                   return Real_Vector
 --       with Inline;
 --
 --     -- A <- alpha*x*yT + A
