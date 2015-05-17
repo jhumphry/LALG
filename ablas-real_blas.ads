@@ -168,6 +168,9 @@ package aBLAS.Real_BLAS is
    --  asum <- |X|_1
    function asum(X : in Real_Vector'Class) return Real;
 
+    --  iamax <- 1st k where X_k = MAX(abs(X_k))
+   function iamax(X : in Real_Vector'Class) return Integer;
+
    -- *************
    -- *************
    -- ** Level 2 **
@@ -247,11 +250,7 @@ private
    function Variable_Reference(V: aliased in out Real_Matrix_Vector; I : Integer)
                                return Real_Scalar with Inline;
 
---     --  iamax <- 1st k where X_k = MAX(abs(X_k))
---     function iamax(X : in Real_Vector;
---                    INCX : in Increment := 1;
---                    N : in Vector_Size := 0) return Integer
---       with Inline;
+
 --
 --     -- A <- alpha*x*yT + A
 --     procedure ger(X : in Real_Vector;

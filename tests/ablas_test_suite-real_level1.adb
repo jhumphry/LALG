@@ -27,6 +27,7 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Register_Routine (T, Check_Dot_Sdsdot'Access, "Check real dot and sdsdot routine.");
       Register_Routine (T, Check_Nrm2'Access, "Check real nrm2 routine.");
       Register_Routine (T, Check_Asum'Access, "Check real asum routine.");
+      Register_Routine (T, Check_Iamax'Access, "Check real iamax routine.");
    end Register_Tests;
 
    ------------
@@ -205,5 +206,19 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Assert(asum(X) = 6.0, "asum(X) not working");
       Assert(asum(Y) = 15.0, "asum(Y) not working (not absolute values?)");
    end Check_Asum;
+
+   -----------------
+   -- Check_Iamax --
+   -----------------
+
+   procedure Check_Iamax (T : in out Test_Cases.Test_Case'Class) is
+      X : Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      Y : aliased Concrete_Real_Vector := Make((4.0, -5.0, -6.0));
+      Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 1, Length => 2);
+   begin
+      Assert(iamax(X) = 3, "iamax(X) not working");
+      Assert(iamax(Y) = 3, "iamax(Y) not working");
+      Assert(iamax(Y2) = 2, "iamax(Y2) not working on view");
+   end Check_Iamax;
 
 end aBLAS_Test_Suite.Real_Level1;

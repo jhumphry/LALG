@@ -466,6 +466,19 @@ package body aBLAS.Real_BLAS is
       end case;
    end asum;
 
+   function iamax(X : in Real_Vector'Class) return Integer
+   is
+   begin
+      case Precision is
+         when Single => return Natural(ISAMAX(N => FP(X.Length),
+                                              SX => X.Constant_Handle,
+                                              INCX => FP(X.Stride)));
+         when Double => return Natural(IDAMAX(N => FP(X.Length),
+                                              DX => X.Constant_Handle,
+                                              INCX => FP(X.Stride)));
+      end case;
+   end iamax;
+
    -- *************
    -- *************
    -- ** Level 2 **
@@ -511,29 +524,6 @@ package body aBLAS.Real_BLAS is
       end case;
    end gemv;
 
-
-
-
-
---
-
---
-
---
---     function iamax(X : in Real_Vector;
---                    INCX : in Increment := 1;
---                    N : in Vector_Size := 0) return Integer
---     is
---        NN : constant Vector_Size := (if N = 0 then X'Length else N);
---     begin
---        case Precision is
---           when Single => return Natural(ISAMAX(NN,X,INCX))+X'First-1;
---           when Double => return Natural(IDAMAX(NN,X,INCX))+X'First-1;
---        end case;
---     end iamax;
---
-
---
 --     function gemv(A : in Real_Matrix;
 --                   X : in Real_Vector;
 --                   ALPHA : in Real := 1.0;
