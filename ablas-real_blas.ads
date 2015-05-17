@@ -138,9 +138,6 @@ package aBLAS.Real_BLAS is
                   Y : in out Real_Vector'Class;
                   PARAMS : in out Modified_Givens_Params);
 
-   --  asum <- |X|_1
-   function asum(X : in Real_Vector'Class) return Real;
-
    -- Y <-> X
    procedure swap(X : in out Real_Vector'Class;
                   Y : in out Real_Vector'Class);
@@ -150,6 +147,9 @@ package aBLAS.Real_BLAS is
    -- Y <- X
    procedure copy(X : in Real_Vector'Class;
                   Y : out Real_Vector'Class);
+
+   --  asum <- |X|_1
+   function asum(X : in Real_Vector'Class) return Real;
 
    -- *************
    -- *************
