@@ -22,6 +22,7 @@ package body aBLAS_Test_Suite.Real_Level1 is
                         "Check real rotm and rotmg Modified Givens rotation routines.");
       Register_Routine (T, Check_Swap'Access, "Check real swap routine.");
       Register_Routine (T, Check_Scal'Access, "Check real scal routine.");
+      Register_Routine (T, Check_Copy'Access, "Check real copy routine.");
       Register_Routine (T, Check_Asum'Access, "Check real asum routine.");
    end Register_Tests;
 
@@ -125,6 +126,24 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Assert(X = (200.0, 100.0, 150.0), "Scaling by 0.25 via viewsk");
       Assert(Y = (100.0, 150.0), "Scaling by 0.25 on views");
    end Check_Scal;
+
+   ----------------
+   -- Check_Copy --
+   ----------------
+
+   procedure Check_Copy (T : in out Test_Cases.Test_Case'Class) is
+      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+      Y : aliased Concrete_Real_Vector := Make((4.0, 5.0, 6.0));
+      Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
+   begin
+      copy(X, Y);
+      Assert(X = (1.0, 2.0, 3.0), "X modified by a copy operation.");
+      Assert(Y = (1.0, 2.0, 3.0), "Y not copied correctly.");
+      copy(X2, Y2);
+      Assert(X = (1.0, 2.0, 3.0), "X modified by a copy via view.");
+      Assert(Y = (2.0, 2.0, 3.0), "Y not copied correctly via view.");
+   end Check_Copy;
 
    ----------------
    -- Check_Asum --

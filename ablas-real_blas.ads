@@ -147,6 +147,9 @@ package aBLAS.Real_BLAS is
    -- X <- aX
    procedure scal(X : in out Real_Vector'Class;
                   A : in Real := 1.0);
+   -- Y <- X
+   procedure copy(X : in Real_Vector'Class;
+                  Y : out Real_Vector'Class);
 
    -- *************
    -- *************

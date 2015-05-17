@@ -335,6 +335,28 @@ package body aBLAS.Real_BLAS is
    end scal;
 
    ----------
+   -- copy --
+   ----------
+
+   procedure copy(X : in Real_Vector'Class;
+                  Y : out Real_Vector'Class)
+    is
+   begin
+      case Precision is
+         when Single => SCOPY(N => FP(X.Length),
+                              SX => X.Constant_Handle,
+                              INCX => FP(X.Stride),
+                              SY => Y.Handle,
+                              INCY => FP(Y.Stride));
+         when Double => DCOPY(N => FP(X.Length),
+                              DX => X.Constant_Handle,
+                              INCX => FP(X.Stride),
+                              DY => Y.Handle,
+                              INCY => FP(Y.Stride));
+      end case;
+   end copy;
+
+   ----------
    -- asum --
    ----------
 
@@ -399,24 +421,7 @@ package body aBLAS.Real_BLAS is
 
 
 
---
---     ----------
---     -- copy --
---     ----------
---
---     procedure copy(X : in Real_Vector;
---                    Y : out Real_Vector;
---                    INCX : in Increment := 1;
---                    INCY : in Increment := 1;
---                    N : in Vector_Size := 0)
---      is
---         NN : constant Vector_Size := (if N = 0 then X'Length else N);
---     begin
---        case Precision is
---           when Single => SCOPY(NN,X,INCX,Y,INCY);
---           when Double => DCOPY(NN,X,INCX,Y,INCY);
---        end case;
---     end copy;
+
 --
 --     ----------
 --     -- axpy --
