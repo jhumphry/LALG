@@ -23,9 +23,11 @@ package aBLAS.Real_BLAS is
    function Stride(V : Real_Vector) return Positive is abstract;
    function Handle(V : in out Real_Vector) return Real_Vector_Handle is abstract;
    function Constant_Handle(V : in Real_Vector) return Real_Vector_Constant_Handle is abstract;
-   function Item(V : aliased in Real_Vector; I : Integer) return Real is abstract;
+   function Item(V : aliased in Real_Vector; I : Integer) return Real is abstract
+     with Pre'Class => (I <= V.Length);
    function Variable_Reference(V: aliased in out Real_Vector; I : Integer)
-                               return Real_Scalar is abstract;
+                               return Real_Scalar is abstract
+     with Pre'Class => (I <= V.Length);
 
 
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with private
@@ -58,9 +60,11 @@ package aBLAS.Real_BLAS is
    function Leading_Dimension(V : Real_Matrix) return Positive is abstract;
    function Handle(V : in out Real_Matrix) return Real_Matrix_Handle is abstract;
    function Constant_Handle(V : in Real_Matrix) return Real_Matrix_Constant_Handle is abstract;
-   function Item(V : aliased in Real_Matrix; R, C : Integer) return Real is abstract;
+   function Item(V : aliased in Real_Matrix; R, C : Integer) return Real is abstract
+     with Pre'Class => (R <= V.Rows and C <= V.Columns);
    function Variable_Reference(V: aliased in out Real_Matrix; R, C : Integer)
-                               return Real_Scalar is abstract;
+                               return Real_Scalar is abstract
+     with Pre'Class => (R <= V.Rows and C <= V.Columns);
 
    type Concrete_Real_Matrix(M, N : Positive) is new Real_Matrix with private
      with Constant_Indexing => Item,
@@ -183,20 +187,23 @@ package aBLAS.Real_BLAS is
                   Y : in out Real_Vector'Class;
                   ALPHA : in Real := 1.0;
                   BETA : in Real := 0.0;
-                  TRANS : in Real_Trans_Op := No_Transpose);
+                  TRANS : in Real_Trans_Op := No_Transpose)
+     with Pre => (X.Length = A.Columns and Y.Length = A.Rows);
 
    -- gemv <- alpha*A*x
    function gemv(A : in Real_Matrix'Class;
                  X : in Real_Vector'Class;
                  ALPHA : in Real := 1.0;
                  TRANS : in Real_Trans_Op := No_Transpose)
-                 return Real_Vector'Class;
+                 return Real_Vector'Class
+     with Pre => (X.Length = A.Columns);
 
    -- A <- alpha*x*yT + A
    procedure ger(X : in Real_Vector'Class;
                  Y : in Real_Vector'Class;
                  A : in out Real_Matrix'Class;
-                 ALPHA : in Real := 1.0);
+                 ALPHA : in Real := 1.0)
+     with Pre => (X.Length = A.Rows and Y.Length = A.Columns);
 
 private
 
