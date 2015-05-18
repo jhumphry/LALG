@@ -524,31 +524,23 @@ package body aBLAS.Real_BLAS is
       end case;
    end gemv;
 
---     function gemv(A : in Real_Matrix;
---                   X : in Real_Vector;
---                   ALPHA : in Real := 1.0;
---                   TRANS : in Real_Trans_Op := No_Transpose;
---                   INCX : in Increment := 1;
---                   M, N : in Vector_Size := 0;
---                   Convention : in Matrix_Convention := Default_Matrix_Convention)
---                   return Real_Vector is
---        Y : Real_Vector(1..A'Length(1));
---        -- As Beta is being set to zero, Y should only be written to and not read
---        -- so it does not matter that it is uninitialised.
---     begin
---        gemv(A => A,
---             X => X,
---             Y => Y,
---             ALPHA => ALPHA,
---             BETA => 0.0,
---             TRANS => TRANS,
---             INCX => INCX,
---             INCY => 1,
---             M => M,
---             N => N,
---             Convention => Convention);
---        return Y;
---     end gemv;
+   function gemv(A : in Real_Matrix'Class;
+                 X : in Real_Vector'Class;
+                 ALPHA : in Real := 1.0;
+                 TRANS : in Real_Trans_Op := No_Transpose)
+                 return Real_Vector'Class is
+      Y : Concrete_Real_Vector(N => A.Rows);
+      -- As Beta is being set to zero, Y should only be written to and not read
+      -- so it does not matter that it is uninitialised.
+   begin
+      gemv(A => A,
+           X => X,
+           Y => Y,
+           ALPHA => ALPHA,
+           BETA => 0.0,
+           TRANS => TRANS);
+      return Y;
+   end gemv;
 --
 --     procedure ger(X : in Real_Vector;
 --                   Y : in Real_Vector;

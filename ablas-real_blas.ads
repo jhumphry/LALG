@@ -185,6 +185,13 @@ package aBLAS.Real_BLAS is
                   BETA : in Real := 0.0;
                   TRANS : in Real_Trans_Op := No_Transpose);
 
+   -- gemv <- alpha*A*x
+   function gemv(A : in Real_Matrix'Class;
+                 X : in Real_Vector'Class;
+                 ALPHA : in Real := 1.0;
+                 TRANS : in Real_Trans_Op := No_Transpose)
+                 return Real_Vector'Class;
+
 private
 
    package IntFort renames Interfaces.Fortran;

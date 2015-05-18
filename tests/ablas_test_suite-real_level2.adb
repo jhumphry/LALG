@@ -47,6 +47,7 @@ package body aBLAS_Test_Suite.Real_Level2 is
       assert(A = Real_2D_Array'((1.0, 2.0, 3.0),
              (5.0, 6.0, 7.0)), "A changed by GEMV operation");
       assert(Y = Real_1D_Array'(6.0, 48.0), "Y not set correctly by GEMV operation");
+      assert(gemv(A, X, 1.0) =  Real_1D_Array'(14.0, 38.0), "Function version of GEMV not working");
    end Check_Gemv;
 
 end aBLAS_Test_Suite.Real_Level2;
