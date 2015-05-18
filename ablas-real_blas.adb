@@ -541,73 +541,41 @@ package body aBLAS.Real_BLAS is
            TRANS => TRANS);
       return Y;
    end gemv;
---
---     procedure ger(X : in Real_Vector;
---                   Y : in Real_Vector;
---                   A : in out Real_Matrix;
---                   ALPHA : in Real := 1.0;
---                   INCX : in Increment := 1;
---                   INCY : in Increment := 1;
---                   M, N : in Vector_Size := 0;
---                   Convention : in Matrix_Convention := Default_Matrix_Convention)
---     is
---        M_P : Vector_Size;
---        N_P : Vector_Size;
---     begin
---        case Convention is
---           when Row_Major =>
---              M_P := (if N = 0 then Y'Length else N);
---              N_P := (if M = 0 then X'Length else M);
---              case Precision is
---                 when Single =>
---                    SGER(M => M_P,
---                         N => N_P,
---                         ALPHA => ALPHA,
---                         X => Y,
---                         INCX => INCY,
---                         Y => X,
---                         INCY => INCX,
---                         A => A,
---                         LDA => A'Length(2));
---                 when Double =>
---                    DGER(M => M_P,
---                         N => N_P,
---                         ALPHA => ALPHA,
---                         X => Y,
---                         INCX => INCY,
---                         Y => X,
---                         INCY => INCX,
---                         A => A,
---                         LDA => A'Length(2));
---              end case;
---           when Column_Major =>
---              M_P := (if M = 0 then X'Length else M);
---              N_P := (if N = 0 then Y'Length else N);
---              case Precision is
---                 when Single =>
---                    SGER(M => M_P,
---                         N => N_P,
---                         ALPHA => ALPHA,
---                         X => X,
---                         INCX => INCX,
---                         Y => Y,
---                         INCY => INCY,
---                         A => A,
---                         LDA => A'Length(2));
---                 when Double =>
---                    DGER(M => M_P,
---                         N => N_P,
---                         ALPHA => ALPHA,
---                         X => X,
---                         INCX => INCX,
---                         Y => Y,
---                         INCY => INCY,
---                         A => A,
---                         LDA => A'Length(2));
---              end case;
---        end case;
---     end ger;
---
+
+   ---------
+   -- ger --
+   ---------
+
+   procedure ger(X : in Real_Vector'Class;
+                 Y : in Real_Vector'Class;
+                 A : in out Real_Matrix'Class;
+                 ALPHA : in Real := 1.0)
+   is
+   begin
+      case Precision is
+         when Single =>
+            SGER(M => FP(A.Rows),
+                 N => FP(A.Columns),
+                 ALPHA => ALPHA,
+                 X => X.Constant_Handle,
+                 INCX => FP(X.Stride),
+                 Y => Y.Constant_Handle,
+                 INCY => FP(Y.Stride),
+                 A => A.Handle,
+                 LDA => FP(A.Leading_Dimension));
+         when Double =>
+            DGER(M => FP(A.Rows),
+                 N => FP(A.Columns),
+                 ALPHA => ALPHA,
+                 X => X.Constant_Handle,
+                 INCX => FP(X.Stride),
+                 Y => Y.Constant_Handle,
+                 INCY => FP(Y.Stride),
+                 A => A.Handle,
+                 LDA => FP(A.Leading_Dimension));
+      end case;
+   end ger;
+
 --     -- *************
 --     -- *************
 --     -- ** Level 3 **

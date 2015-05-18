@@ -263,34 +263,34 @@ private generic package aBLAS.Real_BLAS.Imports is
      with Import => True,
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dgemv" & BLAS_Suffix;
---
---     procedure SGER( M: FI;
---                     N : FI;
---                     ALPHA : Real;
---                     X : Real_Vector;
---                     INCX : Increment;
---                     Y : Real_Vector;
---                     INCY : Increment;
---                     A : in out Real_Matrix;
---                     LDA : FI
---                    )
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "sger" & BLAS_Suffix;
---
---     procedure DGER( M: FI;
---                     N : FI;
---                     ALPHA : Real;
---                     X : Real_Vector;
---                     INCX : Increment;
---                     Y : Real_Vector;
---                     INCY : Increment;
---                     A : in out Real_Matrix;
---                     LDA : FI
---                    )
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "dger" & BLAS_Suffix;
+
+   procedure SGER( M: FI;
+                   N : FI;
+                   ALPHA : Real;
+                   X : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   Y : Real_Vector_Constant_Handle;
+                   INCY : FP;
+                   A : Real_Matrix_Handle;
+                   LDA : FP
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sger" & BLAS_Suffix;
+
+   procedure DGER( M: FI;
+                   N : FI;
+                   ALPHA : Real;
+                   X : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   Y : Real_Vector_Constant_Handle;
+                   INCY : FP;
+                   A : Real_Matrix_Handle;
+                   LDA : FP
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dger" & BLAS_Suffix;
 --
 --     -- *************
 --     -- *************

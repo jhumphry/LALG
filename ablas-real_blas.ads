@@ -192,6 +192,12 @@ package aBLAS.Real_BLAS is
                  TRANS : in Real_Trans_Op := No_Transpose)
                  return Real_Vector'Class;
 
+   -- A <- alpha*x*yT + A
+   procedure ger(X : in Real_Vector'Class;
+                 Y : in Real_Vector'Class;
+                 A : in out Real_Matrix'Class;
+                 ALPHA : in Real := 1.0);
+
 private
 
    package IntFort renames Interfaces.Fortran;
@@ -257,18 +263,6 @@ private
    function Variable_Reference(V: aliased in out Real_Matrix_Vector; I : Integer)
                                return Real_Scalar with Inline;
 
-
---
---     -- A <- alpha*x*yT + A
---     procedure ger(X : in Real_Vector;
---                   Y : in Real_Vector;
---                   A : in out Real_Matrix;
---                   ALPHA : in Real := 1.0;
---                   INCX : in Increment := 1;
---                   INCY : in Increment := 1;
---                   M, N : in Vector_Size := 0;
---                   Convention : in Matrix_Convention := Default_Matrix_Convention)
---       with Inline;
 --
 --     -- *************
 --     -- *************

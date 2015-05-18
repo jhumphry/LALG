@@ -50,4 +50,24 @@ package body aBLAS_Test_Suite.Real_Level2 is
       assert(gemv(A, X, 1.0) =  Real_1D_Array'(14.0, 38.0), "Function version of GEMV not working");
    end Check_Gemv;
 
+   ---------------
+   -- Check_Ger --
+   ---------------
+
+   procedure Check_Ger (T : in out Test_Cases.Test_Case'Class) is
+      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      Y : aliased Concrete_Real_Vector := Make((-4.0, 5.0));
+      A : aliased Concrete_Real_Matrix := Make(((0.0, 0.0),
+                                               (0.0, 0.0),
+                                               (0.0, 0.0)));
+   begin
+      ger(X, Y, A, 2.0);
+      assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X changed by GER operation");
+      assert(Y = Real_1D_Array'(-4.0, 5.0), "Y changed by GER operation");
+      assert(A = Real_2D_Array'(((-8.0, 10.0),
+             (-16.0, 20.0),
+             (-24.0, 30.0))), "A not set correctly by GER operation");
+
+   end Check_Ger;
+
 end aBLAS_Test_Suite.Real_Level2;
