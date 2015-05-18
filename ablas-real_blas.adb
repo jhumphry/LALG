@@ -88,7 +88,7 @@ package body aBLAS.Real_BLAS is
 
    function Rows(V : Concrete_Real_Matrix) return Positive is (V.M);
    function Columns(V : Concrete_Real_Matrix) return Positive is (V.N);
-   function Leading_Dimension(V : Concrete_Real_Matrix) return Positive is (V.N);
+   function Leading_Dimension(V : Concrete_Real_Matrix) return Positive is (V.M);
    function Handle(V : in out Concrete_Real_Matrix) return Real_Matrix_Handle is
      (V.Data(1,1)'Unchecked_Access);
    function Constant_Handle(V : in Concrete_Real_Matrix) return Real_Matrix_Constant_Handle is
