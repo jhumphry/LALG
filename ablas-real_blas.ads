@@ -38,8 +38,9 @@ package aBLAS.Real_BLAS is
    function Handle(V : in out Concrete_Real_Vector) return Real_Vector_Handle;
    function Constant_Handle(V : in Concrete_Real_Vector) return Real_Vector_Constant_Handle;
    function Values(V : Concrete_Real_Vector) return Real_1D_Array;
-
    function Make(A : Real_1D_Array) return Concrete_Real_Vector;
+   function Zeros(Length : Positive) return Concrete_Real_Vector;
+   function Ones(Length : Positive) return Concrete_Real_Vector;
 
    type Real_Vector_View(Base : access Concrete_Real_Vector'Class) is new Real_Vector
    with private
@@ -78,6 +79,9 @@ package aBLAS.Real_BLAS is
    function Variable_Reference(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
                                return Real_Scalar;
    function Make(A : Real_2D_Array) return Concrete_Real_Matrix;
+   function Zeros(Rows, Columns : Positive) return Concrete_Real_Matrix;
+   function Ones(Rows, Columns : Positive) return Concrete_Real_Matrix;
+   function Identity(Rows : Positive) return Concrete_Real_Matrix;
 
    type Real_Matrix_Vector(Base : access Concrete_Real_Matrix'Class) is new Real_Vector
    with private

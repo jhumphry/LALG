@@ -29,6 +29,15 @@ procedure Simple_Example is
 
 begin
 
+   Put_Line("Test output");
+   Put("Zero vector length 15: ");
+   Put(BLAS.Concrete_Real_Vector'(BLAS.Zeros(15))); New_Line;
+   Put("Identity matrix 3x3:");
+   Put(BLAS.Identity(3)); New_Line;
+   Put("Identity matrix 10x10:");
+   Put(BLAS.Identity(10)); New_Line;
+
+   New_Line;
    Put_Line("*** Level 1 ***");
 
    Put("P => "); Put(P); New_Line;

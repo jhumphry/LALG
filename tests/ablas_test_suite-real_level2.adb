@@ -57,9 +57,7 @@ package body aBLAS_Test_Suite.Real_Level2 is
    procedure Check_Ger (T : in out Test_Cases.Test_Case'Class) is
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
       Y : aliased Concrete_Real_Vector := Make((-4.0, 5.0));
-      A : aliased Concrete_Real_Matrix := Make(((0.0, 0.0),
-                                               (0.0, 0.0),
-                                               (0.0, 0.0)));
+      A : aliased Concrete_Real_Matrix := Zeros(3,2);
    begin
       ger(X, Y, A, 2.0);
       assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X changed by GER operation");

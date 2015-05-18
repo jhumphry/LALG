@@ -35,6 +35,12 @@ package body aBLAS.Real_BLAS is
    function Make(A : Real_1D_Array) return Concrete_Real_Vector is
      (Concrete_Real_Vector'(N => A'Length, Data => A));
 
+   function Zeros(Length : Positive) return Concrete_Real_Vector is
+     (Concrete_Real_Vector'(N => Length, Data => (others => 0.0)));
+
+   function Ones(Length : Positive) return Concrete_Real_Vector is
+     (Concrete_Real_Vector'(N => Length, Data => (others => 1.0)));
+
    --
    -- Real_Vector_View
    --
@@ -100,6 +106,22 @@ package body aBLAS.Real_BLAS is
       ((Element => V.Data(R,C)'Access));
    function Make(A : Real_2D_Array) return Concrete_Real_Matrix is
       ((M => A'Length(1), N => A'Length(2), Data => A));
+   function Zeros(Rows, Columns : Positive) return Concrete_Real_Matrix is
+     ((M => Rows, N => Columns, Data => (others => (others => 0.0))));
+   function Ones(Rows, Columns : Positive) return Concrete_Real_Matrix is
+     ((M => Rows, N => Columns, Data => (others => (others => 1.0))));
+   function Identity(Rows : Positive) return Concrete_Real_Matrix is
+      Result : Concrete_Real_Matrix(Rows, Rows);
+   begin
+      for I in 1..Rows loop
+         for J in 1..Rows loop
+            Result.Data(I,J) := (if I=J then 1.0 else 0.0);
+         end loop;
+      end loop;
+      return Result;
+   end Identity;
+
+
 
    --
    -- Real_Matrix_Vector
