@@ -31,8 +31,8 @@ package aBLAS.Real_BLAS is
 
 
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with private
-     with Constant_Indexing => Item,
-     Variable_Indexing => Variable_Reference;
+     with Constant_Indexing => Item_CRV,
+     Variable_Indexing => Variable_Reference_CRV;
    function Length(V : Concrete_Real_Vector) return Positive;
    function Stride(V : Concrete_Real_Vector) return Positive;
    function Handle(V : in out Concrete_Real_Vector) return Real_Vector_Handle;
@@ -44,8 +44,8 @@ package aBLAS.Real_BLAS is
 
    type Real_Vector_View(Base : access Concrete_Real_Vector'Class) is new Real_Vector
    with private
-     with Constant_Indexing => Item,
-     Variable_Indexing => Variable_Reference;
+     with Constant_Indexing => Item_RVV,
+     Variable_Indexing => Variable_Reference_RVV;
    function Length(V : Real_Vector_View) return Positive;
    function Stride(V : Real_Vector_View) return Positive;
    function Handle(V : in out Real_Vector_View) return Real_Vector_Handle;
@@ -68,16 +68,13 @@ package aBLAS.Real_BLAS is
      with Pre'Class => (R <= V.Rows and C <= V.Columns);
 
    type Concrete_Real_Matrix(M, N : Positive) is new Real_Matrix with private
-     with Constant_Indexing => Item,
-     Variable_Indexing => Variable_Reference;
+     with Constant_Indexing => Item_CRM,
+     Variable_Indexing => Variable_Reference_CRM;
    function Rows(V : Concrete_Real_Matrix) return Positive;
    function Columns(V : Concrete_Real_Matrix) return Positive;
    function Leading_Dimension(V : Concrete_Real_Matrix) return Positive;
    function Handle(V : in out Concrete_Real_Matrix) return Real_Matrix_Handle;
    function Constant_Handle(V : in Concrete_Real_Matrix) return Real_Matrix_Constant_Handle;
-   function Item(V : aliased in Concrete_Real_Matrix; R, C : Integer) return Real;
-   function Variable_Reference(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
-                               return Real_Scalar;
    function Make(A : Real_2D_Array) return Concrete_Real_Matrix;
    function Zeros(Rows, Columns : Positive) return Concrete_Real_Matrix;
    function Ones(Rows, Columns : Positive) return Concrete_Real_Matrix;
@@ -85,8 +82,8 @@ package aBLAS.Real_BLAS is
 
    type Real_Matrix_Vector(Base : access Concrete_Real_Matrix'Class) is new Real_Vector
    with private
-     with Constant_Indexing => Item,
-     Variable_Indexing => Variable_Reference;
+     with Constant_Indexing => Item_RMV,
+     Variable_Indexing => Variable_Reference_RMV;
    function Length(V : Real_Matrix_Vector) return Positive;
    function Stride(V : Real_Matrix_Vector) return Positive;
    function Handle(V : in out Real_Matrix_Vector) return Real_Vector_Handle;
@@ -236,11 +233,15 @@ private
       record
          Data : Real_1D_Array(1..N);
       end record;
+
    function Item(V : aliased in Concrete_Real_Vector; I : Integer)
-                               return Real with Inline;
+                 return Real with Inline;
+   function Item_CRV(V : aliased in Concrete_Real_Vector; I : Integer)
+                     return Real renames Item;
    function Variable_Reference(V: aliased in out Concrete_Real_Vector; I : Integer)
                                return Real_Scalar with Inline;
-
+   function Variable_Reference_CRV(V: aliased in out Concrete_Real_Vector; I : Integer)
+                               return Real_Scalar renames Variable_Reference;
 
    type Real_Vector_View(Base : access Concrete_Real_Vector'Class) is new Real_Vector
    with
@@ -252,13 +253,25 @@ private
       end record;
    function Item(V : aliased in Real_Vector_View; I : Integer)
                  return Real with Inline;
+   function Item_RVV(V : aliased in Real_Vector_View; I : Integer)
+                 return Real renames Item;
    function Variable_Reference(V: aliased in out Real_Vector_View; I : Integer)
                                return Real_Scalar with Inline;
+   function Variable_Reference_RVV(V: aliased in out Real_Vector_View; I : Integer)
+                               return Real_Scalar renames Variable_Reference;
 
    type Concrete_Real_Matrix(M, N : Positive) is new Real_Matrix with
       record
          Data : Real_2D_Array(1..M, 1..N);
       end record;
+
+   function Item(V : aliased in Concrete_Real_Matrix; R, C : Integer) return Real;
+   function Item_CRM(V : aliased in Concrete_Real_Matrix; R, C : Integer)
+                     return Real renames Item;
+   function Variable_Reference(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
+                               return Real_Scalar;
+   function Variable_Reference_CRM(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
+                                return Real_Scalar renames Variable_Reference;
 
    type Real_Matrix_Vector(Base : access Concrete_Real_Matrix'Class) is new Real_Vector with
       record
@@ -270,9 +283,13 @@ private
       end record;
 
    function Item(V : aliased in Real_Matrix_Vector; I : Integer)
-                    return Real with Inline;
+                 return Real with Inline;
+   function Item_RMV(V : aliased in Real_Matrix_Vector; I : Integer)
+                 return Real renames Item;
    function Variable_Reference(V: aliased in out Real_Matrix_Vector; I : Integer)
                                return Real_Scalar with Inline;
+   function Variable_Reference_RMV(V: aliased in out Real_Matrix_Vector; I : Integer)
+                               return Real_Scalar renames Variable_Reference;
 
 --
 --     -- *************
