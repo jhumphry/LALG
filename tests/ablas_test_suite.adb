@@ -5,6 +5,7 @@
 
 with aBLAS_Test_Suite.Real_Level1;
 with aBLAS_Test_Suite.Real_Level2;
+with aBLAS_Test_Suite.Real_Level3;
 
 package body aBLAS_Test_Suite is
    use AUnit.Test_Suites;
@@ -24,6 +25,11 @@ package body aBLAS_Test_Suite is
                                                                  "Float");
    Test_Float_Real_Level2 : aliased Float_Real_Level2.Level2_Test;
 
+   package Float_Real_Level3 is new aBLAS_Test_Suite.Real_Level3(Float_BLAS_Base,
+                                                                 Float_BLAS,
+                                                                 "Float");
+   Test_Float_Real_Level3 : aliased Float_Real_Level3.Level3_Test;
+
    package Long_Float_BLAS_Base is new aBLAS(Real => Long_Float);
    package Long_Float_BLAS is new Long_Float_BLAS_Base.Real_BLAS;
 
@@ -37,6 +43,11 @@ package body aBLAS_Test_Suite is
                                                                       "Long_Float");
    Test_Long_Float_Real_Level2 : aliased Long_Float_Real_Level2.Level2_Test;
 
+   package Long_Float_Real_Level3 is new aBLAS_Test_Suite.Real_Level3(Long_Float_BLAS_Base,
+                                                                      Long_Float_BLAS,
+                                                                      "Long_Float");
+   Test_Long_Float_Real_Level3 : aliased Long_Float_Real_Level3.Level3_Test;
+
    -----------
    -- Suite --
    -----------
@@ -45,8 +56,10 @@ package body aBLAS_Test_Suite is
    begin
       Add_Test (Result'Access, Test_Float_Real_Level1'Access);
       Add_Test (Result'Access, Test_Float_Real_Level2'Access);
+      Add_Test (Result'Access, Test_Float_Real_Level3'Access);
       Add_Test (Result'Access, Test_Long_Float_Real_Level1'Access);
       Add_Test (Result'Access, Test_Long_Float_Real_Level2'Access);
+      Add_Test (Result'Access, Test_Long_Float_Real_Level3'Access);
       return Result'Access;
    end Suite;
 
