@@ -3,7 +3,7 @@
 
 with Interfaces.Fortran;
 
-private package aBLAS.Internal is
+private generic package aBLAS.Internal is
 
    package IntFort renames Interfaces.Fortran;
 

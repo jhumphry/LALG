@@ -8,13 +8,14 @@ with AUnit.Test_Cases; use AUnit.Test_Cases;
 private with Ada.Strings.Unbounded;
 
 generic
-   with package BLAS is new aBLAS.Real_BLAS(<>);
+   with package BLAS_Base is new aBLAS(<>);
+   with package BLAS is new BLAS_Base.Real_BLAS;
    Real_Type_Name : String := "<Unknown>";
-   Epsilon : BLAS.Real := BLAS."*"(2.0, BLAS.Real'Model_Epsilon);
-   Soft_Epsilon : BLAS.Real := BLAS."*"(1000.0, BLAS.Real'Model_Epsilon);
+   Epsilon : BLAS_Base.Real := BLAS_Base."*"(2.0, BLAS_Base.Real'Model_Epsilon);
+   Soft_Epsilon : BLAS_Base.Real := BLAS_Base."*"(1000.0, BLAS_Base.Real'Model_Epsilon);
 package aBLAS_Test_Suite.Real_Level1 is
 
-   use BLAS;
+   use BLAS_Base, BLAS;
 
    type Level1_Test is new Test_Cases.Test_Case with null record;
 
