@@ -18,21 +18,6 @@ package aBLAS is
    Fortran_Convention : constant Matrix_Convention := Column_Major;
 
    -- Enumeration types for operation specifications
-   -- The following come from Table 2.9 Operator Arguments in the BLAST Forum
-   -- standard 2001-08-21
-
-   -- Norm to use
-   type Norm is (One_Norm,
-                 Real_One_Norm,
-                 Two_Norm,
-                 Frobenius_Norm,
-                 Inf_Norm,
-                 Real_Inf_Norm,
-                 Max_Norm,
-                 Real_Max_Norm);
-
-   -- Sort order
-   type Sort_Order is (Increasing_Order, Decreasing_Order);
 
    -- Operand side for non-commutative operations
    type Side is (Left, Right);
