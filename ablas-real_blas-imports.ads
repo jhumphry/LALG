@@ -291,47 +291,47 @@ private generic package aBLAS.Real_BLAS.Imports is
      with Import => True,
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dger" & BLAS_Suffix;
---
---     -- *************
---     -- *************
---     -- ** Level 3 **
---     -- *************
---     -- *************
---
---     procedure SGEMM(TRANA : FC;
---                     TRANB : FC;
---                     M: FI;
---                     N : FI;
---                     K : FI;
---                     ALPHA : Real;
---                     A : Real_Matrix;
---                     LDA : FI;
---                     B : Real_Matrix;
---                     LDB : FI;
---                     BETA : Real;
---                     C : in out Real_Matrix;
---                     LDC : FI
---                    )
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "sgemm" & BLAS_Suffix;
---
---     procedure DGEMM(TRANA : FC;
---                     TRANB : FC;
---                     M: FI;
---                     N : FI;
---                     K : FI;
---                     ALPHA : Real;
---                     A : Real_Matrix;
---                     LDA : FI;
---                     B : Real_Matrix;
---                     LDB : FI;
---                     BETA : Real;
---                     C : in out Real_Matrix;
---                     LDC : FI
---                    )
---       with Import => True,
---       Convention => Fortran,
---       External_Name => BLAS_Prefix & "dgemm" & BLAS_Suffix;
+
+   -- *************
+   -- *************
+   -- ** Level 3 **
+   -- *************
+   -- *************
+
+   procedure SGEMM(TRANA : FC;
+                   TRANB : FC;
+                   M: FI;
+                   N : FI;
+                   K : FI;
+                   ALPHA : Real;
+                   A : Real_Matrix_Constant_Handle;
+                   LDA : FI;
+                   B : Real_Matrix_Constant_Handle;
+                   LDB : FI;
+                   BETA : Real;
+                   C : Real_Matrix_Handle;
+                   LDC : FI
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "sgemm" & BLAS_Suffix;
+
+   procedure DGEMM(TRANA : FC;
+                   TRANB : FC;
+                   M: FI;
+                   N : FI;
+                   K : FI;
+                   ALPHA : Real;
+                   A : Real_Matrix_Constant_Handle;
+                   LDA : FI;
+                   B : Real_Matrix_Constant_Handle;
+                   LDB : FI;
+                   BETA : Real;
+                   C : Real_Matrix_Handle;
+                   LDC : FI
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dgemm" & BLAS_Suffix;
 
 end aBLAS.Real_BLAS.Imports;

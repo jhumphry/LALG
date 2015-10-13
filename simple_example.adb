@@ -24,6 +24,9 @@ procedure Simple_Example is
                                                         Length => 3);
 
    A : aliased BLAS.Concrete_Real_Matrix := BLAS.Make(((3.0, 4.0), (5.0, 6.0)));
+   B : aliased BLAS.Concrete_Real_Matrix := BLAS.Make(((1.0, 2.0), (3.0, 4.0)));
+   C : aliased BLAS.Concrete_Real_Matrix := BLAS.Zeros(2,2);
+
    X : aliased BLAS.Concrete_Real_Vector := BLAS.Make((1.0, 2.0));
    Y : aliased BLAS.Concrete_Real_Vector := BLAS.Make((5.0, 5.0));
 
@@ -81,5 +84,17 @@ begin
    Put("A => "); Put(A); New_Line;
    Put("|trace(A)|_1 => "); Put(asum(A.Trace)); New_Line;
 
+   New_Line;
+   Put_Line("*** Level 3 ***");
+   Put("A => "); Put(A); New_Line;
+   Put("B => "); Put(B); New_Line;
+   Put("C => "); Put(C); New_Line;
+   Put_Line("Perform C <- 2.0*A*B + C");
+   gemm(A, B, C, ALPHA => 2.0, BETA => 1.0);
+   Put("C => "); Put(C); New_Line;
+   Put_Line("Perform C <- 2.0*A*B + C");
+   gemm(A, B, C, ALPHA => 2.0, BETA => 1.0);
+   Put("1.0*At*B => "); Put(gemm(A,B,1.0,BLAS.Transpose,BLAS.No_Transpose));
+   New_Line;
 
 end Simple_Example;

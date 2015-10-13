@@ -99,34 +99,30 @@ package aBLAS.Real_BLAS is
                  A : in out Real_Matrix'Class;
                  ALPHA : in Real := 1.0)
      with Pre => (X.Length = A.Rows and Y.Length = A.Columns);
---
---     -- *************
---     -- *************
---     -- ** Level 3 **
---     -- *************
---     -- *************
---
---     -- C <- alpha*A*B + beta*C
---     procedure gemm(A : in Real_Matrix;
---                    B : in Real_Matrix;
---                    C : in out Real_Matrix;
---                    ALPHA : in Real := 1.0;
---                    BETA : in Real := 0.0;
---                    TRANA : in Real_Trans_Op := No_Transpose;
---                    TRANB : in Real_Trans_Op := No_Transpose;
---                    M, N, K : in Vector_Size := 0;
---                    Convention : in Matrix_Convention := Default_Matrix_Convention)
---       with Inline;
---
---     -- gemm <- alpha*A*B
---     function gemm(A : in Real_Matrix;
---                   B : in Real_Matrix;
---                   ALPHA : in Real := 1.0;
---                   TRANA : in Real_Trans_Op := No_Transpose;
---                   TRANB : in Real_Trans_Op := No_Transpose;
---                   M, N, K : in Vector_Size := 0;
---                   Convention : in Matrix_Convention := Default_Matrix_Convention)
---                   return Real_Matrix
---       with Inline;
+
+   -- *************
+   -- *************
+   -- ** Level 3 **
+   -- *************
+   -- *************
+
+   -- C <- alpha*A*B + beta*C
+   procedure gemm(A : in Real_Matrix'Class;
+                  B : in Real_Matrix'Class;
+                  C : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0;
+                  TRANA : in Real_Trans_Op := No_Transpose;
+                  TRANB : in Real_Trans_Op := No_Transpose)
+     with Inline;
+
+   -- gemm <- alpha*A*B
+   function gemm(A : in Real_Matrix'Class;
+                 B : in Real_Matrix'Class;
+                 ALPHA : in Real := 1.0;
+                 TRANA : in Real_Trans_Op := No_Transpose;
+                 TRANB : in Real_Trans_Op := No_Transpose)
+                 return Concrete_Real_Matrix
+     with Inline;
 
 end aBLAS.Real_BLAS;

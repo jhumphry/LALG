@@ -382,154 +382,72 @@ package body aBLAS.Real_BLAS is
       end case;
    end ger;
 
---     -- *************
---     -- *************
---     -- ** Level 3 **
---     -- *************
---     -- *************
---
---     procedure gemm(A : in Real_Matrix;
---                    B : in Real_Matrix;
---                    C : in out Real_Matrix;
---                    ALPHA : in Real := 1.0;
---                    BETA : in Real := 0.0;
---                    TRANA : in Real_Trans_Op := No_Transpose;
---                    TRANB : in Real_Trans_Op := No_Transpose;
---                    M, N, K : in Vector_Size := 0;
---                    Convention : in Matrix_Convention := Default_Matrix_Convention) is
---        M_P : Vector_Size;
---        N_P : Vector_Size;
---        K_P : Vector_Size;
---     begin
---        case Convention is
---           when Column_Major =>
---              case TRANA is
---              when No_Transpose =>
---                 M_P := (if M = 0 then A'Length(2) else M);
---                 K_P := (if K = 0 then A'Length(1) else K);
---              when Transpose =>
---                 M_P := (if M = 0 then A'Length(1) else M);
---                 K_P := (if K = 0 then A'Length(2) else K);
---              end case;
---
---              case TRANB is
---              when No_Transpose =>
---                 N_P := (if N = 0 then B'Length(1) else N);
---              when Transpose =>
---                 N_P := (if N = 0 then B'Length(2) else N);
---              end case;
---
---              case Precision is
---              when Single =>
---                 SGEMM(TRANA => Map_Trans_Op(TRANA),
---                       TRANB => Map_Trans_Op(TRANB),
---                       M => M_P,
---                       N => N_P,
---                       K => K_P,
---                       ALPHA => ALPHA,
---                       A => A,
---                       LDA => A'Length(2),
---                       B => B,
---                       LDB => B'Length(2),
---                       BETA => BETA,
---                       C => C,
---                       LDC => C'Length(2)
---                      );
---              when Double =>
---                 DGEMM(TRANA => Map_Trans_Op(TRANA),
---                       TRANB => Map_Trans_Op(TRANB),
---                       M => M_P,
---                       N => N_P,
---                       K => K_P,
---                       ALPHA => ALPHA,
---                       A => A,
---                       LDA => A'Length(2),
---                       B => B,
---                       LDB => B'Length(2),
---                       BETA => BETA,
---                       C => C,
---                       LDC => C'Length(2)
---                      );
---              end case;
---
---           when Row_Major =>
---              case TRANA is
---              when No_Transpose =>
---                 M_P := (if M = 0 then B'Length(2) else M);
---                 K_P := (if K = 0 then B'Length(1) else K);
---              when Transpose =>
---                 M_P := (if M = 0 then B'Length(1) else M);
---                 K_P := (if K = 0 then B'Length(2) else K);
---              end case;
---
---              case TRANB is
---              when No_Transpose =>
---                 N_P := (if N = 0 then A'Length(1) else N);
---              when Transpose =>
---                 N_P := (if N = 0 then A'Length(2) else N);
---              end case;
---
---              case Precision is
---              when Single =>
---                 SGEMM(TRANA => Map_Trans_Op(TRANB),
---                       TRANB => Map_Trans_Op(TRANA),
---                       M => M_P,
---                       N => N_P,
---                       K => K_P,
---                       ALPHA => ALPHA,
---                       A => B,
---                       LDA => B'Length(2),
---                       B => A,
---                       LDB => A'Length(2),
---                       BETA => BETA,
---                       C => C,
---                       LDC => C'Length(2)
---                      );
---              when Double =>
---                 DGEMM(TRANA => Map_Trans_Op(TRANB),
---                       TRANB => Map_Trans_Op(TRANA),
---                       M => M_P,
---                       N => N_P,
---                       K => K_P,
---                       ALPHA => ALPHA,
---                       A => B,
---                       LDA => B'Length(2),
---                       B => A,
---                       LDB => A'Length(2),
---                       BETA => BETA,
---                       C => C,
---                       LDC => C'Length(2)
---                      );
---              end case;
---
---        end case;
---
---     end gemm;
---
---     function gemm(A : in Real_Matrix;
---                   B : in Real_Matrix;
---                   ALPHA : in Real := 1.0;
---                   TRANA : in Real_Trans_Op := No_Transpose;
---                   TRANB : in Real_Trans_Op := No_Transpose;
---                   M, N, K : in Vector_Size := 0;
---                   Convention : in Matrix_Convention := Default_Matrix_Convention)
---                   return Real_Matrix is
---        C : Real_Matrix(1..A'Length(1), 1..B'Length(2));
---        -- As Beta is being set to zero, C should only be written to and not read
---        -- so it does not matter that it is uninitialised.
---     begin
---        gemm(A => A,
---             B => B,
---             C => C,
---             ALPHA => ALPHA,
---             BETA => 0.0,
---             TRANA => TRANA,
---             TRANB => TRANB,
---             M => M,
---             N => N,
---             K => K,
---             Convention => Convention);
---        return C;
---     end gemm;
+   -- *************
+   -- *************
+   -- ** Level 3 **
+   -- *************
+   -- *************
+
+   procedure gemm(A : in Real_Matrix'Class;
+                  B : in Real_Matrix'Class;
+                  C : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0;
+                  TRANA : in Real_Trans_Op := No_Transpose;
+                  TRANB : in Real_Trans_Op := No_Transpose) is
+   begin
+      case Precision is
+         when Single =>
+            SGEMM(TRANA => Map_Trans_Op(TRANA),
+                  TRANB => Map_Trans_Op(TRANB),
+                  M => FP(A.Rows),
+                  N => FP(B.Columns),
+                  K => FP(A.Columns),
+                  ALPHA => ALPHA,
+                  A => A.Constant_Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  B => B.Constant_Handle,
+                  LDB => FP(B.Leading_Dimension),
+                  BETA => BETA,
+                  C => C.Handle,
+                  LDC => FP(C.Leading_Dimension)
+                 );
+         when Double =>
+            DGEMM(TRANA => Map_Trans_Op(TRANA),
+                  TRANB => Map_Trans_Op(TRANB),
+                  M => FP(A.Rows),
+                  N => FP(B.Columns),
+                  K => FP(A.Columns),
+                  ALPHA => ALPHA,
+                  A => A.Constant_Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  B => B.Constant_Handle,
+                  LDB => FP(B.Leading_Dimension),
+                  BETA => BETA,
+                  C => C.Handle,
+                  LDC => FP(C.Leading_Dimension)
+                 );
+      end case;
+   end gemm;
+
+   function gemm(A : in Real_Matrix'Class;
+                 B : in Real_Matrix'Class;
+                 ALPHA : in Real := 1.0;
+                 TRANA : in Real_Trans_Op := No_Transpose;
+                 TRANB : in Real_Trans_Op := No_Transpose)
+                 return Concrete_Real_Matrix is
+      C : Concrete_Real_Matrix(A.Rows, B.Columns);
+      -- As Beta is being set to zero, C should only be written to and not read
+      -- so it does not matter that it is uninitialised.
+   begin
+      gemm(A => A,
+           B => B,
+           C => C,
+           ALPHA => ALPHA,
+           BETA => 0.0,
+           TRANA => TRANA,
+           TRANB => TRANB);
+      return C;
+   end gemm;
 
 end aBLAS.Real_BLAS;
