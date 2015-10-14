@@ -73,16 +73,16 @@ begin
    Put("A(2,1) => "); Put(A(2,1)); New_Line;
    Put("|A(1,j)|_1 => "); Put(asum(A.Row(1))); New_Line;
    Put("|A(i,2)|_1 => "); Put(asum(A.Column(2))); New_Line;
-   Put("trace(A) => "); Put(A.Trace); New_Line;
-   Put("|trace(A)|_1 => "); Put(asum(A.Trace)); New_Line;
-   Put_Line("Scale trace(A) by 2.5.");
+   Put("diagonal(A) => "); Put(A.Diagonal); New_Line;
+   Put("|diagonal(A)|_1 => "); Put(asum(A.Diagonal)); New_Line;
+   Put_Line("Scale diagonal(A) by 2.5.");
    declare
-      T : BLAS.Real_Matrix_Vector := A.Trace;
+      T : BLAS.Real_Matrix_Vector := A.Diagonal;
    begin
       scal(T, 2.5);
    end;
    Put("A => "); Put(A); New_Line;
-   Put("|trace(A)|_1 => "); Put(asum(A.Trace)); New_Line;
+   Put("|diagonal(A)|_1 => "); Put(asum(A.Diagonal)); New_Line;
 
    New_Line;
    Put_Line("*** Level 3 ***");

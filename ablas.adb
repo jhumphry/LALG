@@ -160,7 +160,7 @@ package body aBLAS is
                           Length => V.M,
                           Handle => V.Data(1, C)'Unchecked_Access));
 
-    function Trace(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector is
+    function Diagonal(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector is
      (Real_Matrix_Vector'(Base => V'Access,
                           Start_Row => 1,
                           Start_Column => 1,

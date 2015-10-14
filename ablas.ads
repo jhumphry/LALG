@@ -138,7 +138,7 @@ package aBLAS is
      with Pre => R <= V.Rows;
    function Column(V : in out Concrete_Real_Matrix'Class; C : Positive) return Real_Matrix_Vector
      with Pre => C <= V.Columns;
-   function Trace(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector
+   function Diagonal(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector
      with Pre => V.Rows = V.Columns;
 
    -- Some equality operators
