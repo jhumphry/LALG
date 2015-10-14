@@ -94,7 +94,7 @@ begin
    Put("C => "); Put(C); New_Line;
    Put_Line("Perform C <- 2.0*A*B + C");
    gemm(A, B, C, ALPHA => 2.0, BETA => 1.0);
-   Put("1.0*At*B => "); Put(gemm(A,B,1.0,BLAS.Transpose,BLAS.No_Transpose));
+   Put("1.0*At*B => "); Put(gemm(A,B,1.0,Transpose,No_Transpose));
    New_Line;
 
 end Simple_Example;

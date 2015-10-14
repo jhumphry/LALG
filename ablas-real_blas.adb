@@ -2,15 +2,11 @@
 -- An Ada 2012 binding to BLAS
 
 with aBLAS.Real_BLAS.Imports;
-with aBLAS.Internal;
 
 package body aBLAS.Real_BLAS is
 
    package Fortran_Imports is new aBLAS.Real_BLAS.Imports;
    use Fortran_Imports;
-
-   package Internal is new aBLAS.Internal;
-   Map_Trans_Op : Internal.Map_Trans_Op_Array renames Internal.Map_Trans_Op;
 
    -- *************
    -- *************

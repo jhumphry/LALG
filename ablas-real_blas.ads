@@ -1,8 +1,37 @@
 -- aBLAS
 -- An Ada 2012 binding to BLAS
 
+private with Interfaces.Fortran;
+
 generic
 package aBLAS.Real_BLAS is
+
+   -- Matrix element order convention
+   type Matrix_Convention is (Row_Major, Column_Major);
+   Ada_Convention : constant Matrix_Convention := Row_Major;
+   C_Convention : constant Matrix_Convention := Row_Major;
+   Fortran_Convention : constant Matrix_Convention := Column_Major;
+
+   -- Enumeration types for operation specifications
+
+   -- Operand side for non-commutative operations
+   type Side is (Left, Right);
+
+   -- Use the upper or lower half of a symmetric matrix
+   type UpLo is (Upper, Lower);
+
+   -- Transpose operation specifier
+   type Trans_Op is (No_Transpose, Transpose, Conj_Transpose);
+   subtype Real_Trans_Op is Trans_Op range No_Transpose..Transpose;
+
+   -- Conjugate operation specifier
+   type Conj_Op is (No_Conj, Conj);
+
+   -- Describe diagonal matrix
+   type Diag is (Non_Unit_Diag, Unit_Diag);
+
+   -- JRot type
+   type JRot is (Inner, Outer, Sorted);
 
    -- *************
    -- *************
@@ -124,5 +153,15 @@ package aBLAS.Real_BLAS is
                  TRANB : in Real_Trans_Op := No_Transpose)
                  return Concrete_Real_Matrix
      with Inline;
+
+private
+
+   function TF(Item : in Character) return Interfaces.Fortran.Character_Set
+               renames Interfaces.Fortran.To_Fortran;
+
+   type Map_Trans_Op_Array is array (Trans_Op) of IntFort.Character_Set;
+   Map_Trans_Op : constant Map_Trans_Op_Array := (No_Transpose => TF('N'),
+                                                  Transpose => TF('T'),
+                                                  Conj_Transpose => TF('C'));
 
 end aBLAS.Real_BLAS;
