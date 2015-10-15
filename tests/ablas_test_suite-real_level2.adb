@@ -101,4 +101,35 @@ package body aBLAS_Test_Suite.Real_Level2 is
 
    end Check_Ger;
 
+   --------------------
+   -- Check_Syr_Syr2 --
+   --------------------
+
+   procedure Check_Syr_Syr2 (T : in out Test_Cases.Test_Case'Class) is
+      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      Y : aliased Concrete_Real_Vector := Make((-1.0, 2.0, -1.0));
+      A : aliased Concrete_Real_Matrix := Zeros(3,3);
+   begin
+      syr(X, A, Upper, 1.0);
+      assert(X = Real_1D_Array'(1.0, 2.0, 3.0),
+             "X changed by SYR operation (upper triangular)");
+      assert(A = Real_2D_Array'((
+             (1.0, 2.0, 3.0),
+             (0.0, 4.0, 6.0),
+             (0.0, 0.0, 9.0))),
+             "A not set correctly by SYR operation (upper triangular)");
+
+      syr2(X, Y, A, Lower, 2.0);
+      assert(X = Real_1D_Array'(1.0, 2.0, 3.0),
+             "X changed by SYR operation (lower triangular)");
+      assert(Y = Real_1D_Array'(-1.0, 2.0, -1.0),
+             "Y changed by SYR operation (lower triangular)");
+      assert(A = Real_2D_Array'((
+             (-3.0, 2.0, 3.0),
+             ( 0.0,20.0, 6.0),
+             (-8.0, 8.0,-3.0))),
+             "A not set correctly by SYR operation (upper triangular)");
+
+   end Check_Syr_Syr2;
+
 end aBLAS_Test_Suite.Real_Level2;

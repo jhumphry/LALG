@@ -433,6 +433,71 @@ package body aBLAS.Real_BLAS is
       end case;
    end ger;
 
+   ---------
+   -- syr --
+   ---------
+
+   procedure syr(X : in Real_Vector'Class;
+                 A : in out Real_Matrix'Class;
+                 UPLO : in UpLo_Part;
+                 ALPHA : in Real := 1.0)
+   is
+   begin
+      case Precision is
+         when Single =>
+            SSYR(UPLO => Map_UpLo_Part(UPLO),
+                 N => FP(A.Columns),
+                 ALPHA => ALPHA,
+                 X => X.Constant_Handle,
+                 INCX => FP(X.Stride),
+                 A => A.Handle,
+                 LDA => FP(A.Leading_Dimension));
+         when Double =>
+            DSYR(UPLO => Map_UpLo_Part(UPLO),
+                 N => FP(A.Columns),
+                 ALPHA => ALPHA,
+                 X => X.Constant_Handle,
+                 INCX => FP(X.Stride),
+                 A => A.Handle,
+                 LDA => FP(A.Leading_Dimension));
+      end case;
+   end syr;
+
+   ----------
+   -- syr2 --
+   ----------
+
+   procedure syr2(X : in Real_Vector'Class;
+                  Y : in Real_Vector'Class;
+                  A : in out Real_Matrix'Class;
+                  UPLO : in UpLo_Part;
+                  ALPHA : in Real := 1.0)
+   is
+   begin
+      case Precision is
+         when Single =>
+            SSYR2(UPLO => Map_UpLo_Part(UPLO),
+                  N => FP(A.Columns),
+                  ALPHA => ALPHA,
+                  X => X.Constant_Handle,
+                  INCX => FP(X.Stride),
+                  Y => Y.Constant_Handle,
+                  INCY => FP(Y.Stride),
+                  A => A.Handle,
+                  LDA => FP(A.Leading_Dimension));
+         when Double =>
+            DSYR2(UPLO => Map_UpLo_Part(UPLO),
+                  N => FP(A.Columns),
+                  ALPHA => ALPHA,
+                  X => X.Constant_Handle,
+                  INCX => FP(X.Stride),
+                  Y => Y.Constant_Handle,
+                  INCY => FP(Y.Stride),
+                  A => A.Handle,
+                  LDA => FP(A.Leading_Dimension));
+      end case;
+   end syr2;
+
    -- *************
    -- *************
    -- ** Level 3 **

@@ -322,6 +322,58 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dger" & BLAS_Suffix;
 
+   procedure SSYR( UPLO : FC;
+                   N : FI;
+                   ALPHA : Real;
+                   X : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   A : Real_Matrix_Handle;
+                   LDA : FP
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "ssyr" & BLAS_Suffix;
+
+   procedure DSYR( UPLO : FC;
+                   N : FI;
+                   ALPHA : Real;
+                   X : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   A : Real_Matrix_Handle;
+                   LDA : FP
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dsyr" & BLAS_Suffix;
+
+   procedure SSYR2( UPLO : FC;
+                    N : FI;
+                    ALPHA : Real;
+                    X : Real_Vector_Constant_Handle;
+                    INCX : FP;
+                    Y : Real_Vector_Constant_Handle;
+                    INCY : FP;
+                    A : Real_Matrix_Handle;
+                    LDA : FP
+                   )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "ssyr2" & BLAS_Suffix;
+
+   procedure DSYR2( UPLO : FC;
+                    N : FI;
+                    ALPHA : Real;
+                    X : Real_Vector_Constant_Handle;
+                    INCX : FP;
+                    Y : Real_Vector_Constant_Handle;
+                    INCY : FP;
+                    A : Real_Matrix_Handle;
+                    LDA : FP
+                   )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dsyr2" & BLAS_Suffix;
+
    -- *************
    -- *************
    -- ** Level 3 **
