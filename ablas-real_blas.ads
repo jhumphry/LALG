@@ -6,12 +6,6 @@ private with Interfaces.Fortran;
 generic
 package aBLAS.Real_BLAS is
 
-   -- Matrix element order convention
-   type Matrix_Convention is (Row_Major, Column_Major);
-   Ada_Convention : constant Matrix_Convention := Row_Major;
-   C_Convention : constant Matrix_Convention := Row_Major;
-   Fortran_Convention : constant Matrix_Convention := Column_Major;
-
    -- Enumeration types for operation specifications
 
    -- Operand side for non-commutative operations
