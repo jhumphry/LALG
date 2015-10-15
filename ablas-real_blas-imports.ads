@@ -264,6 +264,36 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dgemv" & BLAS_Suffix;
 
+   procedure SSYMV(UPLO : FC;
+                   N : FP;
+                   ALPHA : Real;
+                   A : Real_Matrix_Constant_Handle;
+                   LDA : FP;
+                   X : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   BETA : Real;
+                   Y : Real_Vector_Handle;
+                   INCY : FP
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "ssymv" & BLAS_Suffix;
+
+   procedure DSYMV(UPLO : FC;
+                   N : FP;
+                   ALPHA : Real;
+                   A : Real_Matrix_Constant_Handle;
+                   LDA : FP;
+                   X : Real_Vector_Constant_Handle;
+                   INCX : FP;
+                   BETA : Real;
+                   Y : Real_Vector_Handle;
+                   INCY : FP
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dsymv" & BLAS_Suffix;
+
    procedure SGER( M: FI;
                    N : FI;
                    ALPHA : Real;

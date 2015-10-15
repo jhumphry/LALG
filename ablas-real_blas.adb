@@ -344,6 +344,61 @@ package body aBLAS.Real_BLAS is
       return Y;
    end gemv;
 
+   ----------
+   -- symv --
+   ----------
+
+   procedure symv(A : in Real_Matrix'Class;
+                  UPLO : in UpLo_Part;
+                  X : in Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0) is
+   begin
+      case Precision is
+         when Single =>
+            SSYMV(UPLO => Map_UpLo_Part(UPLO),
+                  N => FP(A.Columns),
+                  ALPHA => ALPHA,
+                  A => A.Constant_Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  X => X.Constant_Handle,
+                  INCX => FP(X.Stride),
+                  BETA => BETA,
+                  Y => Y.Handle,
+                  INCY => FP(Y.Stride));
+         when Double =>
+            DSYMV(UPLO => Map_UpLo_Part(UPLO),
+                  N => FP(A.Columns),
+                  ALPHA => ALPHA,
+                  A => A.Constant_Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  X => X.Constant_Handle,
+                  INCX => FP(X.Stride),
+                  BETA => BETA,
+                  Y => Y.Handle,
+                  INCY => FP(Y.Stride));
+      end case;
+   end symv;
+
+   function symv(A : in Real_Matrix'Class;
+                 UPLO : in UpLo_Part;
+                 X : in Real_Vector'Class;
+                 ALPHA : in Real := 1.0)
+                 return Real_Vector'Class is
+      Y : Concrete_Real_Vector(N => A.Rows);
+      -- As Beta is being set to zero, Y should only be written to and not read
+      -- so it does not matter that it is uninitialised.
+   begin
+      symv(A => A,
+           UPLO => UPLO,
+           X => X,
+           Y => Y,
+           ALPHA => ALPHA,
+           BETA => 0.0);
+      return Y;
+   end symv;
+
    ---------
    -- ger --
    ---------

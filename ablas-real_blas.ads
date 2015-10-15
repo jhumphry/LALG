@@ -17,8 +17,8 @@ package aBLAS.Real_BLAS is
    -- Operand side for non-commutative operations
    type Side is (Left, Right);
 
-   -- Use the upper or lower half of a symmetric matrix
-   type UpLo is (Upper, Lower);
+   -- Use the upper or lower part of a symmetric matrix
+   type UpLo_Part is (Upper, Lower);
 
    -- Transpose operation specifier
    type Trans_Op is (No_Transpose, Transpose, Conj_Transpose);
@@ -122,6 +122,26 @@ package aBLAS.Real_BLAS is
                  return Real_Vector'Class
      with Pre => (X.Length = A.Columns);
 
+   -- y <- alpha*A*x + beta*y using only the upper or lower triangular part of A
+   procedure symv(A : in Real_Matrix'Class;
+                  UPLO : in UpLo_Part;
+                  X : in Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0)
+     with Pre => (A.Columns = A. Rows and
+                    X.Length = A.Columns and
+                      Y.Length = A.Rows);
+
+   -- symv <- alpha*A*x using only the upper or lower triangular part of A
+   function symv(A : in Real_Matrix'Class;
+                 UPLO : in UpLo_Part;
+                 X : in Real_Vector'Class;
+                 ALPHA : in Real := 1.0)
+                 return Real_Vector'Class
+     with Pre => (A.Columns = A. Rows and
+                    X.Length = A.Columns);
+
    -- A <- alpha*x*yT + A
    procedure ger(X : in Real_Vector'Class;
                  Y : in Real_Vector'Class;
@@ -163,5 +183,9 @@ private
    Map_Trans_Op : constant Map_Trans_Op_Array := (No_Transpose => TF('N'),
                                                   Transpose => TF('T'),
                                                   Conj_Transpose => TF('C'));
+
+   type Map_UpLo_Part_Array is array (UpLo_Part) of IntFort.Character_Set;
+   Map_UpLo_Part : constant Map_UpLo_Part_Array := (Upper => TF('U'),
+                                                    Lower => TF('L'));
 
 end aBLAS.Real_BLAS;

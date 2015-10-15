@@ -50,6 +50,39 @@ package body aBLAS_Test_Suite.Real_Level2 is
       assert(gemv(A, X, 1.0) =  Real_1D_Array'(14.0, 38.0), "Function version of GEMV not working");
    end Check_Gemv;
 
+   ----------------
+   -- Check_Symv --
+   ----------------
+
+   procedure Check_Symv (T : in out Test_Cases.Test_Case'Class) is
+      A : aliased Concrete_Real_Matrix := Make(((1.0, 2.0),
+                                               (5.0, 6.0)));
+      X : aliased Concrete_Real_Vector := Make((1.0, 3.0));
+      Y : aliased Concrete_Real_Vector := Make((-4.0, 5.0));
+   begin
+      symv(A, Upper, X, Y, 1.0, 2.0);
+      assert(X = Real_1D_Array'(1.0, 3.0), "X changed by SYMV operation (upper triangular)");
+      assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by SYMV operation (upper triangular)");
+      assert(Y = Real_1D_Array'(-1.0, 30.0),
+             "Y not set correctly by SYMV operation (upper triangular)");
+      assert(symv(A, Upper, X, 1.0) =  Real_1D_Array'(7.0, 20.0),
+             "Function version of SYMV not working (upper triangular)");
+
+      Y := Make((-4.0, 5.0));
+      symv(A, Lower, X, Y, 1.0, 2.0);
+      assert(X = Real_1D_Array'(1.0, 3.0), "X changed by SYMV operation (lower triangular)");
+      assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by SYMV operation (lower triangular)");
+      assert(Y = Real_1D_Array'(8.0, 33.0),
+             "Y not set correctly by SYMV operation (lower triangular)");
+      assert(symv(A, Lower, X, 1.0) =  Real_1D_Array'(16.0, 23.0),
+             "Function version of SYMV not working (lower triangular)");
+
+   end Check_Symv;
+
    ---------------
    -- Check_Ger --
    ---------------

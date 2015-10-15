@@ -32,6 +32,7 @@ package aBLAS_Test_Suite.Real_Level2 is
    procedure Set_Up (T : in out Level2_Test);
 
    procedure Check_Gemv (T : in out Test_Cases.Test_Case'Class);
+   procedure Check_Symv (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Ger (T : in out Test_Cases.Test_Case'Class);
 
 private
@@ -53,6 +54,7 @@ private
 
    Test_Details_List: array (Positive range <>) of Test_Details :=
      ( (Check_Gemv'Access, +"Check real gemv routine."),
+       (Check_Symv'Access, +"Check real symv routine."),
        (Check_Ger'Access, +"Check real ger routine."));
 
 end aBLAS_Test_Suite.Real_Level2;
