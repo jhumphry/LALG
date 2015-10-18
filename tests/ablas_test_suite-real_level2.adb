@@ -12,7 +12,7 @@ package body aBLAS_Test_Suite.Real_Level2 is
    -- Register_Tests --
    --------------------
 
-   procedure Register_Tests (T: in out Level2_Test) is
+   procedure Register_Tests (T : in out Level2_Test) is
       use AUnit.Test_Cases.Registration;
    begin
 

@@ -219,10 +219,10 @@ package aBLAS.Real_BLAS is
 
    -- syrk <- alpha*A*AT or syrk <- alpha*AT*A
    function syrk(A : in Real_Matrix'Class;
-                  TRANS : in Real_Trans_Op;
-                  UPLO : in UpLo_Part;
-                  ALPHA : in Real := 1.0)
-                  return Concrete_Real_Matrix
+                 TRANS : in Real_Trans_Op;
+                 UPLO : in UpLo_Part;
+                 ALPHA : in Real := 1.0)
+                 return Concrete_Real_Matrix
      with Inline;
 
    -- C <- alpha*A*BT + alpha*B*AT + beta*C or

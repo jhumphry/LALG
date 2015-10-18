@@ -12,7 +12,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
    -- Register_Tests --
    --------------------
 
-   procedure Register_Tests (T: in out Level3_Test) is
+   procedure Register_Tests (T : in out Level3_Test) is
       use AUnit.Test_Cases.Registration;
    begin
 
@@ -47,10 +47,10 @@ package body aBLAS_Test_Suite.Real_Level3 is
                                               ));
       C : aliased Concrete_Real_Matrix := Identity(3);
       Expected_C : aliased Concrete_Real_Matrix := Make((
-                                               ( 7.0,  4.0,  5.0),
-                                               (11.0, 12.0, 11.0),
-                                               (17.0, 16.0, 19.0)
-                                              ));
+                                                        ( 7.0,  4.0,  5.0),
+                                                        (11.0, 12.0, 11.0),
+                                                        (17.0, 16.0, 19.0)
+                                                       ));
    begin
       gemm(A => A,
            B => B,
@@ -80,7 +80,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
              (17.0, 16.0, 17.0)), "Function version of GEMM not working");
    end Check_Gemm;
 
-    ----------------
+   ----------------
    -- Check_Symm --
    ----------------
 
@@ -114,12 +114,12 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(B = Real_2D_Array'(
              (11.0, 13.0),
              (17.0, 19.0)
-             ), "B changed by SYMM operation (Left, Upper)");
+            ), "B changed by SYMM operation (Left, Upper)");
 
       assert(C = Real_2D_Array'(
              ( 64.0,  70.0),
              (152.0, 174.0)
-             ), "C not set correctly by SYMM operation (Left, Upper)");
+            ), "C not set correctly by SYMM operation (Left, Upper)");
 
       -- Right, Upper
       C := Identity(2);
@@ -190,9 +190,9 @@ package body aBLAS_Test_Suite.Real_Level3 is
                                                (5.0, 7.0)
                                               ));
       C_Original : constant Concrete_Real_Matrix := Make((
-                                               (11.0, 13.0),
-                                               (17.0, 19.0)
-                                              ));
+                                                         (11.0, 13.0),
+                                                         (17.0, 19.0)
+                                                        ));
       C : aliased Concrete_Real_Matrix := C_Original;
 
    begin
@@ -213,7 +213,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(C = Real_2D_Array'(
              (31.0,  65.0),
              (17.0, 167.0)
-             ), "C not set correctly by SYRK operation (No, Upper)");
+            ), "C not set correctly by SYRK operation (No, Upper)");
 
       -- Transpose, Upper
       C := C_Original;
@@ -228,7 +228,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(C = Real_2D_Array'(
              (63.0,  89.0),
              (17.0, 135.0)
-             ), "C not set correctly by SYRK operation (Transpose, Upper)");
+            ), "C not set correctly by SYRK operation (Transpose, Upper)");
 
       -- No, Lower
       C := C_Original;
@@ -243,7 +243,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(C = Real_2D_Array'(
              (31.0,  13.0),
              (69.0, 167.0)
-             ), "C not set correctly by SYRK operation (No, Lower)");
+            ), "C not set correctly by SYRK operation (No, Lower)");
 
       -- Transpose, Lower
       C := C_Original;
@@ -258,7 +258,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(C = Real_2D_Array'(
              (63.0,  13.0),
              (93.0, 135.0)
-             ), "C not set correctly by SYRK operation (Transpose, Lower)");
+            ), "C not set correctly by SYRK operation (Transpose, Lower)");
 
       assert(syrk(A     => A,
                   TRANS => No_Transpose,
@@ -284,9 +284,9 @@ package body aBLAS_Test_Suite.Real_Level3 is
                                                (17.0, 19.0)
                                               ));
       C_Original : constant Concrete_Real_Matrix := Make((
-                                               (23.0, 29.0),
-                                               (31.0, 37.0)
-                                              ));
+                                                         (23.0, 29.0),
+                                                         (31.0, 37.0)
+                                                        ));
       C : aliased Concrete_Real_Matrix := C_Original;
 
    begin
@@ -313,7 +313,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(C = Real_2D_Array'(
              (223.0, 469.0),
              ( 31.0, 909.0)
-             ), "C not set correctly by SYR2K operation (No, Upper)");
+            ), "C not set correctly by SYR2K operation (No, Upper)");
 
       -- Transpose, Upper
       C := C_Original;
@@ -329,7 +329,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(C = Real_2D_Array'(
              (407.0, 549.0),
              ( 31.0, 725.0)
-             ), "C not set correctly by SYR2K operation (Transpose, Upper)");
+            ), "C not set correctly by SYR2K operation (Transpose, Upper)");
 
       -- No, Lower
       C := C_Original;
@@ -345,7 +345,7 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(C = Real_2D_Array'(
              (223.0,  29.0),
              (471.0, 909.0)
-             ), "C not set correctly by SYR2K operation (No, Lower)");
+            ), "C not set correctly by SYR2K operation (No, Lower)");
 
       -- Transpose, Lower
       C := C_Original;
@@ -362,13 +362,13 @@ package body aBLAS_Test_Suite.Real_Level3 is
       assert(C = Real_2D_Array'(
              (407.0,  29.0),
              (551.0, 725.0)
-             ), "C not set correctly by SYR2K operation (Transpose, Lower)");
+            ), "C not set correctly by SYR2K operation (Transpose, Lower)");
 
       assert(syr2k(A     => A,
                    B     => B,
-                  TRANS => No_Transpose,
-                  UPLO  => Upper,
-                  ALPHA => 2.0) =
+                   TRANS => No_Transpose,
+                   UPLO  => Upper,
+                   ALPHA => 2.0) =
                Real_2D_Array'(
                  (200.0, 440.0),
                  (  0.0, 872.0)
