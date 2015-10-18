@@ -64,9 +64,9 @@ package body aBLAS is
                  Stride : Positive;
                  Length : Natural := 0) return Real_Vector_View is
       Result : Real_Vector_View(Base => V);
-      Max_Length : Positive := 1 + (Positive(V.Length) - Start) / Stride;
+      Max_Length : constant Positive := 1 + (V.Length - Start) / Stride;
    begin
-      if Start > Positive(V.Length) then
+      if Start > V.Length then
          raise Constraint_Error
            with "Starting position beyond end of vector: " & Integer'Image(Start);
       elsif Length > Max_Length then

@@ -25,6 +25,7 @@ package body aBLAS.Real_BLAS is
    type Map_Diag_Unit_Array is array (Diag_Unit) of IntFort.Character_Set;
    Map_Diag_Unit : constant Map_Diag_Unit_Array := (Non_Unit_Diag => TF('N'),
                                                     Unit_Diag => TF('D'));
+   pragma Unreferenced (Map_Diag_Unit);
 
    type Map_Side_Op_Array is array (Side_Op) of IntFort.Character_Set;
    Map_Side_Op : constant Map_Side_Op_Array := (Left => TF('L'),
@@ -659,10 +660,10 @@ package body aBLAS.Real_BLAS is
                   C : in out Real_Matrix'Class;
                   ALPHA : in Real := 1.0;
                   BETA : in Real := 0.0) is
-      K : FP := (if TRANS = No_Transpose then
-                    FP(A.Columns)
-                 else
-                    FP(A.Rows));
+      K : constant FP := (if TRANS = No_Transpose then
+                             FP(A.Columns)
+                          else
+                             FP(A.Rows));
    begin
       case Precision is
          when Single =>
@@ -697,9 +698,9 @@ package body aBLAS.Real_BLAS is
                  UPLO : in UpLo_Part;
                  ALPHA : in Real := 1.0)
                  return Concrete_Real_Matrix is
-      C_Order : Positive := (case TRANS is
-                                when No_Transpose => A.Rows,
-                                when Transpose => A.Columns);
+      C_Order : constant Positive := (case TRANS is
+                                         when No_Transpose => A.Rows,
+                                         when Transpose => A.Columns);
       C : Concrete_Real_Matrix := Zeros(Rows => C_Order,
                                         Columns => C_Order);
    begin
@@ -719,10 +720,10 @@ package body aBLAS.Real_BLAS is
                    C : in out Real_Matrix'Class;
                    ALPHA : in Real := 1.0;
                    BETA : in Real := 0.0) is
-      K : FP := (if TRANS = No_Transpose then
-                    FP(A.Columns)
-                 else
-                    FP(A.Rows));
+      K : constant FP := (if TRANS = No_Transpose then
+                             FP(A.Columns)
+                          else
+                             FP(A.Rows));
    begin
       case Precision is
          when Single =>
@@ -762,9 +763,9 @@ package body aBLAS.Real_BLAS is
                   UPLO : in UpLo_Part;
                   ALPHA : in Real := 1.0)
                   return Concrete_Real_Matrix is
-      C_Order : Positive := (case TRANS is
-                                when No_Transpose => A.Rows,
-                                when Transpose => A.Columns);
+      C_Order : constant Positive := (case TRANS is
+                                         when No_Transpose => A.Rows,
+                                         when Transpose => A.Columns);
       C : Concrete_Real_Matrix := Zeros(Rows => C_Order,
                                         Columns => C_Order);
    begin

@@ -17,10 +17,10 @@ procedure Simple_Example is
    P_View1 : aliased BLAS.Real_Vector_View := BLAS.Make(V => P'Access,
                                                         Start => 2,
                                                         Stride => 2);
-   P_View2 : aliased BLAS.Real_Vector_View := BLAS.Make(V => P'Access,
-                                                        Start => 2,
-                                                        Stride => 1,
-                                                        Length => 3);
+   P_View2 : aliased constant BLAS.Real_Vector_View := BLAS.Make(V => P'Access,
+                                                                 Start => 2,
+                                                                 Stride => 1,
+                                                                 Length => 3);
 
    A : aliased BLAS.Concrete_Real_Matrix := BLAS.Make(((3.0, 4.0), (5.0, 6.0)));
    B : aliased BLAS.Concrete_Real_Matrix := BLAS.Make(((1.0, 2.0), (3.0, 4.0)));

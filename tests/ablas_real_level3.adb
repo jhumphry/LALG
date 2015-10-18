@@ -44,11 +44,7 @@ package body aBLAS_Real_Level3 is
                                                (2.0, 1.0, 2.0)
                                               ));
       C : aliased Concrete_Real_Matrix := Identity(3);
-      Expected_C : aliased Concrete_Real_Matrix := Make((
-                                                        ( 7.0,  4.0,  5.0),
-                                                        (11.0, 12.0, 11.0),
-                                                        (17.0, 16.0, 19.0)
-                                                       ));
+
    begin
       gemm(A => A,
            B => B,
