@@ -80,4 +80,104 @@ package body aBLAS_Test_Suite.Real_Level3 is
              (17.0, 16.0, 17.0)), "Function version of GEMM not working");
    end Check_Gemm;
 
+    ----------------
+   -- Check_Symm --
+   ----------------
+
+   procedure Check_Symm (T : in out Test_Cases.Test_Case'Class) is
+      A : aliased Concrete_Real_Matrix := Make((
+                                               (1.0, 3.0),
+                                               (5.0, 7.0)
+                                              ));
+      B : aliased Concrete_Real_Matrix := Make((
+                                               (11.0, 13.0),
+                                               (17.0, 19.0)
+                                              ));
+      C : aliased Concrete_Real_Matrix := Identity(2);
+
+   begin
+
+      -- Left, Upper
+      symm(A     => A,
+           SIDE  => Left,
+           UPLO  => Upper,
+           B     => B,
+           C     => C,
+           ALPHA => 1.0,
+           BETA  => 2.0);
+
+      assert(A = Real_2D_Array'(
+             (1.0, 3.0),
+             (5.0, 7.0)
+            ), "A changed by SYMM operation (Left, Upper)");
+
+      assert(B = Real_2D_Array'(
+             (11.0, 13.0),
+             (17.0, 19.0)
+             ), "B changed by SYMM operation (Left, Upper)");
+
+      assert(C = Real_2D_Array'(
+             ( 64.0,  70.0),
+             (152.0, 174.0)
+             ), "C not set correctly by SYMM operation (Left, Upper)");
+
+      -- Right, Upper
+      C := Identity(2);
+
+      symm(A     => A,
+           SIDE  => Right,
+           UPLO  => Upper,
+           B     => B,
+           C     => C,
+           ALPHA => 1.0,
+           BETA  => 2.0);
+
+      assert(C = Real_2D_Array'(
+             ( 52.0, 124.0),
+             ( 74.0, 186.0)
+            ), "C not set correctly by SYMM operation (Right, Upper)");
+
+      -- Left, Lower
+      C := Identity(2);
+
+      symm(A     => A,
+           SIDE  => Left,
+           UPLO  => Lower,
+           B     => B,
+           C     => C,
+           ALPHA => 1.0,
+           BETA  => 2.0);
+
+      assert(C = Real_2D_Array'(
+             ( 98.0, 108.0),
+             (174.0, 200.0)
+            ), "C not set correctly by SYMM operation (Left, Lower)");
+
+      -- Right, Lower
+      C := Identity(2);
+
+      symm(A     => A,
+           SIDE  => Right,
+           UPLO  => Lower,
+           B     => B,
+           C     => C,
+           ALPHA => 1.0,
+           BETA  => 2.0);
+
+      assert(C = Real_2D_Array'(
+             ( 78.0, 146.0),
+             (112.0, 220.0)
+            ), "C not set correctly by SYMM operation (Left, Lower)");
+
+      assert(symm(A     => A,
+                  SIDE  => Left,
+                  UPLO  => Upper,
+                  B     => B,
+                  ALPHA => 1.0) =
+               Real_2D_Array'(
+                 ( 62.0, 70.0),
+                 (152.0, 172.0)
+                ), "Function version of SYMM not working");
+   end Check_Symm;
+
 end aBLAS_Test_Suite.Real_Level3;

@@ -187,6 +187,25 @@ package aBLAS.Real_BLAS is
                  return Concrete_Real_Matrix
      with Inline;
 
+   -- C <- alpha*A*B + beta*C or C <- alpha*B*A + beta*C, A = AT
+   procedure symm(A : in Real_Matrix'Class;
+                  SIDE : in Side_Op;
+                  UPLO : in UpLo_Part;
+                  B : in Real_Matrix'Class;
+                  C : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0)
+     with Inline;
+
+   -- symm <- alpha*A*B or symm <- alpha*B*A, A = AT
+   function symm(A : in Real_Matrix'Class;
+                 SIDE : in Side_Op;
+                 UPLO : in UpLo_Part;
+                 B : in Real_Matrix'Class;
+                 ALPHA : in Real := 1.0)
+                 return Concrete_Real_Matrix
+     with Inline;
+
 private
 
    function TF(Item : in Character) return Interfaces.Fortran.Character_Set

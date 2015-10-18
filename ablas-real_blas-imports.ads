@@ -416,4 +416,38 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dgemm" & BLAS_Suffix;
 
+   procedure SSYMM(SIDE : FC;
+                   UPLO : FC;
+                   M : FI;
+                   N : FI;
+                   ALPHA : Real;
+                   A : Real_Matrix_Constant_Handle;
+                   LDA : FI;
+                   B : Real_Matrix_Constant_Handle;
+                   LDB : FI;
+                   BETA : Real;
+                   C : Real_Matrix_Handle;
+                   LDC : FI
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "ssymm" & BLAS_Suffix;
+
+   procedure DSYMM(SIDE : FC;
+                   UPLO : FC;
+                   M : FI;
+                   N : FI;
+                   ALPHA : Real;
+                   A : Real_Matrix_Constant_Handle;
+                   LDA : FI;
+                   B : Real_Matrix_Constant_Handle;
+                   LDB : FI;
+                   BETA : Real;
+                   C : Real_Matrix_Handle;
+                   LDC : FI
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dsymm" & BLAS_Suffix;
+
 end aBLAS.Real_BLAS.Imports;

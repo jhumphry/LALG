@@ -32,6 +32,7 @@ package aBLAS_Test_Suite.Real_Level3 is
    procedure Set_Up (T : in out Level3_Test);
 
    procedure Check_Gemm (T : in out Test_Cases.Test_Case'Class);
+   procedure Check_Symm (T : in out Test_Cases.Test_Case'Class);
 
 private
 
@@ -50,9 +51,9 @@ private
          D : Unbounded_String;
       end record;
 
-   Test_Details_List: array (Positive range 1..1) of Test_Details :=
+   Test_Details_List: array (Positive range <>) of Test_Details :=
      ( (Check_Gemm'Access, +"Check real gemm routine."),
-       others => <>
+       (Check_Symm'Access, +"Check real symm routine.")
       );
 
 end aBLAS_Test_Suite.Real_Level3;

@@ -566,4 +566,69 @@ package body aBLAS.Real_BLAS is
       return C;
    end gemm;
 
+   procedure symm(A : in Real_Matrix'Class;
+                  SIDE : in Side_Op;
+                  UPLO : in UpLo_Part;
+                  B : in Real_Matrix'Class;
+                  C : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0) is
+   begin
+      case Precision is
+         when Single =>
+            SSYMM(SIDE => Map_Side_Op(SIDE),
+                  UPLO => Map_UpLo_Part(UPLO),
+                  M => FP(C.Rows),
+                  N => FP(C.Columns),
+                  ALPHA => ALPHA,
+                  A => A.Constant_Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  B => B.Constant_Handle,
+                  LDB => FP(B.Leading_Dimension),
+                  BETA => BETA,
+                  C => C.Handle,
+                  LDC => FP(C.Leading_Dimension)
+                 );
+         when Double =>
+            DSYMM(SIDE => Map_Side_Op(SIDE),
+                  UPLO => Map_UpLo_Part(UPLO),
+                  M => FP(C.Rows),
+                  N => FP(C.Columns),
+                  ALPHA => ALPHA,
+                  A => A.Constant_Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  B => B.Constant_Handle,
+                  LDB => FP(B.Leading_Dimension),
+                  BETA => BETA,
+                  C => C.Handle,
+                  LDC => FP(C.Leading_Dimension)
+                 );
+      end case;
+   end symm;
+
+   function symm(A : in Real_Matrix'Class;
+                 SIDE : in Side_Op;
+                 UPLO : in UpLo_Part;
+                 B : in Real_Matrix'Class;
+                 ALPHA : in Real := 1.0)
+                 return Concrete_Real_Matrix is
+      C : Concrete_Real_Matrix(M => (case SIDE is
+                                        when Left => A.Rows,
+                                        when Right => B.Rows),
+                               N => (case SIDE is
+                                        when Left => B.Columns,
+                                        when Right => A.Columns));
+      -- As Beta is being set to zero, C should only be written to and not read
+      -- so it does not matter that it is uninitialised.
+   begin
+      symm(A     => A,
+           SIDE  => SIDE,
+           UPLO  => UPLO,
+           B     => B,
+           C     => C,
+           ALPHA => ALPHA,
+           BETA  => 0.0);
+      return C;
+   end symm;
+
 end aBLAS.Real_BLAS;
