@@ -34,6 +34,7 @@ package aBLAS_Test_Suite.Real_Level3 is
    procedure Check_Gemm (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Symm (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Syrk (T : in out Test_Cases.Test_Case'Class);
+   procedure Check_Syr2k (T : in out Test_Cases.Test_Case'Class);
 
 private
 
@@ -55,7 +56,8 @@ private
    Test_Details_List: array (Positive range <>) of Test_Details :=
      ( (Check_Gemm'Access, +"Check real gemm routine."),
        (Check_Symm'Access, +"Check real symm routine."),
-       (Check_Syrk'Access, +"Check real syrk routine.")
+       (Check_Syrk'Access, +"Check real syrk routine."),
+       (Check_Syr2k'Access, +"Check real syr2k routine.")
       );
 
 end aBLAS_Test_Suite.Real_Level3;

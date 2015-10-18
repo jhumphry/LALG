@@ -270,4 +270,109 @@ package body aBLAS_Test_Suite.Real_Level3 is
                 ), "Function version of SYRK not working");
    end Check_Syrk;
 
+   -----------------
+   -- Check_Syr2k --
+   -----------------
+
+   procedure Check_Syr2k (T : in out Test_Cases.Test_Case'Class) is
+      A : aliased Concrete_Real_Matrix := Make((
+                                               (1.0, 3.0),
+                                               (5.0, 7.0)
+                                              ));
+      B : aliased Concrete_Real_Matrix := Make((
+                                               (11.0, 13.0),
+                                               (17.0, 19.0)
+                                              ));
+      C_Original : constant Concrete_Real_Matrix := Make((
+                                               (23.0, 29.0),
+                                               (31.0, 37.0)
+                                              ));
+      C : aliased Concrete_Real_Matrix := C_Original;
+
+   begin
+
+      -- No, Upper
+      syr2k(A     => A,
+            B     => B,
+            TRANS => No_Transpose,
+            UPLO  => Upper,
+            C     => C,
+            ALPHA => 2.0,
+            BETA  => 1.0);
+
+      assert(A = Real_2D_Array'(
+             (1.0, 3.0),
+             (5.0, 7.0)
+            ), "A changed by SYR2K operation (No, Upper)");
+
+      assert(B = Real_2D_Array'(
+             (11.0, 13.0),
+             (17.0, 19.0)
+            ), "B changed by SYR2K operation (No, Upper)");
+
+      assert(C = Real_2D_Array'(
+             (223.0, 469.0),
+             ( 31.0, 909.0)
+             ), "C not set correctly by SYR2K operation (No, Upper)");
+
+      -- Transpose, Upper
+      C := C_Original;
+
+      syr2k(A     => A,
+            B     => B,
+            TRANS => Transpose,
+            UPLO  => Upper,
+            C     => C,
+            ALPHA => 2.0,
+            BETA  => 1.0);
+
+      assert(C = Real_2D_Array'(
+             (407.0, 549.0),
+             ( 31.0, 725.0)
+             ), "C not set correctly by SYR2K operation (Transpose, Upper)");
+
+      -- No, Lower
+      C := C_Original;
+
+      syr2k(A     => A,
+            B     => B,
+            TRANS => No_Transpose,
+            UPLO  => Lower,
+            C     => C,
+            ALPHA => 2.0,
+            BETA  => 1.0);
+
+      assert(C = Real_2D_Array'(
+             (223.0,  29.0),
+             (471.0, 909.0)
+             ), "C not set correctly by SYR2K operation (No, Lower)");
+
+      -- Transpose, Lower
+      C := C_Original;
+
+
+      syr2k(A     => A,
+            B     => B,
+            TRANS => Transpose,
+            UPLO  => Lower,
+            C     => C,
+            ALPHA => 2.0,
+            BETA  => 1.0);
+
+      assert(C = Real_2D_Array'(
+             (407.0,  29.0),
+             (551.0, 725.0)
+             ), "C not set correctly by SYR2K operation (Transpose, Lower)");
+
+      assert(syr2k(A     => A,
+                   B     => B,
+                  TRANS => No_Transpose,
+                  UPLO  => Upper,
+                  ALPHA => 2.0) =
+               Real_2D_Array'(
+                 (200.0, 440.0),
+                 (  0.0, 872.0)
+                ), "Function version of SYR2K not working");
+   end Check_Syr2k;
+
 end aBLAS_Test_Suite.Real_Level3;

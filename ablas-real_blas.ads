@@ -221,4 +221,25 @@ package aBLAS.Real_BLAS is
                   return Concrete_Real_Matrix
      with Inline;
 
+   -- C <- alpha*A*BT + alpha*B*AT + beta*C or
+   -- C <- alpha*AT*B + alpha*BT*A + beta*C, C=CT
+   procedure syr2k(A : in Real_Matrix'Class;
+                   B : in Real_Matrix'Class;
+                   TRANS : in Real_Trans_Op;
+                   UPLO : in UpLo_Part;
+                   C : in out Real_Matrix'Class;
+                   ALPHA : in Real := 1.0;
+                   BETA : in Real := 0.0)
+     with Inline;
+
+   -- syr2k <- alpha*A*BT + alpha*B*AT or
+   -- syr2k <- alpha*AT*B + alpha*BT*A
+   function syr2k(A : in Real_Matrix'Class;
+                  B : in Real_Matrix'Class;
+                  TRANS : in Real_Trans_Op;
+                  UPLO : in UpLo_Part;
+                  ALPHA : in Real := 1.0)
+                  return Concrete_Real_Matrix
+     with Inline;
+
 end aBLAS.Real_BLAS;
