@@ -180,4 +180,94 @@ package body aBLAS_Test_Suite.Real_Level3 is
                 ), "Function version of SYMM not working");
    end Check_Symm;
 
+   ----------------
+   -- Check_Syrk --
+   ----------------
+
+   procedure Check_Syrk (T : in out Test_Cases.Test_Case'Class) is
+      A : aliased Concrete_Real_Matrix := Make((
+                                               (1.0, 3.0),
+                                               (5.0, 7.0)
+                                              ));
+      C_Original : constant Concrete_Real_Matrix := Make((
+                                               (11.0, 13.0),
+                                               (17.0, 19.0)
+                                              ));
+      C : aliased Concrete_Real_Matrix := C_Original;
+
+   begin
+
+      -- No, Upper
+      syrk(A     => A,
+           TRANS => No_Transpose,
+           UPLO  => Upper,
+           C     => C,
+           ALPHA => 2.0,
+           BETA  => 1.0);
+
+      assert(A = Real_2D_Array'(
+             (1.0, 3.0),
+             (5.0, 7.0)
+            ), "A changed by SYRK operation (No, Upper)");
+
+      assert(C = Real_2D_Array'(
+             (31.0,  65.0),
+             (17.0, 167.0)
+             ), "C not set correctly by SYRK operation (No, Upper)");
+
+      -- Transpose, Upper
+      C := C_Original;
+
+      syrk(A     => A,
+           TRANS => Transpose,
+           UPLO  => Upper,
+           C     => C,
+           ALPHA => 2.0,
+           BETA  => 1.0);
+
+      assert(C = Real_2D_Array'(
+             (63.0,  89.0),
+             (17.0, 135.0)
+             ), "C not set correctly by SYRK operation (Transpose, Upper)");
+
+      -- No, Lower
+      C := C_Original;
+
+      syrk(A     => A,
+           TRANS => No_Transpose,
+           UPLO  => Lower,
+           C     => C,
+           ALPHA => 2.0,
+           BETA  => 1.0);
+
+      assert(C = Real_2D_Array'(
+             (31.0,  13.0),
+             (69.0, 167.0)
+             ), "C not set correctly by SYRK operation (No, Lower)");
+
+      -- Transpose, Lower
+      C := C_Original;
+
+      syrk(A     => A,
+           TRANS => Transpose,
+           UPLO  => Lower,
+           C     => C,
+           ALPHA => 2.0,
+           BETA  => 1.0);
+
+      assert(C = Real_2D_Array'(
+             (63.0,  13.0),
+             (93.0, 135.0)
+             ), "C not set correctly by SYRK operation (Transpose, Lower)");
+
+      assert(syrk(A     => A,
+                  TRANS => No_Transpose,
+                  UPLO  => Upper,
+                  ALPHA => 2.0) =
+               Real_2D_Array'(
+                 ( 20.0, 52.0),
+                 (  0.0, 148.0)
+                ), "Function version of SYRK not working");
+   end Check_Syrk;
+
 end aBLAS_Test_Suite.Real_Level3;

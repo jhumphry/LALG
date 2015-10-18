@@ -206,6 +206,23 @@ package aBLAS.Real_BLAS is
                  return Concrete_Real_Matrix
      with Inline;
 
+   -- C <- alpha*A*AT + beta*C or C <- alpha*AT*A + beta*C, C=CT
+   procedure syrk(A : in Real_Matrix'Class;
+                  TRANS : in Real_Trans_Op;
+                  UPLO : in UpLo_Part;
+                  C : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0)
+     with Inline;
+
+   -- syrk <- alpha*A*AT or syrk <- alpha*AT*A
+   function syrk(A : in Real_Matrix'Class;
+                  TRANS : in Real_Trans_Op;
+                  UPLO : in UpLo_Part;
+                  ALPHA : in Real := 1.0)
+                  return Concrete_Real_Matrix
+     with Inline;
+
 private
 
    function TF(Item : in Character) return Interfaces.Fortran.Character_Set

@@ -450,4 +450,34 @@ private generic package aBLAS.Real_BLAS.Imports is
      Convention => Fortran,
      External_Name => BLAS_Prefix & "dsymm" & BLAS_Suffix;
 
+   procedure SSYRK(UPLO : FC;
+                   TRANS : FC;
+                   N : FI;
+                   K : FI;
+                   ALPHA : Real;
+                   A : Real_Matrix_Constant_Handle;
+                   LDA : FI;
+                   BETA : Real;
+                   C : Real_Matrix_Handle;
+                   LDC : FI
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "ssyrk" & BLAS_Suffix;
+
+   procedure DSYRK(UPLO : FC;
+                   TRANS : FC;
+                   N : FI;
+                   K : FI;
+                   ALPHA : Real;
+                   A : Real_Matrix_Constant_Handle;
+                   LDA : FI;
+                   BETA : Real;
+                   C : Real_Matrix_Handle;
+                   LDC : FI
+                  )
+     with Import => True,
+     Convention => Fortran,
+     External_Name => BLAS_Prefix & "dsyrk" & BLAS_Suffix;
+
 end aBLAS.Real_BLAS.Imports;

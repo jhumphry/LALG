@@ -631,4 +631,63 @@ package body aBLAS.Real_BLAS is
       return C;
    end symm;
 
+   procedure syrk(A : in Real_Matrix'Class;
+                  TRANS : in Real_Trans_Op;
+                  UPLO : in UpLo_Part;
+                  C : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0) is
+      K : FP := (if TRANS = No_Transpose then
+                    FP(A.Columns)
+                 else
+                    FP(A.Rows));
+   begin
+      case Precision is
+         when Single =>
+            SSYRK(UPLO => Map_UpLo_Part(UPLO),
+                  TRANS => Map_Trans_Op(TRANS),
+                  N => FP(C.Rows),
+                  K => K,
+                  ALPHA => ALPHA,
+                  A => A.Constant_Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  BETA => BETA,
+                  C => C.Handle,
+                  LDC => FP(C.Leading_Dimension)
+                 );
+         when Double =>
+            DSYRK(UPLO => Map_UpLo_Part(UPLO),
+                  TRANS => Map_Trans_Op(TRANS),
+                  N => FP(C.Rows),
+                  K => K,
+                  ALPHA => ALPHA,
+                  A => A.Constant_Handle,
+                  LDA => FP(A.Leading_Dimension),
+                  BETA => BETA,
+                  C => C.Handle,
+                  LDC => FP(C.Leading_Dimension)
+                 );
+      end case;
+   end syrk;
+
+   function syrk(A : in Real_Matrix'Class;
+                 TRANS : in Real_Trans_Op;
+                 UPLO : in UpLo_Part;
+                 ALPHA : in Real := 1.0)
+                 return Concrete_Real_Matrix is
+      C_Order : Positive := (case TRANS is
+                                when No_Transpose => A.Rows,
+                                when Transpose => A.Columns);
+      C : Concrete_Real_Matrix := Zeros(Rows => C_Order,
+                                        Columns => C_Order);
+   begin
+      syrk(A     => A,
+           TRANS => TRANS,
+           UPLO  => UPLO,
+           C     => C,
+           ALPHA => ALPHA,
+           BETA  => 0.0);
+      return C;
+   end syrk;
+
 end aBLAS.Real_BLAS;
