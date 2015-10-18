@@ -196,7 +196,7 @@ package body aBLAS is
                end if;
             end loop;
          end loop;
-         return true;
+         return True;
       end if;
    end "=";
 
@@ -214,7 +214,7 @@ package body aBLAS is
                end if;
             end loop;
          end loop;
-         return true;
+         return True;
       end if;
    end Approx_Equal;
 

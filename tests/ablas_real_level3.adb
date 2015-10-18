@@ -57,22 +57,22 @@ package body aBLAS_Real_Level3 is
            BETA => 2.0,
            TRANA => No_Transpose,
            TRANB => No_Transpose);
-      assert(A = Real_2D_Array'(
+      Assert(A = Real_2D_Array'(
              (1.0, 2.0),
              (3.0, 4.0),
              (5.0, 6.0)
             ), "A changed by GEMM operation");
 
-      assert(B = Real_2D_Array'(
+      Assert(B = Real_2D_Array'(
              (1.0, 2.0, 1.0),
              (2.0, 1.0, 2.0)), "B changed by GEMM operation");
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              ( 7.0,  4.0,  5.0),
              (11.0, 12.0, 11.0),
              (17.0, 16.0, 19.0)), "C not set correctly by GEMM operation");
 
-      assert(gemm(A, B, 1.0) = Real_2D_Array'(
+      Assert(gemm(A, B, 1.0) = Real_2D_Array'(
              ( 5.0,  4.0,  5.0),
              (11.0, 10.0, 11.0),
              (17.0, 16.0, 17.0)), "Function version of GEMM not working");
@@ -104,17 +104,17 @@ package body aBLAS_Real_Level3 is
            ALPHA => 1.0,
            BETA  => 2.0);
 
-      assert(A = Real_2D_Array'(
+      Assert(A = Real_2D_Array'(
              (1.0, 3.0),
              (5.0, 7.0)
             ), "A changed by SYMM operation (Left, Upper)");
 
-      assert(B = Real_2D_Array'(
+      Assert(B = Real_2D_Array'(
              (11.0, 13.0),
              (17.0, 19.0)
             ), "B changed by SYMM operation (Left, Upper)");
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              ( 64.0,  70.0),
              (152.0, 174.0)
             ), "C not set correctly by SYMM operation (Left, Upper)");
@@ -130,7 +130,7 @@ package body aBLAS_Real_Level3 is
            ALPHA => 1.0,
            BETA  => 2.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              ( 52.0, 124.0),
              ( 74.0, 186.0)
             ), "C not set correctly by SYMM operation (Right, Upper)");
@@ -146,7 +146,7 @@ package body aBLAS_Real_Level3 is
            ALPHA => 1.0,
            BETA  => 2.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              ( 98.0, 108.0),
              (174.0, 200.0)
             ), "C not set correctly by SYMM operation (Left, Lower)");
@@ -162,12 +162,12 @@ package body aBLAS_Real_Level3 is
            ALPHA => 1.0,
            BETA  => 2.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              ( 78.0, 146.0),
              (112.0, 220.0)
             ), "C not set correctly by SYMM operation (Left, Lower)");
 
-      assert(symm(A     => A,
+      Assert(symm(A     => A,
                   SIDE  => Left,
                   UPLO  => Upper,
                   B     => B,
@@ -203,12 +203,12 @@ package body aBLAS_Real_Level3 is
            ALPHA => 2.0,
            BETA  => 1.0);
 
-      assert(A = Real_2D_Array'(
+      Assert(A = Real_2D_Array'(
              (1.0, 3.0),
              (5.0, 7.0)
             ), "A changed by SYRK operation (No, Upper)");
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              (31.0,  65.0),
              (17.0, 167.0)
             ), "C not set correctly by SYRK operation (No, Upper)");
@@ -223,7 +223,7 @@ package body aBLAS_Real_Level3 is
            ALPHA => 2.0,
            BETA  => 1.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              (63.0,  89.0),
              (17.0, 135.0)
             ), "C not set correctly by SYRK operation (Transpose, Upper)");
@@ -238,7 +238,7 @@ package body aBLAS_Real_Level3 is
            ALPHA => 2.0,
            BETA  => 1.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              (31.0,  13.0),
              (69.0, 167.0)
             ), "C not set correctly by SYRK operation (No, Lower)");
@@ -253,12 +253,12 @@ package body aBLAS_Real_Level3 is
            ALPHA => 2.0,
            BETA  => 1.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              (63.0,  13.0),
              (93.0, 135.0)
             ), "C not set correctly by SYRK operation (Transpose, Lower)");
 
-      assert(syrk(A     => A,
+      Assert(syrk(A     => A,
                   TRANS => No_Transpose,
                   UPLO  => Upper,
                   ALPHA => 2.0) =
@@ -298,17 +298,17 @@ package body aBLAS_Real_Level3 is
             ALPHA => 2.0,
             BETA  => 1.0);
 
-      assert(A = Real_2D_Array'(
+      Assert(A = Real_2D_Array'(
              (1.0, 3.0),
              (5.0, 7.0)
             ), "A changed by SYR2K operation (No, Upper)");
 
-      assert(B = Real_2D_Array'(
+      Assert(B = Real_2D_Array'(
              (11.0, 13.0),
              (17.0, 19.0)
             ), "B changed by SYR2K operation (No, Upper)");
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              (223.0, 469.0),
              ( 31.0, 909.0)
             ), "C not set correctly by SYR2K operation (No, Upper)");
@@ -324,7 +324,7 @@ package body aBLAS_Real_Level3 is
             ALPHA => 2.0,
             BETA  => 1.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              (407.0, 549.0),
              ( 31.0, 725.0)
             ), "C not set correctly by SYR2K operation (Transpose, Upper)");
@@ -340,14 +340,13 @@ package body aBLAS_Real_Level3 is
             ALPHA => 2.0,
             BETA  => 1.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              (223.0,  29.0),
              (471.0, 909.0)
             ), "C not set correctly by SYR2K operation (No, Lower)");
 
       -- Transpose, Lower
       C := C_Original;
-
 
       syr2k(A     => A,
             B     => B,
@@ -357,12 +356,12 @@ package body aBLAS_Real_Level3 is
             ALPHA => 2.0,
             BETA  => 1.0);
 
-      assert(C = Real_2D_Array'(
+      Assert(C = Real_2D_Array'(
              (407.0,  29.0),
              (551.0, 725.0)
             ), "C not set correctly by SYR2K operation (Transpose, Lower)");
 
-      assert(syr2k(A     => A,
+      Assert(syr2k(A     => A,
                    B     => B,
                    TRANS => No_Transpose,
                    UPLO  => Upper,

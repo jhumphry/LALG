@@ -53,8 +53,8 @@ package body aBLAS_Real_Level1 is
 
       -- TODO : test rot routine once high-precision result is available
 
-      --rot(R1, R2, c, s);
-      --Assert(Approx_Equal(A, Expected_Result, Soft_Epsilon), "Givens rotation not applied correctly");
+      -- rot(R1, R2, c, s);
+      -- Assert(Approx_Equal(A, Expected_Result, Soft_Epsilon), "Givens rotation not applied correctly");
    end Check_Rot;
 
    ----------------

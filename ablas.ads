@@ -47,7 +47,6 @@ package aBLAS is
                                return Real_Scalar is abstract
      with Pre'Class => (I <= V.Length);
 
-
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with private
      with Constant_Indexing => Item_CRV,
      Variable_Indexing => Variable_Reference_CRV;

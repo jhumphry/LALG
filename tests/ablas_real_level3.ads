@@ -2,7 +2,7 @@
 -- An Ada 2012 binding to BLAS
 -- Unit tests for Level 3 BLAS routines
 
-with AUnit; use Aunit;
+with AUnit; use AUnit;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
 
 with aBLAS.Real_BLAS.Util;

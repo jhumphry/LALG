@@ -43,8 +43,8 @@ package body aBLAS.Real_BLAS is
    procedure rotg(a, b : in out Real; c, s : out Real) is
    begin
        case Precision is
-         when Single => SROTG(A,B,C,S);
-         when Double => DROTG(A,B,C,S);
+         when Single => SROTG(a,b,c,s);
+         when Double => DROTG(a,b,c,s);
       end case;
    end rotg;
 
@@ -58,8 +58,8 @@ package body aBLAS.Real_BLAS is
                    params : out Modified_Givens_Params) is
    begin
        case Precision is
-         when Single => SROTMG(D1, D2, X1, Y1, PARAMS);
-         when Double => DROTMG(D1, D2, X1, Y1, PARAMS);
+         when Single => SROTMG(d1, d2, x1, y1, params);
+         when Double => DROTMG(d1, d2, x1, y1, params);
       end case;
    end rotmg;
 
