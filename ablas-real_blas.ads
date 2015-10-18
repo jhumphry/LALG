@@ -211,7 +211,11 @@ package aBLAS.Real_BLAS is
                   C : in out Real_Matrix'Class;
                   ALPHA : in Real := 1.0;
                   BETA : in Real := 0.0)
-     with Inline;
+     with Inline, Pre => (C.Rows = C.Columns and
+                            (case TRANS is
+                                when No_Transpose => A.Rows = C.Rows,
+                                when Transpose => A.Columns = C.Rows)
+                         );
 
    -- syrk <- alpha*A*AT or syrk <- alpha*AT*A
    function syrk(A : in Real_Matrix'Class;
@@ -230,7 +234,13 @@ package aBLAS.Real_BLAS is
                    C : in out Real_Matrix'Class;
                    ALPHA : in Real := 1.0;
                    BETA : in Real := 0.0)
-     with Inline;
+     with Inline, Pre => (C.Rows = C.Columns and
+                            (case TRANS is
+                                when No_Transpose => A.Rows = B.Rows and
+                                  A.Rows = C.Rows,
+                                when Transpose => A.Columns = B.Columns and
+                                  A.Columns = C.Rows)
+                         );
 
    -- syr2k <- alpha*A*BT + alpha*B*AT or
    -- syr2k <- alpha*AT*B + alpha*BT*A
@@ -240,6 +250,6 @@ package aBLAS.Real_BLAS is
                   UPLO : in UpLo_Part;
                   ALPHA : in Real := 1.0)
                   return Concrete_Real_Matrix
-     with Inline;
+     with Inline, Pre => (A.Rows = B.Rows and A.Columns = B.Columns);
 
 end aBLAS.Real_BLAS;
