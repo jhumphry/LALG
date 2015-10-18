@@ -4,9 +4,7 @@
 
 with AUnit.Assertions; use AUnit.Assertions;
 
-with aBLAS_Test_Suite;
-
-package body aBLAS_Test_Suite.Real_Level1 is
+package body aBLAS_Real_Level1 is
 
    --------------------
    -- Register_Tests --
@@ -215,4 +213,4 @@ package body aBLAS_Test_Suite.Real_Level1 is
       Assert(iamax(Y2) = 2, "iamax(Y2) not working on view");
    end Check_Iamax;
 
-end aBLAS_Test_Suite.Real_Level1;
+end aBLAS_Real_Level1;

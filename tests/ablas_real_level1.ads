@@ -2,8 +2,10 @@
 -- An Ada 2012 binding to BLAS
 -- Unit tests for Level 1 BLAS routines
 
-with AUnit; use Aunit;
+with AUnit; use AUnit;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
+
+with aBLAS, aBLAS.Real_BLAS;
 
 private with Ada.Strings.Unbounded;
 
@@ -13,7 +15,7 @@ generic
    Real_Type_Name : String := "<Unknown>";
    Epsilon : BLAS_Base.Real := BLAS_Base."*"(2.0, BLAS_Base.Real'Model_Epsilon);
    Soft_Epsilon : BLAS_Base.Real := BLAS_Base."*"(1000.0, BLAS_Base.Real'Model_Epsilon);
-package aBLAS_Test_Suite.Real_Level1 is
+package aBLAS_Real_Level1 is
 
    use BLAS_Base, BLAS;
 
@@ -67,4 +69,4 @@ private
        (Check_Asum'Access, +"Check real asum routine."),
        (Check_Iamax'Access, +"Check real iamax routine.") );
 
-end aBLAS_Test_Suite.Real_Level1;
+end aBLAS_Real_Level1;

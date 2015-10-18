@@ -4,9 +4,7 @@
 
 with AUnit.Assertions; use AUnit.Assertions;
 
-with aBLAS_Test_Suite;
-
-package body aBLAS_Test_Suite.Real_Level2 is
+package body aBLAS_Real_Level2 is
 
    --------------------
    -- Register_Tests --
@@ -132,4 +130,4 @@ package body aBLAS_Test_Suite.Real_Level2 is
 
    end Check_Syr_Syr2;
 
-end aBLAS_Test_Suite.Real_Level2;
+end aBLAS_Real_Level2;

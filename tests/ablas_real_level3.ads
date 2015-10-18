@@ -14,7 +14,7 @@ generic
    Real_Type_Name : String := "<Unknown>";
    Epsilon : BLAS_Base.Real := BLAS_Base."*"(2.0, BLAS_Base.Real'Model_Epsilon);
    Soft_Epsilon : BLAS_Base.Real := BLAS_Base."*"(1000.0, BLAS_Base.Real'Model_Epsilon);
-package aBLAS_Test_Suite.Real_Level3 is
+package aBLAS_Real_Level3 is
 
    use BLAS_Base, BLAS;
 
@@ -60,4 +60,4 @@ private
        (Check_Syr2k'Access, +"Check real syr2k routine.")
       );
 
-end aBLAS_Test_Suite.Real_Level3;
+end aBLAS_Real_Level3;

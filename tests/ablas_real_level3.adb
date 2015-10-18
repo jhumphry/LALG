@@ -4,9 +4,7 @@
 
 with AUnit.Assertions; use AUnit.Assertions;
 
-with aBLAS_Test_Suite;
-
-package body aBLAS_Test_Suite.Real_Level3 is
+package body aBLAS_Real_Level3 is
 
    --------------------
    -- Register_Tests --
@@ -375,4 +373,4 @@ package body aBLAS_Test_Suite.Real_Level3 is
                 ), "Function version of SYR2K not working");
    end Check_Syr2k;
 
-end aBLAS_Test_Suite.Real_Level3;
+end aBLAS_Real_Level3;
