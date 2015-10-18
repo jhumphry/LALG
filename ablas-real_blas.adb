@@ -3,10 +3,32 @@
 
 with aBLAS.Real_BLAS.Imports;
 
+with Interfaces.Fortran;
+
 package body aBLAS.Real_BLAS is
 
    package Fortran_Imports is new aBLAS.Real_BLAS.Imports;
    use Fortran_Imports;
+
+   function TF(Item : in Character) return Interfaces.Fortran.Character_Set
+               renames Interfaces.Fortran.To_Fortran;
+
+   type Map_Trans_Op_Array is array (Trans_Op) of IntFort.Character_Set;
+   Map_Trans_Op : constant Map_Trans_Op_Array := (No_Transpose => TF('N'),
+                                                  Transpose => TF('T'),
+                                                  Conj_Transpose => TF('C'));
+
+   type Map_UpLo_Part_Array is array (UpLo_Part) of IntFort.Character_Set;
+   Map_UpLo_Part : constant Map_UpLo_Part_Array := (Upper => TF('U'),
+                                                    Lower => TF('L'));
+
+   type Map_Diag_Unit_Array is array (Diag_Unit) of IntFort.Character_Set;
+   Map_Diag_Unit : constant Map_Diag_Unit_Array := (Non_Unit_Diag => TF('N'),
+                                                    Unit_Diag => TF('D'));
+
+   type Map_Side_Op_Array is array (Side_Op) of IntFort.Character_Set;
+   Map_Side_Op : constant Map_Side_Op_Array := (Left => TF('L'),
+                                                Right => TF('R'));
 
    -- *************
    -- *************
