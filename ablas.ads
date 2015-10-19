@@ -1,25 +1,11 @@
 -- aBLAS
 -- An Ada 2012 binding to BLAS
 
-with Interfaces.Fortran;
+private with Interfaces.Fortran;
 
 generic
    type Real is digits <>;
 package aBLAS is
-
-   -- Fortran precision corresponding to the float type used
-   type Precision_Specification is (Single, Double);
-
-   package IntFort renames Interfaces.Fortran;
-   use type Interfaces.Fortran.Fortran_Integer;
-
-   -- Increments can never be zero
-   subtype Incr is IntFort.Fortran_Integer
-   with Static_Predicate => Incr in
-     IntFort.Fortran_Integer'First..-1|+1..IntFort.Fortran_Integer'Last;
-
-   -- 0 is used as a sentinel for the natural array size
-   subtype Vector_Size is IntFort.Fortran_Integer range 0..IntFort.Fortran_Integer'Last;
 
    -- Basic scalar, vector and matrix types
 
@@ -128,6 +114,12 @@ package aBLAS is
                          Epsilon : Real := 0.001) return Boolean;
 
 private
+
+   package IntFort renames Interfaces.Fortran;
+   use type Interfaces.Fortran.Fortran_Integer;
+
+   -- Fortran precision corresponding to the float type used
+   type Precision_Specification is (Single, Double);
 
    Precision : constant Precision_Specification :=
      (if Real'Base'Digits = IntFort.Real'Base'Digits and
