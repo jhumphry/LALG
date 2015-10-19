@@ -814,4 +814,76 @@ package body aBLAS.Real_BLAS is
       end case;
    end trmm;
 
+   procedure trsm(A : in Real_Matrix'Class;
+                  SIDE : in Side_Op;
+                  UPLO : in UpLo_Part;
+                  TRANSA : in Trans_Op;
+                  DIAG : in Diag_Unit;
+                  B : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0) is
+   begin
+      case Precision is
+         when Single =>
+            STRSM(SIDE   => Map_Side_Op(SIDE),
+                  UPLO   => Map_UpLo_Part(UPLO),
+                  TRANSA => Map_Trans_Op(TRANSA),
+                  DIAG   => Map_Diag_Unit(DIAG),
+                  M      => FP(B.Rows),
+                  N      => FP(B.Columns),
+                  ALPHA  => ALPHA,
+                  A      => A.Constant_Handle,
+                  LDA    => FP(A.Leading_Dimension),
+                  B      => Real_Handle(B.Handle),
+                  LDB    => FP(B.Leading_Dimension));
+         when Double =>
+            DTRSM(SIDE   => Map_Side_Op(SIDE),
+                  UPLO   => Map_UpLo_Part(UPLO),
+                  TRANSA => Map_Trans_Op(TRANSA),
+                  DIAG   => Map_Diag_Unit(DIAG),
+                  M      => FP(B.Rows),
+                  N      => FP(B.Columns),
+                  ALPHA  => ALPHA,
+                  A      => A.Constant_Handle,
+                  LDA    => FP(A.Leading_Dimension),
+                  B      => Real_Handle(B.Handle),
+                  LDB    => FP(B.Leading_Dimension));
+      end case;
+   end trsm;
+
+   procedure trsm(A : in Real_Matrix'Class;
+                  SIDE : in Side_Op;
+                  UPLO : in UpLo_Part;
+                  TRANSA : in Trans_Op;
+                  DIAG : in Diag_Unit;
+                  B : in out Real_Vector'Class;
+                  ALPHA : in Real := 1.0) is
+   begin
+      case Precision is
+         when Single =>
+            STRSM(SIDE   => Map_Side_Op(SIDE),
+                  UPLO   => Map_UpLo_Part(UPLO),
+                  TRANSA => Map_Trans_Op(TRANSA),
+                  DIAG   => Map_Diag_Unit(DIAG),
+                  M      => FP(B.Length),
+                  N      => 1,
+                  ALPHA  => ALPHA,
+                  A      => A.Constant_Handle,
+                  LDA    => FP(A.Leading_Dimension),
+                  B      => Real_Handle(B.Handle),
+                  LDB    => FP(B.Length));
+         when Double =>
+            DTRSM(SIDE   => Map_Side_Op(SIDE),
+                  UPLO   => Map_UpLo_Part(UPLO),
+                  TRANSA => Map_Trans_Op(TRANSA),
+                  DIAG   => Map_Diag_Unit(DIAG),
+                  M      => FP(B.Length),
+                  N      => 1,
+                  ALPHA  => ALPHA,
+                  A      => A.Constant_Handle,
+                  LDA    => FP(A.Leading_Dimension),
+                  B      => Real_Handle(B.Handle),
+                  LDB    => FP(B.Length));
+      end case;
+   end trsm;
+
 end aBLAS.Real_BLAS;

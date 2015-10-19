@@ -470,4 +470,83 @@ package body aBLAS_Real_Level3 is
 
    end Check_Trmm;
 
+   ----------------
+   -- Check_Trsm --
+   ----------------
+
+   procedure Check_Trsm (T : in out Test_Cases.Test_Case'Class) is
+      A : aliased Concrete_Real_Matrix := Make((
+                                               (1.0, 3.0),
+                                               (5.0, 7.0)
+                                              ));
+      X : constant Concrete_Real_Matrix := Make((
+                                                ( 11.0, 13.0),
+                                                ( 17.0, 19.0)
+                                               ));
+
+      AU_X : aliased Concrete_Real_Matrix := Make((
+                                                ( 62.0, 70.0),
+                                                (119.0,133.0)
+                                                 ));
+
+      X_ALUT : aliased Concrete_Real_Matrix := Make((
+                                                    ( 11.0, 68.0),
+                                                    ( 17.0,104.0)
+                                                   ));
+
+      X_V : aliased Concrete_Real_Vector := Make(( 7.0, 14.0));
+   begin
+
+      -- Left, Upper, No_Transpose, Non_Unit_Diag
+      trsm(A => A,
+           SIDE => Left,
+           UPLO => Upper,
+           TRANSA => No_Transpose,
+           DIAG => Non_Unit_Diag,
+           B => AU_X,
+           ALPHA => 1.0);
+
+      Assert(A = Real_2D_Array'(
+             (1.0, 3.0),
+             (5.0, 7.0)
+            ), "A changed by matrix TRSM operation (Left, Upper, No_Transpose, Non_Unit_Diag)");
+
+      Assert(AU_X = X,
+             "AU_X not set correctly by matrix TRSM operation (Left, Upper, No_Transpose, Non_Unit_Diag)");
+
+      -- Right, Lower, Transpose, Unit_Diag
+      trsm(A => A,
+           SIDE => Right,
+           UPLO => Lower,
+           TRANSA => Transpose,
+           DIAG => Unit_Diag,
+           B => X_ALUT,
+           ALPHA => 1.0);
+
+      Assert(A = Real_2D_Array'(
+             (1.0, 3.0),
+             (5.0, 7.0)
+            ), "A changed by matrix TRSM operation (Right, Lower, Transpose, Unit_Diag)");
+
+      Assert(X_ALUT = X,
+             "X_ALUT not set correctly by matrix TRSM operation (Right, Lower, Transpose, Unit_Diag)");
+
+      -- Left, Upper, No_Transpose, Non_Unit_Diag
+      trsm(A => A,
+           SIDE => Left,
+           UPLO => Upper,
+           TRANSA => No_Transpose,
+           DIAG => Non_Unit_Diag,
+           B => X_V,
+           ALPHA => 1.0);
+
+      Assert(A = Real_2D_Array'(
+             (1.0, 3.0),
+             (5.0, 7.0)
+            ), "A changed by vector TRSM operation (Left, Upper, No_Transpose, Non_Unit_Diag)");
+
+      Assert(X_V = Real_1D_Array'(1.0, 2.0),
+             "X_V not set correctly by vector TRSM operation (Left, Upper, No_Transpose, Non_Unit_Diag)");
+   end Check_Trsm;
+
 end aBLAS_Real_Level3;

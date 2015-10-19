@@ -263,4 +263,30 @@ package aBLAS.Real_BLAS is
                   ALPHA : in Real := 1.0)
      with Inline;
 
+   -- B <- solve(TRANSA(A) * X = alpha * B) or
+   -- B <- solve(X * TRANSA(A) = alpha * B) or
+   -- A is an upper or lower triangular matrix with unit or non-unit diagonal
+   -- B is a matrix
+   procedure trsm(A : in Real_Matrix'Class;
+                  SIDE : in Side_Op;
+                  UPLO : in UpLo_Part;
+                  TRANSA : in Trans_Op;
+                  DIAG : in Diag_Unit;
+                  B : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0)
+     with Inline;
+
+   -- B <- solve(TRANSA(A) * X = alpha * B) or
+   -- B <- solve(X * TRANSA(A) = alpha * B) or
+   -- A is an upper or lower triangular matrix with unit or non-unit diagonal
+   -- B is a vector
+   procedure trsm(A : in Real_Matrix'Class;
+                  SIDE : in Side_Op;
+                  UPLO : in UpLo_Part;
+                  TRANSA : in Trans_Op;
+                  DIAG : in Diag_Unit;
+                  B : in out Real_Vector'Class;
+                  ALPHA : in Real := 1.0)
+     with Inline;
+
 end aBLAS.Real_BLAS;
