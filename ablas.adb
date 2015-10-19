@@ -170,6 +170,51 @@ package body aBLAS is
                           Length => V.M,
                           Handle => V.Data(1, 1)'Unchecked_Access));
 
+   --
+   -- Packed_Real_Matrix
+   --
+   function Rows(V : Packed_Real_Matrix) return Positive is (V.M);
+   function Columns(V : Packed_Real_Matrix) return Positive is (V.M);
+   function Handle(V : in out Packed_Real_Matrix) return Real_Packed_Matrix_Handle is
+     (V.Data(1)'Unchecked_Access);
+   function Constant_Handle(V : in Packed_Real_Matrix) return Real_Packed_Matrix_Constant_Handle is
+     (V.Data(1)'Unchecked_Access);
+
+   --
+   -- Symmetric_Real_Matrix
+   --
+
+   function Item(V : aliased in Symmetric_Real_Matrix; R, C : Integer) return Real is
+      S : constant Integer := Integer'Min(R, C);
+      T : constant Integer := Integer'Max(R, C);
+      U : constant Integer := (T * (T-1)) / 2 + S;
+   begin
+      return V.Data(U);
+   end Item;
+
+   function Variable_Reference(V: aliased in out Symmetric_Real_Matrix; R, C : Integer)
+                               return Real_Scalar is
+      S : constant Integer := Integer'Min(R, C);
+      T : constant Integer := Integer'Max(R, C);
+      U : constant Integer := (T * (T-1)) / 2 + S;
+   begin
+      return Real_Scalar'(Element => V.Data(U)'Access);
+   end Variable_Reference;
+
+   function Make(A : Real_2D_Array) return Symmetric_Real_Matrix is
+      K : Positive := 1;
+   begin
+      return R : Symmetric_Real_Matrix(M => A'Length(1),
+                                       L => (A'Length(1) * (A'Length(1) + 1)) / 2) do
+         for I in A'Range(2) loop
+            for J in A'First(1)..A'First(1)+(I-A'First(2)) loop
+               R.Data(K) := A(J, I);
+               K := K + 1;
+            end loop;
+         end loop;
+      end return;
+   end Make;
+
    -- Some equality operators
 
    function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean is

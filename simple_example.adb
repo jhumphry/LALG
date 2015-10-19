@@ -29,6 +29,11 @@ procedure Simple_Example is
    X : aliased BLAS.Concrete_Real_Vector := BLAS.Make((1.0, 2.0));
    Y : aliased BLAS.Concrete_Real_Vector := BLAS.Make((5.0, 5.0));
 
+   SP : aliased constant BLAS.Symmetric_Real_Matrix := BLAS.Make((
+                                                        (1.0, 2.0),
+                                                        (3.0, 4.0)
+                                                       ));
+
 begin
 
    Put_Line("Test output");
@@ -95,5 +100,9 @@ begin
    gemm(A, B, C, ALPHA => 2.0, BETA => 1.0);
    Put("1.0*At*B => "); Put(gemm(A,B,1.0,Transpose,No_Transpose));
    New_Line;
+
+   New_Line;
+   Put_Line("Symmetrical Packed matrices");
+   Put("SP => "); Put(SP); New_Line;
 
 end Simple_Example;

@@ -21,6 +21,8 @@ package aBLAS is
    type Real_Vector_Constant_Handle is limited private;
    type Real_Matrix_Handle is limited private;
    type Real_Matrix_Constant_Handle is limited private;
+   type Real_Packed_Matrix_Handle is limited private;
+   type Real_Packed_Matrix_Constant_Handle is limited private;
 
    type Real_Vector is interface;
    function Length(V : Real_Vector) return Positive is abstract;
@@ -103,6 +105,22 @@ package aBLAS is
    function Diagonal(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector
      with Pre => V.Rows = V.Columns;
 
+   type Packed_Real_Matrix(<>) is abstract tagged private;
+   function Rows(V : Packed_Real_Matrix) return Positive;
+   function Columns(V : Packed_Real_Matrix) return Positive;
+   function Handle(V : in out Packed_Real_Matrix) return Real_Packed_Matrix_Handle;
+   function Constant_Handle(V : in Packed_Real_Matrix) return Real_Packed_Matrix_Constant_Handle;
+
+   type Symmetric_Real_Matrix is new Packed_Real_Matrix and Real_Abstract_Matrix with private
+     with Constant_Indexing => Item_SRM,
+     Variable_Indexing => Variable_Reference_SRM;
+   function Item(V : aliased in Symmetric_Real_Matrix; R, C : Integer)
+                 return Real with Inline;
+   function Variable_Reference(V : aliased in out Symmetric_Real_Matrix; R, C : Integer)
+                               return Real_Scalar with Inline;
+   function Make(A : Real_2D_Array) return Symmetric_Real_Matrix
+     with Pre => (A'Length(1) = A'Length(2));
+
    -- Some equality operators
 
    function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean;
@@ -143,6 +161,8 @@ private
    type Real_Vector_Constant_Handle is new Real_Constant_Handle;
    type Real_Matrix_Handle is new Real_Handle;
    type Real_Matrix_Constant_Handle is new Real_Constant_Handle;
+   type Real_Packed_Matrix_Handle is new Real_Handle;
+   type Real_Packed_Matrix_Constant_Handle is new Real_Constant_Handle;
 
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with
       record
@@ -205,5 +225,18 @@ private
                                return Real_Scalar with Inline;
    function Variable_Reference_RMV(V: aliased in out Real_Matrix_Vector; I : Integer)
                                return Real_Scalar renames Variable_Reference;
+
+   type Packed_Real_Matrix(M, L : Positive) is tagged
+      record
+         Data : Real_1D_Array(1..L);
+      end record;
+
+   type Symmetric_Real_Matrix is new Packed_Real_Matrix and Real_Abstract_Matrix
+   with null record;
+
+   function Item_SRM(V : aliased in Symmetric_Real_Matrix; R, C : Integer)
+                     return Real renames Item;
+   function Variable_Reference_SRM(V: aliased in out Symmetric_Real_Matrix; R, C : Integer)
+                                return Real_Scalar renames Variable_Reference;
 
 end aBLAS;
