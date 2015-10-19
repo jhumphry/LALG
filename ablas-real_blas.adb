@@ -24,8 +24,7 @@ package body aBLAS.Real_BLAS is
 
    type Map_Diag_Unit_Array is array (Diag_Unit) of IntFort.Character_Set;
    Map_Diag_Unit : constant Map_Diag_Unit_Array := (Non_Unit_Diag => TF('N'),
-                                                    Unit_Diag => TF('D'));
-   pragma Unreferenced (Map_Diag_Unit);
+                                                    Unit_Diag => TF('U'));
 
    type Map_Side_Op_Array is array (Side_Op) of IntFort.Character_Set;
    Map_Side_Op : constant Map_Side_Op_Array := (Left => TF('L'),
@@ -778,5 +777,41 @@ package body aBLAS.Real_BLAS is
             BETA  => 0.0);
       return C;
    end syr2k;
+
+   procedure trmm(A : in Real_Matrix'Class;
+                  SIDE : in Side_Op;
+                  UPLO : in UpLo_Part;
+                  TRANSA : in Trans_Op;
+                  DIAG : in Diag_Unit;
+                  B : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0) is
+   begin
+      case Precision is
+         when Single =>
+            STRMM(SIDE   => Map_Side_Op(SIDE),
+                  UPLO   => Map_UpLo_Part(UPLO),
+                  TRANSA => Map_Trans_Op(TRANSA),
+                  DIAG   => Map_Diag_Unit(DIAG),
+                  M      => FP(B.Rows),
+                  N      => FP(B.Columns),
+                  ALPHA  => ALPHA,
+                  A      => A.Constant_Handle,
+                  LDA    => FP(A.Leading_Dimension),
+                  B      => B.Handle,
+                  LDB    => FP(B.Leading_Dimension));
+         when Double =>
+            DTRMM(SIDE   => Map_Side_Op(SIDE),
+                  UPLO   => Map_UpLo_Part(UPLO),
+                  TRANSA => Map_Trans_Op(TRANSA),
+                  DIAG   => Map_Diag_Unit(DIAG),
+                  M      => FP(B.Rows),
+                  N      => FP(B.Columns),
+                  ALPHA  => ALPHA,
+                  A      => A.Constant_Handle,
+                  LDA    => FP(A.Leading_Dimension),
+                  B      => B.Handle,
+                  LDB    => FP(B.Leading_Dimension));
+      end case;
+   end trmm;
 
 end aBLAS.Real_BLAS;

@@ -368,4 +368,106 @@ package body aBLAS_Real_Level3 is
                 ), "Function version of SYR2K not working");
    end Check_Syr2k;
 
+   ----------------
+   -- Check_Trmm --
+   ----------------
+
+   procedure Check_Trmm (T : in out Test_Cases.Test_Case'Class) is
+      A : aliased Concrete_Real_Matrix := Make((
+                                               (1.0, 3.0),
+                                               (5.0, 7.0)
+                                              ));
+      B_Original : constant Concrete_Real_Matrix := Make((
+                                               (11.0, 13.0),
+                                               (17.0, 19.0)
+                                              ));
+      B : aliased Concrete_Real_Matrix := B_Original;
+
+   begin
+
+      -- Left, Upper, No_Transpose, Non_Unit_Diag
+      trmm(A => A,
+           SIDE => Left,
+           UPLO => Upper,
+           TRANSA => No_Transpose,
+           DIAG => Non_Unit_Diag,
+           B => B,
+           ALPHA => 1.0);
+
+      Assert(A = Real_2D_Array'(
+             (1.0, 3.0),
+             (5.0, 7.0)
+            ), "A changed by TRMM operation (Left, Upper, No_Transpose, Non_Unit_Diag)");
+
+      Assert(B = Real_2D_Array'(
+             ( 62.0,  70.0),
+             (119.0, 133.0)
+            ), "B not set correctly by TRMM operation (Left, Upper, No_Transpose, Non_Unit_Diag)");
+
+      -- Right, Upper, No_Transpose, Non_Unit_Diag
+      B := B_Original;
+
+      trmm(A => A,
+           SIDE => Right,
+           UPLO => Upper,
+           TRANSA => No_Transpose,
+           DIAG => Non_Unit_Diag,
+           B => B,
+           ALPHA => 1.0);
+
+      Assert(B = Real_2D_Array'(
+             ( 11.0, 124.0),
+             ( 17.0, 184.0)
+            ), "B not set correctly by TRMM operation (Right, Upper, No_Transpose, Non_Unit_Diag)");
+
+      -- Left, Lower, No_Transpose, Non_Unit_Diag
+      B := B_Original;
+
+      trmm(A => A,
+           SIDE => Left,
+           UPLO => Lower,
+           TRANSA => No_Transpose,
+           DIAG => Non_Unit_Diag,
+           B => B,
+           ALPHA => 1.0);
+
+      Assert(B = Real_2D_Array'(
+             ( 11.0,  13.0),
+             (174.0, 198.0)
+            ), "B not set correctly by TRMM operation (Left, Lower, No_Transpose, Non_Unit_Diag)");
+
+      -- Left, Upper, Transpose, Non_Unit_Diag
+      B := B_Original;
+
+      trmm(A => A,
+           SIDE => Left,
+           UPLO => Upper,
+           TRANSA => Transpose,
+           DIAG => Non_Unit_Diag,
+           B => B,
+           ALPHA => 1.0);
+
+      Assert(B = Real_2D_Array'(
+             ( 11.0,  13.0),
+             (152.0, 172.0)
+            ), "B not set correctly by TRMM operation (Left, Upper, Transpose, Non_Unit_Diag)");
+
+      -- Left, Upper, No_Transpose, Unit_Diag
+      B := B_Original;
+
+      trmm(A => A,
+           SIDE => Left,
+           UPLO => Upper,
+           TRANSA => No_Transpose,
+           DIAG => Unit_Diag,
+           B => B,
+           ALPHA => 1.0);
+
+      Assert(B = Real_2D_Array'(
+             ( 62.0,  70.0),
+             ( 17.0,  19.0)
+            ), "B not set correctly by TRMM operation (Left, Upper, No_Transpose, Unit_Diag)");
+
+   end Check_Trmm;
+
 end aBLAS_Real_Level3;

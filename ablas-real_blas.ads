@@ -252,4 +252,15 @@ package aBLAS.Real_BLAS is
                   return Concrete_Real_Matrix
      with Inline, Pre => (A.Rows = B.Rows and A.Columns = B.Columns);
 
+   -- B <- alpha*TRANSA(A)*B or B <- alpha*B*TRANSA(A)
+   -- A is an upper or lower triangular matrix with unit or non-unit diagonal
+   procedure trmm(A : in Real_Matrix'Class;
+                  SIDE : in Side_Op;
+                  UPLO : in UpLo_Part;
+                  TRANSA : in Trans_Op;
+                  DIAG : in Diag_Unit;
+                  B : in out Real_Matrix'Class;
+                  ALPHA : in Real := 1.0)
+     with Inline;
+
 end aBLAS.Real_BLAS;

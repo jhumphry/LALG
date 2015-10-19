@@ -530,4 +530,36 @@ package aBLAS.Real_BLAS.Imports is
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "dsyr2k" & BLAS_Suffix;
 
+   procedure STRMM
+     (SIDE   : FC;
+      UPLO   : FC;
+      TRANSA : FC;
+      DIAG   : FC;
+      M      : FI;
+      N      : FI;
+      ALPHA  : Real;
+      A      : Real_Matrix_Constant_Handle;
+      LDA    : FI;
+      B      : Real_Matrix_Handle;
+      LDB    : FI) with
+      Import        => True,
+      Convention    => Fortran,
+      External_Name => BLAS_Prefix & "strmm" & BLAS_Suffix;
+
+    procedure DTRMM
+     (SIDE   : FC;
+      UPLO   : FC;
+      TRANSA : FC;
+      DIAG   : FC;
+      M      : FI;
+      N      : FI;
+      ALPHA  : Real;
+      A      : Real_Matrix_Constant_Handle;
+      LDA    : FI;
+      B      : Real_Matrix_Handle;
+      LDB    : FI) with
+      Import        => True,
+      Convention    => Fortran,
+      External_Name => BLAS_Prefix & "dtrmm" & BLAS_Suffix;
+
 end aBLAS.Real_BLAS.Imports;
