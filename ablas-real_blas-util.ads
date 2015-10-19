@@ -28,14 +28,14 @@ package aBLAS.Real_BLAS.Util is
                  Exp : in Field := Default_Exp);
 
    procedure Put(File : in File_Type;
-                 Item : in Real_Matrix'Class;
+                 Item : in Real_Abstract_Matrix'Class;
                  Columns : in Row_Column_Count := Default_Columns;
                  Rows : in Row_Column_Count := Default_Rows;
                  Fore : in Field := Default_Fore;
                  Aft : in Field := Default_Aft;
                  Exp : in Field := Default_Exp);
 
-   procedure Put(Item : in Real_Matrix'Class;
+   procedure Put(Item : in Real_Abstract_Matrix'Class;
                  Columns : in Row_Column_Count := Default_Columns;
                  Rows : in Row_Column_Count := Default_Rows;
                  Fore : in Field := Default_Fore;

@@ -58,17 +58,21 @@ package aBLAS is
                  Stride : Positive;
                  Length : Natural := 0) return Real_Vector_View;
 
-   type Real_Matrix is interface;
+   type Real_Abstract_Matrix is interface;
+   function Rows(V : Real_Abstract_Matrix) return Positive is abstract;
+   function Columns(V : Real_Abstract_Matrix) return Positive is abstract;
+   function Item(V : aliased in Real_Abstract_Matrix; R, C : Integer) return Real is abstract
+     with Pre'Class => (R <= V.Rows and C <= V.Columns);
+   function Variable_Reference(V: aliased in out Real_Abstract_Matrix; R, C : Integer)
+                               return Real_Scalar is abstract
+     with Pre'Class => (R <= V.Rows and C <= V.Columns);
+
+   type Real_Matrix is interface and Real_Abstract_Matrix;
    function Rows(V : Real_Matrix) return Positive is abstract;
    function Columns(V : Real_Matrix) return Positive is abstract;
    function Leading_Dimension(V : Real_Matrix) return Positive is abstract;
    function Handle(V : in out Real_Matrix) return Real_Matrix_Handle is abstract;
    function Constant_Handle(V : in Real_Matrix) return Real_Matrix_Constant_Handle is abstract;
-   function Item(V : aliased in Real_Matrix; R, C : Integer) return Real is abstract
-     with Pre'Class => (R <= V.Rows and C <= V.Columns);
-   function Variable_Reference(V: aliased in out Real_Matrix; R, C : Integer)
-                               return Real_Scalar is abstract
-     with Pre'Class => (R <= V.Rows and C <= V.Columns);
 
    type Concrete_Real_Matrix(M, N : Positive) is new Real_Matrix with private
      with Constant_Indexing => Item_CRM,
