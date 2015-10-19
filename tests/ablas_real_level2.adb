@@ -34,9 +34,12 @@ package body aBLAS_Real_Level2 is
    ----------------
 
    procedure Check_Gemv (T : in out Test_Cases.Test_Case'Class) is
-      A : aliased Concrete_Real_Matrix := Make(((1.0, 2.0, 3.0),
-                                        (5.0, 6.0, 7.0)));
-      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 2.0, 3.0),
+                                                        (5.0, 6.0, 7.0)
+                                                       ));
+      X : aliased constant Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
       Y : aliased Concrete_Real_Vector := Make((-4.0, 5.0));
    begin
       gemv(A, X, Y, 1.0, 2.0);
@@ -52,9 +55,10 @@ package body aBLAS_Real_Level2 is
    ----------------
 
    procedure Check_Symv (T : in out Test_Cases.Test_Case'Class) is
-      A : aliased Concrete_Real_Matrix := Make(((1.0, 2.0),
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make(((1.0, 2.0),
                                                (5.0, 6.0)));
-      X : aliased Concrete_Real_Vector := Make((1.0, 3.0));
+      X : aliased constant Concrete_Real_Vector := Make((1.0, 3.0));
       Y : aliased Concrete_Real_Vector := Make((-4.0, 5.0));
    begin
       symv(A, Upper, X, Y, 1.0, 2.0);
@@ -85,8 +89,9 @@ package body aBLAS_Real_Level2 is
    ---------------
 
    procedure Check_Ger (T : in out Test_Cases.Test_Case'Class) is
-      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
-      Y : aliased Concrete_Real_Vector := Make((-4.0, 5.0));
+      pragma Unreferenced (T);
+      X : aliased constant Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      Y : aliased constant Concrete_Real_Vector := Make((-4.0, 5.0));
       A : aliased Concrete_Real_Matrix := Zeros(3,2);
    begin
       ger(X, Y, A, 2.0);
@@ -103,8 +108,9 @@ package body aBLAS_Real_Level2 is
    --------------------
 
    procedure Check_Syr_Syr2 (T : in out Test_Cases.Test_Case'Class) is
-      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
-      Y : aliased Concrete_Real_Vector := Make((-1.0, 2.0, -1.0));
+      pragma Unreferenced (T);
+      X : aliased constant Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      Y : aliased constant Concrete_Real_Vector := Make((-1.0, 2.0, -1.0));
       A : aliased Concrete_Real_Matrix := Zeros(3,3);
    begin
       syr(X, A, Upper, 1.0);

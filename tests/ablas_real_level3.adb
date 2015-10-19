@@ -34,15 +34,16 @@ package body aBLAS_Real_Level3 is
    ----------------
 
    procedure Check_Gemm (T : in out Test_Cases.Test_Case'Class) is
-      A : aliased Concrete_Real_Matrix := Make((
-                                               (1.0, 2.0),
-                                               (3.0, 4.0),
-                                               (5.0, 6.0)
-                                              ));
-      B : aliased Concrete_Real_Matrix := Make((
-                                               (1.0, 2.0, 1.0),
-                                               (2.0, 1.0, 2.0)
-                                              ));
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 2.0),
+                                                        (3.0, 4.0),
+                                                        (5.0, 6.0)
+                                                       ));
+      B : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 2.0, 1.0),
+                                                        (2.0, 1.0, 2.0)
+                                                       ));
       C : aliased Concrete_Real_Matrix := Identity(3);
 
    begin
@@ -79,14 +80,15 @@ package body aBLAS_Real_Level3 is
    ----------------
 
    procedure Check_Symm (T : in out Test_Cases.Test_Case'Class) is
-      A : aliased Concrete_Real_Matrix := Make((
-                                               (1.0, 3.0),
-                                               (5.0, 7.0)
-                                              ));
-      B : aliased Concrete_Real_Matrix := Make((
-                                               (11.0, 13.0),
-                                               (17.0, 19.0)
-                                              ));
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 3.0),
+                                                        (5.0, 7.0)
+                                                       ));
+      B : aliased constant Concrete_Real_Matrix := Make((
+                                                        (11.0, 13.0),
+                                                        (17.0, 19.0)
+                                                       ));
       C : aliased Concrete_Real_Matrix := Identity(2);
 
    begin
@@ -179,10 +181,11 @@ package body aBLAS_Real_Level3 is
    ----------------
 
    procedure Check_Syrk (T : in out Test_Cases.Test_Case'Class) is
-      A : aliased Concrete_Real_Matrix := Make((
-                                               (1.0, 3.0),
-                                               (5.0, 7.0)
-                                              ));
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 3.0),
+                                                        (5.0, 7.0)
+                                                       ));
       C_Original : constant Concrete_Real_Matrix := Make((
                                                          (11.0, 13.0),
                                                          (17.0, 19.0)
@@ -269,14 +272,15 @@ package body aBLAS_Real_Level3 is
    -----------------
 
    procedure Check_Syr2k (T : in out Test_Cases.Test_Case'Class) is
-      A : aliased Concrete_Real_Matrix := Make((
-                                               (1.0, 3.0),
-                                               (5.0, 7.0)
-                                              ));
-      B : aliased Concrete_Real_Matrix := Make((
-                                               (11.0, 13.0),
-                                               (17.0, 19.0)
-                                              ));
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 3.0),
+                                                        (5.0, 7.0)
+                                                       ));
+      B : aliased constant Concrete_Real_Matrix := Make((
+                                                        (11.0, 13.0),
+                                                        (17.0, 19.0)
+                                                       ));
       C_Original : constant Concrete_Real_Matrix := Make((
                                                          (23.0, 29.0),
                                                          (31.0, 37.0)
@@ -373,14 +377,15 @@ package body aBLAS_Real_Level3 is
    ----------------
 
    procedure Check_Trmm (T : in out Test_Cases.Test_Case'Class) is
-      A : aliased Concrete_Real_Matrix := Make((
-                                               (1.0, 3.0),
-                                               (5.0, 7.0)
-                                              ));
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 3.0),
+                                                        (5.0, 7.0)
+                                                       ));
       B_Original : constant Concrete_Real_Matrix := Make((
-                                               (11.0, 13.0),
-                                               (17.0, 19.0)
-                                              ));
+                                                         (11.0, 13.0),
+                                                         (17.0, 19.0)
+                                                        ));
       B : aliased Concrete_Real_Matrix := B_Original;
 
    begin
@@ -475,18 +480,19 @@ package body aBLAS_Real_Level3 is
    ----------------
 
    procedure Check_Trsm (T : in out Test_Cases.Test_Case'Class) is
-      A : aliased Concrete_Real_Matrix := Make((
-                                               (1.0, 3.0),
-                                               (5.0, 7.0)
-                                              ));
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 3.0),
+                                                        (5.0, 7.0)
+                                                       ));
       X : constant Concrete_Real_Matrix := Make((
                                                 ( 11.0, 13.0),
                                                 ( 17.0, 19.0)
                                                ));
 
       AU_X : aliased Concrete_Real_Matrix := Make((
-                                                ( 62.0, 70.0),
-                                                (119.0,133.0)
+                                                  ( 62.0, 70.0),
+                                                  (119.0,133.0)
                                                  ));
 
       X_ALUT : aliased Concrete_Real_Matrix := Make((

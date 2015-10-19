@@ -34,14 +34,12 @@ package body aBLAS_Real_Level1 is
    ---------------
 
    procedure Check_Rot (T : in out Test_Cases.Test_Case'Class) is
-      A : Concrete_Real_Matrix := Make(((6.0, 5.0, 0.0),
-                                        (5.0, 1.0, 4.0),
-                                       (0.0, 4.0, 3.0)));
-      R1 : Real_Matrix_Vector := A.Row(1);
-      R2 : Real_Matrix_Vector := A.Row(2);
-      Expected_Result : Real_2D_Array := ((7.8102, 4.4813, 2.5607),
-                                          (0.0000,-2.4327, 3.0729),
-                                          (0.0000, 4.0000, 3.0000));
+      pragma Unreferenced (T);
+      A : Concrete_Real_Matrix := Make((
+                                       (6.0, 5.0, 0.0),
+                                       (5.0, 1.0, 4.0),
+                                       (0.0, 4.0, 3.0)
+                                      ));
       a1, b1 : Real;
       c, s : Real;
    begin
@@ -62,14 +60,12 @@ package body aBLAS_Real_Level1 is
    ----------------
 
    procedure Check_Rotm (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
       A : Concrete_Real_Matrix := Make(((6.0, 5.0, 0.0),
                                         (5.0, 1.0, 4.0),
                                        (0.0, 4.0, 3.0)));
       R1 : Real_Matrix_Vector := A.Row(1);
       R2 : Real_Matrix_Vector := A.Row(2);
-      Expected_Result : Real_2D_Array := ((7.8102, 4.4813, 2.5607),
-                                          (0.0000,-2.4327, 3.0729),
-                                          (0.0000, 4.0000, 3.0000));
       a1, b1, d1, d2 : Real;
       Params : Modified_Givens_Params;
    begin
@@ -85,6 +81,7 @@ package body aBLAS_Real_Level1 is
    ----------------
 
    procedure Check_Swap (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
       X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
       Y : aliased Concrete_Real_Vector := Make((4.0, 5.0, 6.0));
@@ -103,6 +100,7 @@ package body aBLAS_Real_Level1 is
    ----------------
 
    procedure Check_Scal (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
       Y : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
    begin
@@ -128,8 +126,9 @@ package body aBLAS_Real_Level1 is
    ----------------
 
    procedure Check_Copy (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
-      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+      X2 : constant Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
       Y : aliased Concrete_Real_Vector := Make((4.0, 5.0, 6.0));
       Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
    begin
@@ -137,6 +136,7 @@ package body aBLAS_Real_Level1 is
       Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X modified by a copy operation.");
       Assert(Y = Real_1D_Array'(1.0, 2.0, 3.0), "Y not copied correctly.");
       copy(X2, Y2);
+      pragma Unreferenced(Y2);
       Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X modified by a copy via view.");
       Assert(Y = Real_1D_Array'(2.0, 2.0, 3.0), "Y not copied correctly via view.");
    end Check_Copy;
@@ -146,10 +146,13 @@ package body aBLAS_Real_Level1 is
    ----------------
 
    procedure Check_Axpy (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
-      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+      X2 : constant Real_Vector_View :=
+        Make(X'Access, Start => 2, Stride => 1, Length => 2);
       Y : aliased Concrete_Real_Vector := Make((4.0, 5.0, 6.0));
-      Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
+      Y2 : Real_Vector_View :=
+        Make(Y'Access, Start => 1, Stride => 2, Length => 2);
    begin
       axpy(X, Y, 1.0);
       Assert(X = Real_1D_Array'(1.0, 2.0, 3.0), "X modified by an Y<-aX+Y op.");
@@ -164,10 +167,13 @@ package body aBLAS_Real_Level1 is
    ----------------------
 
    procedure Check_Dot_Sdsdot (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
-      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+      X2 : constant Real_Vector_View :=
+        Make(X'Access, Start => 2, Stride => 1, Length => 2);
       Y : aliased Concrete_Real_Vector := Make((4.0, 5.0, 6.0));
-      Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 2, Length => 2);
+      Y2 : constant Real_Vector_View :=
+        Make(Y'Access, Start => 1, Stride => 2, Length => 2);
    begin
       Assert(dot(X, Y) = 32.0, "dot incorrect.");
       Assert(sdsdot(X, Y, 4.0) = 36.0, "sdsdot incorrect.");
@@ -180,8 +186,10 @@ package body aBLAS_Real_Level1 is
    ----------------
 
    procedure Check_Nrm2 (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
       X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
-      X2 : Real_Vector_View := Make(X'Access, Start => 2, Stride => 1, Length => 2);
+      X2 : constant Real_Vector_View :=
+        Make(X'Access, Start => 2, Stride => 1, Length => 2);
    begin
       Assert(abs(nrm2(X)-3.7416573867739413)<Soft_Epsilon, "Nrm2 incorrect.");
       Assert(abs(nrm2(X2)-3.605551275463989)<Soft_Epsilon, "Nrm2 incorrect applied to view.");
@@ -192,8 +200,9 @@ package body aBLAS_Real_Level1 is
    ----------------
 
    procedure Check_Asum (T : in out Test_Cases.Test_Case'Class) is
-      X : Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
-      Y : Concrete_Real_Vector := Make((-4.0, 5.0, -6.0));
+      pragma Unreferenced (T);
+      X : constant Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      Y : constant Concrete_Real_Vector := Make((-4.0, 5.0, -6.0));
    begin
       Assert(asum(X) = 6.0, "asum(X) not working");
       Assert(asum(Y) = 15.0, "asum(Y) not working (not absolute values?)");
@@ -204,9 +213,11 @@ package body aBLAS_Real_Level1 is
    -----------------
 
    procedure Check_Iamax (T : in out Test_Cases.Test_Case'Class) is
-      X : Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      pragma Unreferenced (T);
+      X : constant Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
       Y : aliased Concrete_Real_Vector := Make((4.0, -5.0, -6.0));
-      Y2 : Real_Vector_View := Make(Y'Access, Start => 1, Stride => 1, Length => 2);
+      Y2 : constant Real_Vector_View :=
+        Make(Y'Access, Start => 1, Stride => 1, Length => 2);
    begin
       Assert(iamax(X) = 3, "iamax(X) not working");
       Assert(iamax(Y) = 3, "iamax(Y) not working");

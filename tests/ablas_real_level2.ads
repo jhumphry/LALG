@@ -16,6 +16,9 @@ generic
    Soft_Epsilon : BLAS_Base.Real := BLAS_Base."*"(1000.0, BLAS_Base.Real'Model_Epsilon);
 package aBLAS_Real_Level2 is
 
+   pragma Unreferenced(Epsilon);
+   pragma Unreferenced(Soft_Epsilon);
+
    use BLAS_Base, BLAS;
 
    package BLAS_Util is new BLAS.Util;
