@@ -362,6 +362,28 @@ package aBLAS.Real_BLAS.Imports is
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "dsyr" & BLAS_Suffix;
 
+   procedure SSPR
+     (UPLO  : FC;
+      N     : FI;
+      ALPHA : Real;
+      X     : Real_Vector_Constant_Handle;
+      INCX  : FP;
+      AP    : Real_Packed_Matrix_Handle) with
+      Import        => True,
+      Convention    => Fortran,
+      External_Name => BLAS_Prefix & "sspr" & BLAS_Suffix;
+
+   procedure DSPR
+     (UPLO  : FC;
+      N     : FI;
+      ALPHA : Real;
+      X     : Real_Vector_Constant_Handle;
+      INCX  : FP;
+      AP    : Real_Packed_Matrix_Handle) with
+      Import        => True,
+      Convention    => Fortran,
+      External_Name => BLAS_Prefix & "dspr" & BLAS_Suffix;
+
    procedure SSYR2
      (UPLO  : FC;
       N     : FI;
@@ -389,6 +411,32 @@ package aBLAS.Real_BLAS.Imports is
       Import        => True,
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "dsyr2" & BLAS_Suffix;
+
+   procedure SSPR2
+     (UPLO  : FC;
+      N     : FI;
+      ALPHA : Real;
+      X     : Real_Vector_Constant_Handle;
+      INCX  : FP;
+      Y     : Real_Vector_Constant_Handle;
+      INCY  : FP;
+      AP    : Real_Packed_Matrix_Handle) with
+      Import        => True,
+      Convention    => Fortran,
+      External_Name => BLAS_Prefix & "sspr2" & BLAS_Suffix;
+
+   procedure DSPR2
+     (UPLO  : FC;
+      N     : FI;
+      ALPHA : Real;
+      X     : Real_Vector_Constant_Handle;
+      INCX  : FP;
+      Y     : Real_Vector_Constant_Handle;
+      INCY  : FP;
+      AP    : Real_Packed_Matrix_Handle) with
+      Import        => True,
+      Convention    => Fortran,
+      External_Name => BLAS_Prefix & "dspr2" & BLAS_Suffix;
 
       -- *************
       -- *************

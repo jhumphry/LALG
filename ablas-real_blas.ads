@@ -149,6 +149,13 @@ package aBLAS.Real_BLAS is
      with Pre => (A.Rows = A.Columns and
                     X.Length = A.Rows);
 
+   -- AP <- alpha*x*xT + AP with AP a packed symmetric matrix
+   procedure spr(X : in Real_Vector'Class;
+                 AP : in out Symmetric_Real_Matrix'Class;
+                 UPLO : in UpLo_Part;
+                 ALPHA : in Real := 1.0)
+     with Pre => (X.Length = AP.Rows);
+
    -- A <- alpha*x*yT + alpha*y*xT + A
    -- using only the upper or lower triangular part of A
    procedure syr2(X : in Real_Vector'Class;
@@ -159,6 +166,16 @@ package aBLAS.Real_BLAS is
      with Pre => (A.Rows = A.Columns and
                     X.Length = A.Rows and
                       Y.Length = A.Rows);
+
+   -- AP <- alpha*x*yT + alpha*y*xT + AP
+   -- with AP a packed symmetric matrix
+   procedure spr2(X : in Real_Vector'Class;
+                  Y : in Real_Vector'Class;
+                  AP : in out Symmetric_Real_Matrix'Class;
+                  UPLO : in UpLo_Part;
+                  ALPHA : in Real := 1.0)
+     with Pre => (X.Length = AP.Rows and
+                      Y.Length = AP.Rows);
 
    -- *************
    -- *************

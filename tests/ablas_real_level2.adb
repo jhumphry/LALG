@@ -135,4 +135,50 @@ package body aBLAS_Real_Level2 is
 
    end Check_Syr_Syr2;
 
+   --------------------
+   -- Check_Spr_Spr2 --
+   --------------------
+
+   procedure Check_Spr_Spr2 (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
+      X : aliased constant Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      Y : aliased constant Concrete_Real_Vector := Make((-1.0, 2.0, -1.0));
+      AP : aliased Symmetric_Real_Matrix := Zeros(3);
+   begin
+      spr(X, AP, Upper, 1.0);
+      Assert(X = Real_1D_Array'(1.0, 2.0, 3.0),
+             "X changed by SPR operation (upper triangular)");
+      Assert(AP = Real_2D_Array'((
+             (1.0, 2.0, 3.0),
+             (2.0, 4.0, 6.0),
+             (3.0, 6.0, 9.0))),
+             "AP not set correctly by SPR operation (upper triangular)");
+
+      spr2(X, Y, AP, Upper, 2.0);
+      Assert(X = Real_1D_Array'(1.0, 2.0, 3.0),
+             "X changed by SPR2 operation (upper triangular)");
+      Assert(Y = Real_1D_Array'(-1.0, 2.0, -1.0),
+             "Y changed by SPR2 operation (upper triangular)");
+      Assert(AP = Real_2D_Array'((
+             (-3.0, 2.0,-5.0),
+             ( 2.0,20.0,14.0),
+             (-5.0,14.0,-3.0))),
+             "AP not set correctly by SPR2 operation (upper triangular)");
+
+--        AP := Zeros(3);
+--        spr(X, AP, Lower, 1.0);
+--        Assert(AP = Real_2D_Array'((
+--               (1.0, 2.0, 3.0),
+--               (2.0, 4.0, 6.0),
+--               (3.0, 6.0, 9.0))),
+--               "AP not set correctly by SPR operation (lower triangular)");
+--        spr2(X, Y, AP, Lower, 2.0);
+--        Assert(AP = Real_2D_Array'((
+--               (-3.0, 2.0,-5.0),
+--               ( 2.0,20.0,14.0),
+--               (-5.0,14.0,-3.0))),
+--               "AP not set correctly by SPR2 operation (lower triangular)");
+
+   end Check_Spr_Spr2;
+
 end aBLAS_Real_Level2;

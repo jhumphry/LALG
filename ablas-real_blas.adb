@@ -485,6 +485,34 @@ package body aBLAS.Real_BLAS is
       end case;
    end syr;
 
+   ---------
+   -- spr --
+   ---------
+
+   procedure spr(X : in Real_Vector'Class;
+                 AP : in out Symmetric_Real_Matrix'Class;
+                 UPLO : in UpLo_Part;
+                 ALPHA : in Real := 1.0)
+   is
+   begin
+      case Precision is
+         when Single =>
+            SSPR(UPLO => Map_UpLo_Part(UPLO),
+                 N => FP(AP.Columns),
+                 ALPHA => ALPHA,
+                 X => X.Constant_Handle,
+                 INCX => FP(X.Stride),
+                 AP => AP.Handle);
+         when Double =>
+            DSPR(UPLO => Map_UpLo_Part(UPLO),
+                 N => FP(AP.Columns),
+                 ALPHA => ALPHA,
+                 X => X.Constant_Handle,
+                 INCX => FP(X.Stride),
+                 AP => AP.Handle);
+      end case;
+   end spr;
+
    ----------
    -- syr2 --
    ----------
@@ -519,6 +547,39 @@ package body aBLAS.Real_BLAS is
                   LDA => FP(A.Leading_Dimension));
       end case;
    end syr2;
+
+   ----------
+   -- spr2 --
+   ----------
+
+   procedure spr2(X : in Real_Vector'Class;
+                  Y : in Real_Vector'Class;
+                  AP : in out Symmetric_Real_Matrix'Class;
+                  UPLO : in UpLo_Part;
+                  ALPHA : in Real := 1.0)
+   is
+   begin
+      case Precision is
+         when Single =>
+            SSPR2(UPLO => Map_UpLo_Part(UPLO),
+                  N => FP(AP.Columns),
+                  ALPHA => ALPHA,
+                  X => X.Constant_Handle,
+                  INCX => FP(X.Stride),
+                  Y => Y.Constant_Handle,
+                  INCY => FP(Y.Stride),
+                  AP => AP.Handle);
+         when Double =>
+            DSPR2(UPLO => Map_UpLo_Part(UPLO),
+                  N => FP(AP.Columns),
+                  ALPHA => ALPHA,
+                  X => X.Constant_Handle,
+                  INCX => FP(X.Stride),
+                  Y => Y.Constant_Handle,
+                  INCY => FP(Y.Stride),
+                  AP => AP.Handle);
+      end case;
+   end spr2;
 
    -- *************
    -- *************
