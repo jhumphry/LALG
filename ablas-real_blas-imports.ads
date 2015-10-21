@@ -310,6 +310,34 @@ package aBLAS.Real_BLAS.Imports is
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "dsymv" & BLAS_Suffix;
 
+   procedure SSPMV
+     (UPLO  : FC;
+      N     : FP;
+      ALPHA : Real;
+      AP    : Real_Packed_Matrix_Constant_Handle;
+      X     : Real_Vector_Constant_Handle;
+      INCX  : FP;
+      BETA  : Real;
+      Y     : Real_Vector_Handle;
+      INCY  : FP) with
+     Import        => True,
+     Convention    => Fortran,
+     External_Name => BLAS_Prefix & "sspmv" & BLAS_Suffix;
+
+   procedure DSPMV
+     (UPLO  : FC;
+      N     : FP;
+      ALPHA : Real;
+      AP    : Real_Packed_Matrix_Constant_Handle;
+      X     : Real_Vector_Constant_Handle;
+      INCX  : FP;
+      BETA  : Real;
+      Y     : Real_Vector_Handle;
+      INCY  : FP) with
+     Import        => True,
+     Convention    => Fortran,
+     External_Name => BLAS_Prefix & "dspmv" & BLAS_Suffix;
+
    procedure SGER
      (M     : FI;
       N     : FI;

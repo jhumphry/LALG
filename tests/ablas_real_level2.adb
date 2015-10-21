@@ -84,6 +84,49 @@ package body aBLAS_Real_Level2 is
 
    end Check_Symv;
 
+   ----------------
+   -- Check_Spmv --
+   ----------------
+
+   procedure Check_Spmv (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
+      AP : aliased Symmetric_Real_Matrix := Make((
+                                                 (1.0, 2.0),
+                                                 (2.0, 3.0)
+                                                ), Upper);
+      X : aliased constant Concrete_Real_Vector := Make((1.0, 3.0));
+      Y : aliased Concrete_Real_Vector := Make((-4.0, 5.0));
+   begin
+      spmv(AP    => AP,
+           X     => X,
+           Y     => Y,
+           ALPHA => 1.0,
+           BETA  => 2.0);
+      Assert(X = Real_1D_Array'(1.0, 3.0), "X changed by SPMV operation (upper)");
+      Assert(AP = Real_2D_Array'(
+             (1.0, 2.0),
+             (2.0, 3.0)), "AP changed by SPMV operation (upper)");
+      Assert(Y = Real_1D_Array'(-1.0, 21.0),
+             "Y not set correctly by SPMV operation (upper)");
+      Assert(spmv(AP, X, 1.0) =  Real_1D_Array'(7.0, 11.0),
+             "Function version of SPMV not working (upper)");
+
+      AP := Make((
+                 (1.0, 2.0),
+                 (2.0, 3.0)
+                ), Lower);
+      Y := Make((-4.0, 5.0));
+      spmv(AP    => AP,
+           X     => X,
+           Y     => Y,
+           ALPHA => 1.0,
+           BETA  => 2.0);
+      Assert(Y = Real_1D_Array'(-1.0, 21.0),
+             "Y not set correctly by SPMV operation (lower)");
+      Assert(spmv(AP, X, 1.0) =  Real_1D_Array'(7.0, 11.0),
+             "Function version of SPMV not working (lower)");
+   end Check_Spmv;
+
    ---------------
    -- Check_Ger --
    ---------------

@@ -421,6 +421,56 @@ package body aBLAS.Real_BLAS is
       return Y;
    end symv;
 
+   ----------
+   -- spmv --
+   ----------
+
+   procedure spmv(AP : in Symmetric_Real_Matrix'Class;
+                  X : in Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0) is
+   begin
+      case Precision is
+         when Single =>
+            SSPMV(UPLO => Map_UpLo_Part(AP.UpLo),
+                  N => FP(AP.Columns),
+                  ALPHA => ALPHA,
+                  AP => AP.Constant_Handle,
+                  X => X.Constant_Handle,
+                  INCX => FP(X.Stride),
+                  BETA => BETA,
+                  Y => Y.Handle,
+                  INCY => FP(Y.Stride));
+         when Double =>
+            DSPMV(UPLO => Map_UpLo_Part(AP.UpLo),
+                  N => FP(AP.Columns),
+                  ALPHA => ALPHA,
+                  AP => AP.Constant_Handle,
+                  X => X.Constant_Handle,
+                  INCX => FP(X.Stride),
+                  BETA => BETA,
+                  Y => Y.Handle,
+                  INCY => FP(Y.Stride));
+      end case;
+   end spmv;
+
+   function spmv(AP : in Symmetric_Real_Matrix'Class;
+                 X : in Real_Vector'Class;
+                 ALPHA : in Real := 1.0)
+                 return Real_Vector'Class is
+      Y : Concrete_Real_Vector(N => AP.Rows);
+      -- As Beta is being set to zero, Y should only be written to and not read
+      -- so it does not matter that it is uninitialised.
+   begin
+      spmv(AP => AP,
+           X => X,
+           Y => Y,
+           ALPHA => ALPHA,
+           BETA => 0.0);
+      return Y;
+   end spmv;
+
    ---------
    -- ger --
    ---------

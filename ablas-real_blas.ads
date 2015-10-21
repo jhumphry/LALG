@@ -131,6 +131,22 @@ package aBLAS.Real_BLAS is
      with Pre => (A.Columns = A. Rows and
                     X.Length = A.Columns);
 
+   -- y <- alpha*A*x + beta*y with AP a packed symmetrical matrix
+   procedure spmv(AP : in Symmetric_Real_Matrix'Class;
+                  X : in Real_Vector'Class;
+                  Y : in out Real_Vector'Class;
+                  ALPHA : in Real := 1.0;
+                  BETA : in Real := 0.0)
+     with Pre => (X.Length = AP.Columns and
+                    Y.Length = AP.Rows);
+
+   -- spmv <- alpha*AP*x with AP a packed symmetrical matrix
+   function spmv(AP : in Symmetric_Real_Matrix'Class;
+                 X : in Real_Vector'Class;
+                 ALPHA : in Real := 1.0)
+                 return Real_Vector'Class
+     with Pre => (X.Length = AP.Columns);
+
    -- A <- alpha*x*yT + A
    procedure ger(X : in Real_Vector'Class;
                  Y : in Real_Vector'Class;
