@@ -64,16 +64,16 @@ package aBLAS is
                  Stride : Positive;
                  Length : Natural := 0) return Real_Vector_View;
 
-   type Real_Abstract_Matrix is interface;
-   function Rows(V : Real_Abstract_Matrix) return Positive is abstract;
-   function Columns(V : Real_Abstract_Matrix) return Positive is abstract;
-   function Item(V : aliased in Real_Abstract_Matrix; R, C : Integer) return Real is abstract
+   type Abstract_Real_Matrix is interface;
+   function Rows(V : Abstract_Real_Matrix) return Positive is abstract;
+   function Columns(V : Abstract_Real_Matrix) return Positive is abstract;
+   function Item(V : aliased in Abstract_Real_Matrix; R, C : Integer) return Real is abstract
      with Pre'Class => (R <= V.Rows and C <= V.Columns);
-   function Variable_Reference(V: aliased in out Real_Abstract_Matrix; R, C : Integer)
+   function Variable_Reference(V: aliased in out Abstract_Real_Matrix; R, C : Integer)
                                return Real_Scalar is abstract
      with Pre'Class => (R <= V.Rows and C <= V.Columns);
 
-   type Real_Matrix is interface and Real_Abstract_Matrix;
+   type Real_Matrix is interface and Abstract_Real_Matrix;
    function Rows(V : Real_Matrix) return Positive is abstract;
    function Columns(V : Real_Matrix) return Positive is abstract;
    function Leading_Dimension(V : Real_Matrix) return Positive is abstract;
@@ -115,7 +115,7 @@ package aBLAS is
    function Handle(V : in out Packed_Real_Matrix) return Real_Packed_Matrix_Handle;
    function Constant_Handle(V : in Packed_Real_Matrix) return Real_Packed_Matrix_Constant_Handle;
 
-   type Symmetric_Real_Matrix is new Packed_Real_Matrix and Real_Abstract_Matrix with private
+   type Symmetric_Real_Matrix is new Packed_Real_Matrix and Abstract_Real_Matrix with private
      with Constant_Indexing => Item_SRM,
      Variable_Indexing => Variable_Reference_SRM;
    function Item(V : aliased in Symmetric_Real_Matrix; R, C : Integer)
@@ -136,10 +136,10 @@ package aBLAS is
                          Right : Real_1D_Array;
                          Epsilon : Real := 0.001) return Boolean;
 
-   function "="(Left : Real_Abstract_Matrix'Class;
+   function "="(Left : Abstract_Real_Matrix'Class;
                 Right : Real_2D_Array) return Boolean;
 
-   function Approx_Equal(Left : Real_Abstract_Matrix'Class;
+   function Approx_Equal(Left : Abstract_Real_Matrix'Class;
                          Right : Real_2D_Array;
                          Epsilon : Real := 0.001) return Boolean;
 
@@ -240,7 +240,7 @@ private
          Data : Real_1D_Array(1..L);
       end record;
 
-   type Symmetric_Real_Matrix is new Packed_Real_Matrix and Real_Abstract_Matrix
+   type Symmetric_Real_Matrix is new Packed_Real_Matrix and Abstract_Real_Matrix
    with null record;
 
    function Item_SRM(V : aliased in Symmetric_Real_Matrix; R, C : Integer)

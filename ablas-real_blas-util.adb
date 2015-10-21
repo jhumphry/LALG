@@ -73,7 +73,7 @@ package body aBLAS.Real_BLAS.Util is
 
    procedure Put_Matrix_Row
      (File : in File_Type;
-      Item : in Real_Abstract_Matrix'Class;
+      Item : in Abstract_Real_Matrix'Class;
       Row : in Integer;
       Columns : in Row_Column_Count;
       Fore : in Field;
@@ -114,7 +114,7 @@ package body aBLAS.Real_BLAS.Util is
 
    procedure Put
      (File : in File_Type;
-      Item : in Real_Abstract_Matrix'Class;
+      Item : in Abstract_Real_Matrix'Class;
       Columns : in Row_Column_Count := Default_Columns;
       Rows : in Row_Column_Count := Default_Rows;
       Fore : in Field := Default_Fore;
@@ -167,7 +167,7 @@ package body aBLAS.Real_BLAS.Util is
    ---------
 
    procedure Put
-     (Item : in Real_Abstract_Matrix'Class;
+     (Item : in Abstract_Real_Matrix'Class;
       Columns : in Row_Column_Count := Default_Columns;
       Rows : in Row_Column_Count := Default_Rows;
       Fore : in Field := Default_Fore;
