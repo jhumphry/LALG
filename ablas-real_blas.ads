@@ -155,6 +155,17 @@ package aBLAS.Real_BLAS is
                   X : in out Real_Vector'Class)
      with Inline;
 
+   -- B <- solve(A * X =  B) or
+   -- B <- solve(AT * X =  B)
+   -- A is an upper or lower triangular matrix with unit or non-unit diagonal
+   -- B is a vector
+   procedure trsv(A : in Real_Matrix'Class;
+                  UPLO : in UpLo_Part;
+                  TRANS : in Trans_Op;
+                  DIAG : in Diag_Unit;
+                  X : in out Real_Vector'Class)
+     with Inline;
+
    -- A <- alpha*x*yT + A
    procedure ger(X : in Real_Vector'Class;
                  Y : in Real_Vector'Class;
@@ -313,9 +324,9 @@ package aBLAS.Real_BLAS is
      with Inline;
 
    -- B <- solve(TRANSA(A) * X = alpha * B) or
-   -- B <- solve(X * TRANSA(A) = alpha * B) or
+   -- B <- solve(X * TRANSA(A) = alpha * B)
    -- A is an upper or lower triangular matrix with unit or non-unit diagonal
-   -- B is a vector
+   -- B is a vector (note this is more flexible than TRSV)
    procedure trsm(A : in Real_Matrix'Class;
                   SIDE : in Side_Op;
                   UPLO : in UpLo_Part;

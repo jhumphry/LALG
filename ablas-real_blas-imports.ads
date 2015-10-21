@@ -364,6 +364,32 @@ package aBLAS.Real_BLAS.Imports is
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "dtrmv" & BLAS_Suffix;
 
+   procedure STRSV
+     (UPLO  : FC;
+      TRANS : FC;
+      DIAG  : FC;
+      N     : FP;
+      A     : Real_Matrix_Constant_Handle;
+      LDA   : FP;
+      X     : Real_Vector_Handle;
+      INCX  : FP) with
+      Import        => True,
+      Convention    => Fortran,
+      External_Name => BLAS_Prefix & "strsv" & BLAS_Suffix;
+
+   procedure DTRSV
+     (UPLO  : FC;
+      TRANS : FC;
+      DIAG  : FC;
+      N     : FP;
+      A     : Real_Matrix_Constant_Handle;
+      LDA   : FP;
+      X     : Real_Vector_Handle;
+      INCX  : FP) with
+      Import        => True,
+      Convention    => Fortran,
+     External_Name => BLAS_Prefix & "dtrsv" & BLAS_Suffix;
+
    procedure SGER
      (M     : FI;
       N     : FI;

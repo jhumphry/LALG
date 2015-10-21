@@ -173,6 +173,52 @@ package body aBLAS_Real_Level2 is
 
    end Check_Trmv;
 
+   ----------------
+   -- Check_Trsv --
+   ----------------
+
+   procedure Check_Trsv (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 2.0),
+                                                        (5.0, 6.0)
+                                                       ));
+      X : aliased Concrete_Real_Vector := Zeros(2);
+   begin
+      X := Make((7.0, 18.0));
+      trsv(A, Upper, No_Transpose, Non_Unit_Diag, X);
+      Assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by TRSV operation (Upper, No_Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 3.0),
+             "X not set correctly by TRSV operation (Upper, No_Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 20.0));
+      trsv(A, Upper, Transpose, Non_Unit_Diag, X);
+      Assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by TRSV operation (Upper, Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 3.0),
+             "X not set correctly by TRSV operation (Upper, Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 23.0));
+      trsv(A, Lower, No_Transpose, Non_Unit_Diag, X);
+      Assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by TRSV operation (Lower, No_Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0,3.0),
+             "X not set correctly by TRSV operation (Lower, No_Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 8.0));
+      trsv(A, Lower, No_Transpose, Unit_Diag, X);
+      Assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by TRSV operation (Lower, No_Transpose, Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 3.0),
+             "X not set correctly by TRSV operation (Lower, No_Transpose, Unit_Diag)");
+
+   end Check_Trsv;
+
    ---------------
    -- Check_Ger --
    ---------------
