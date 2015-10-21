@@ -9,9 +9,6 @@ package aBLAS.Real_BLAS is
    -- Operand side for non-commutative operations
    type Side_Op is (Left, Right);
 
-   -- Use the upper or lower part of a symmetric matrix
-   type UpLo_Part is (Upper, Lower);
-
    -- Transpose operation specifier
    type Trans_Op is (No_Transpose, Transpose, Conj_Transpose);
    subtype Real_Trans_Op is Trans_Op range No_Transpose..Transpose;
@@ -152,7 +149,6 @@ package aBLAS.Real_BLAS is
    -- AP <- alpha*x*xT + AP with AP a packed symmetric matrix
    procedure spr(X : in Real_Vector'Class;
                  AP : in out Symmetric_Real_Matrix'Class;
-                 UPLO : in UpLo_Part;
                  ALPHA : in Real := 1.0)
      with Pre => (X.Length = AP.Rows);
 
@@ -172,7 +168,6 @@ package aBLAS.Real_BLAS is
    procedure spr2(X : in Real_Vector'Class;
                   Y : in Real_Vector'Class;
                   AP : in out Symmetric_Real_Matrix'Class;
-                  UPLO : in UpLo_Part;
                   ALPHA : in Real := 1.0)
      with Pre => (X.Length = AP.Rows and
                       Y.Length = AP.Rows);

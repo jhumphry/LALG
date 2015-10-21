@@ -7,6 +7,10 @@ generic
    type Real is digits <>;
 package aBLAS is
 
+   -- Use the upper or lower part of a matrix
+   -- Store the upper of lower part of a packed symmetrical matrix
+   type UpLo_Part is (Upper, Lower);
+
    -- Basic scalar, vector and matrix types
 
    type Real_Scalar(Element : access Real'Base) is null record
@@ -118,11 +122,11 @@ package aBLAS is
                  return Real with Inline;
    function Variable_Reference(V : aliased in out Symmetric_Real_Matrix; R, C : Integer)
                                return Real_Scalar with Inline;
-   function Make(A : Real_2D_Array) return Symmetric_Real_Matrix
+   function Make(A : Real_2D_Array; UpLo : UpLo_Part) return Symmetric_Real_Matrix
      with Pre => (A'Length(1) = A'Length(2));
-   function Zeros(Rows : Positive) return Symmetric_Real_Matrix;
-   function Ones(Rows : Positive) return Symmetric_Real_Matrix;
-   function Identity(Rows : Positive) return Symmetric_Real_Matrix;
+   function Zeros(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix;
+   function Ones(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix;
+   function Identity(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix;
 
    -- Some equality operators
 
@@ -232,6 +236,7 @@ private
 
    type Packed_Real_Matrix(M, L : Positive) is tagged
       record
+         UpLo : UpLo_Part;
          Data : Real_1D_Array(1..L);
       end record;
 

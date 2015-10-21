@@ -29,10 +29,15 @@ procedure Simple_Example is
    X : aliased BLAS.Concrete_Real_Vector := BLAS.Make((1.0, 2.0));
    Y : aliased BLAS.Concrete_Real_Vector := BLAS.Make((5.0, 5.0));
 
-   SP : aliased constant BLAS.Symmetric_Real_Matrix := BLAS.Make((
-                                                        (1.0, 2.0),
-                                                        (3.0, 4.0)
-                                                       ));
+   SPU : aliased constant BLAS.Symmetric_Real_Matrix := BLAS.Make((
+                                                                  (1.0, 2.0),
+                                                                  (3.0, 4.0)
+                                                                 ), BLAS.Upper);
+   SPL : aliased constant BLAS.Symmetric_Real_Matrix := BLAS.Make((
+                                                                  (1.0, 2.0, 3.0),
+                                                                  (4.0, 5.0, 6.0),
+                                                                  (7.0, 8.0, 9.0)
+                                                                 ), BLAS.Lower);
 
 begin
 
@@ -45,8 +50,14 @@ begin
    Put("Identity matrix 10x10:");
    Put(BLAS.Concrete_Real_Matrix'(BLAS.Identity(10))); New_Line;
    Put_Line("Symmetrical Packed Real matrices");
-   Put("SP => "); Put(SP); New_Line;
-   Put("I => "); Put(BLAS.Symmetric_Real_Matrix'(BLAS.Identity(3))); New_Line;
+   Put("SPU => "); Put(SPU); New_Line;
+   Put("SPL => "); Put(SPL); New_Line;
+   Put("I (upper) => ");
+   Put(BLAS.Symmetric_Real_Matrix'(BLAS.Identity(3, BLAS.Upper)));
+   New_Line;
+   Put("I (lower) => ");
+   Put(BLAS.Symmetric_Real_Matrix'(BLAS.Identity(3, BLAS.Lower)));
+   New_Line;
 
    New_Line;
    Put_Line("*** Level 1 ***");

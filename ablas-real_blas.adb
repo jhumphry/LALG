@@ -491,20 +491,19 @@ package body aBLAS.Real_BLAS is
 
    procedure spr(X : in Real_Vector'Class;
                  AP : in out Symmetric_Real_Matrix'Class;
-                 UPLO : in UpLo_Part;
                  ALPHA : in Real := 1.0)
    is
    begin
       case Precision is
          when Single =>
-            SSPR(UPLO => Map_UpLo_Part(UPLO),
+            SSPR(UPLO => Map_UpLo_Part(AP.UpLo),
                  N => FP(AP.Columns),
                  ALPHA => ALPHA,
                  X => X.Constant_Handle,
                  INCX => FP(X.Stride),
                  AP => AP.Handle);
          when Double =>
-            DSPR(UPLO => Map_UpLo_Part(UPLO),
+            DSPR(UPLO => Map_UpLo_Part(AP.UpLo),
                  N => FP(AP.Columns),
                  ALPHA => ALPHA,
                  X => X.Constant_Handle,
@@ -555,13 +554,12 @@ package body aBLAS.Real_BLAS is
    procedure spr2(X : in Real_Vector'Class;
                   Y : in Real_Vector'Class;
                   AP : in out Symmetric_Real_Matrix'Class;
-                  UPLO : in UpLo_Part;
                   ALPHA : in Real := 1.0)
    is
    begin
       case Precision is
          when Single =>
-            SSPR2(UPLO => Map_UpLo_Part(UPLO),
+            SSPR2(UPLO => Map_UpLo_Part(AP.UpLo),
                   N => FP(AP.Columns),
                   ALPHA => ALPHA,
                   X => X.Constant_Handle,
@@ -570,7 +568,7 @@ package body aBLAS.Real_BLAS is
                   INCY => FP(Y.Stride),
                   AP => AP.Handle);
          when Double =>
-            DSPR2(UPLO => Map_UpLo_Part(UPLO),
+            DSPR2(UPLO => Map_UpLo_Part(AP.UpLo),
                   N => FP(AP.Columns),
                   ALPHA => ALPHA,
                   X => X.Constant_Handle,

@@ -187,9 +187,14 @@ package body aBLAS is
    function Item(V : aliased in Symmetric_Real_Matrix; R, C : Integer) return Real is
       S : constant Integer := Integer'Min(R, C);
       T : constant Integer := Integer'Max(R, C);
-      U : constant Integer := (T * (T-1)) / 2 + S;
    begin
-      return V.Data(U);
+      if V.UpLo = Upper then
+         return V.Data((T * (T-1)) / 2 + S);
+      else
+         -- Note - the BLAS technical report is WRONG about this
+         -- the LAPACK user guide has the correct formula.
+         return V.Data(T + (2 * V.M - S) * (S - 1) / 2);
+      end if;
    end Item;
 
    function Variable_Reference(V: aliased in out Symmetric_Real_Matrix; R, C : Integer)
@@ -198,41 +203,64 @@ package body aBLAS is
       T : constant Integer := Integer'Max(R, C);
       U : constant Integer := (T * (T-1)) / 2 + S;
    begin
-      return Real_Scalar'(Element => V.Data(U)'Access);
+      if V.UpLo = Upper then
+         return Real_Scalar'(Element => V.Data(U)'Access);
+      else
+         return Real_Scalar'(Element => V.Data(T + (2 * V.M - S) * (S - 1) / 2)'Access);
+      end if;
    end Variable_Reference;
 
-   function Make(A : Real_2D_Array) return Symmetric_Real_Matrix is
+   function Make(A : Real_2D_Array; UpLo : UpLo_Part)
+                 return Symmetric_Real_Matrix is
       K : Positive := 1;
    begin
       return R : Symmetric_Real_Matrix(M => A'Length(1),
                                        L => (A'Length(1) * (A'Length(1) + 1)) / 2) do
-         for I in A'Range(2) loop
-            for J in A'First(1)..A'First(1)+(I-A'First(2)) loop
-               R.Data(K) := A(J, I);
-               K := K + 1;
+         R.UpLo := UpLo;
+         if UpLo = Upper then
+            for I in A'Range(2) loop
+               for J in A'First(1)..A'First(1)+(I-A'First(2)) loop
+                  R.Data(K) := A(J, I);
+                  K := K + 1;
+               end loop;
             end loop;
-         end loop;
+         else
+            for I in A'Range(2) loop
+               for J in A'First(1)+(I-A'First(2))..A'Last(1) loop
+                  R.Data(K) := A(J, I);
+                  K := K + 1;
+               end loop;
+            end loop;
+         end if;
       end return;
    end Make;
 
-   function Zeros(Rows : Positive) return Symmetric_Real_Matrix is
+   function Zeros(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix is
      (Symmetric_Real_Matrix'(M => Rows,
                              L => (Rows * (Rows + 1))/2,
+                             UpLo => UpLo,
                              Data => (others => 0.0)));
 
-   function Ones(Rows : Positive) return Symmetric_Real_Matrix is
+   function Ones(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix is
      (Symmetric_Real_Matrix'(M => Rows,
                              L => (Rows * (Rows + 1))/2,
+                             UpLo => UpLo,
                              Data => (others => 1.0)));
 
-   function Identity(Rows : Positive) return Symmetric_Real_Matrix is
+   function Identity(Rows : Positive;
+                     UpLo : UpLo_Part) return Symmetric_Real_Matrix is
       Index : Integer := 1;
    begin
       return R : Symmetric_Real_Matrix(M => Rows,
                                        L => (Rows * (Rows + 1))/2) do
+         R.UpLo := UpLo;
          R.Data := (others => 0.0);
          for I in 1..Rows loop
-            R.Data(Index) := 1.0;
+            if UpLo = Upper then
+               R.Data(Index) := 1.0;
+            else
+               R.Data(R.Data'Last-Index+1) := 1.0;
+            end if;
             Index := Index + I + 1;
          end loop;
       end return;
