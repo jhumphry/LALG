@@ -187,12 +187,12 @@ package body aBLAS_Real_Level1 is
 
    procedure Check_Nrm2 (T : in out Test_Cases.Test_Case'Class) is
       pragma Unreferenced (T);
-      X : aliased Concrete_Real_Vector := Make((1.0, 2.0, 3.0));
+      X : aliased Concrete_Real_Vector := Make((2.0, 3.0, 4.0));
       X2 : constant Real_Vector_View :=
         Make(X'Access, Start => 2, Stride => 1, Length => 2);
    begin
-      Assert(abs(nrm2(X)-3.7416573867739413)<Soft_Epsilon, "Nrm2 incorrect.");
-      Assert(abs(nrm2(X2)-3.605551275463989)<Soft_Epsilon, "Nrm2 incorrect applied to view.");
+      Assert(abs(nrm2(X)-5.3851648071345037)<Soft_Epsilon, "Nrm2 incorrect.");
+      Assert(abs(nrm2(X2)-5.0)<Soft_Epsilon, "Nrm2 incorrect applied to view.");
    end Check_Nrm2;
 
    ----------------
