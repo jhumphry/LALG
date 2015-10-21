@@ -422,7 +422,7 @@ package aBLAS.Real_BLAS.Imports is
       ALPHA : Real;
       X     : Real_Vector_Constant_Handle;
       INCX  : FP;
-      AP    : Real_Packed_Matrix_Handle) with
+      AP    : Packed_Real_Matrix_Handle) with
       Import        => True,
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "sspr" & BLAS_Suffix;
@@ -433,7 +433,7 @@ package aBLAS.Real_BLAS.Imports is
       ALPHA : Real;
       X     : Real_Vector_Constant_Handle;
       INCX  : FP;
-      AP    : Real_Packed_Matrix_Handle) with
+      AP    : Packed_Real_Matrix_Handle) with
       Import        => True,
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "dspr" & BLAS_Suffix;
@@ -474,7 +474,7 @@ package aBLAS.Real_BLAS.Imports is
       INCX  : FP;
       Y     : Real_Vector_Constant_Handle;
       INCY  : FP;
-      AP    : Real_Packed_Matrix_Handle) with
+      AP    : Packed_Real_Matrix_Handle) with
       Import        => True,
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "sspr2" & BLAS_Suffix;
@@ -487,7 +487,7 @@ package aBLAS.Real_BLAS.Imports is
       INCX  : FP;
       Y     : Real_Vector_Constant_Handle;
       INCY  : FP;
-      AP    : Real_Packed_Matrix_Handle) with
+      AP    : Packed_Real_Matrix_Handle) with
       Import        => True,
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "dspr2" & BLAS_Suffix;
