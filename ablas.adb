@@ -252,7 +252,8 @@ package body aBLAS is
         (for all I in 1..Left.Length => abs(Left.Item(I)-Right(Right'First+I-1)) <= Epsilon)
      );
 
-   function "="(Left : Real_Matrix'Class; Right : Real_2D_Array) return Boolean is
+   function "="(Left : Real_Abstract_Matrix'Class;
+                Right : Real_2D_Array) return Boolean is
    begin
       if Left.Rows /= Right'Length(1) or Left.Columns /= Right'Length(2) then
          return False;
@@ -268,7 +269,7 @@ package body aBLAS is
       end if;
    end "=";
 
-   function Approx_Equal(Left : Real_Matrix'Class;
+   function Approx_Equal(Left : Real_Abstract_Matrix'Class;
                          Right : Real_2D_Array;
                          Epsilon : Real := 0.001) return Boolean is
    begin

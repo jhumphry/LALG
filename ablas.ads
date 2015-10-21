@@ -132,9 +132,10 @@ package aBLAS is
                          Right : Real_1D_Array;
                          Epsilon : Real := 0.001) return Boolean;
 
-   function "="(Left : Real_Matrix'Class; Right : Real_2D_Array) return Boolean;
+   function "="(Left : Real_Abstract_Matrix'Class;
+                Right : Real_2D_Array) return Boolean;
 
-   function Approx_Equal(Left : Real_Matrix'Class;
+   function Approx_Equal(Left : Real_Abstract_Matrix'Class;
                          Right : Real_2D_Array;
                          Epsilon : Real := 0.001) return Boolean;
 
