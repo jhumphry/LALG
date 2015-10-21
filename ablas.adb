@@ -180,6 +180,62 @@ package body aBLAS is
    function Constant_Handle(V : in Packed_Real_Matrix) return Real_Packed_Matrix_Constant_Handle is
      (V.Data(1)'Unchecked_Access);
 
+   function Make(A : Real_2D_Array; UpLo : UpLo_Part)
+                 return Packed_Real_Matrix is
+      K : Positive := 1;
+   begin
+      return R : Packed_Real_Matrix(M => A'Length(1),
+                                    L => (A'Length(1) * (A'Length(1) + 1)) / 2) do
+         R.UpLo := UpLo;
+         if UpLo = Upper then
+            for I in A'Range(2) loop
+               for J in A'First(1)..A'First(1)+(I-A'First(2)) loop
+                  R.Data(K) := A(J, I);
+                  K := K + 1;
+               end loop;
+            end loop;
+         else
+            for I in A'Range(2) loop
+               for J in A'First(1)+(I-A'First(2))..A'Last(1) loop
+                  R.Data(K) := A(J, I);
+                  K := K + 1;
+               end loop;
+            end loop;
+         end if;
+      end return;
+   end Make;
+
+   function Zeros(Rows : Positive; UpLo : UpLo_Part) return Packed_Real_Matrix is
+     (Packed_Real_Matrix'(M => Rows,
+                          L => (Rows * (Rows + 1))/2,
+                          UpLo => UpLo,
+                          Data => (others => 0.0)));
+
+   function Ones(Rows : Positive; UpLo : UpLo_Part) return Packed_Real_Matrix is
+     (Packed_Real_Matrix'(M => Rows,
+                          L => (Rows * (Rows + 1))/2,
+                          UpLo => UpLo,
+                          Data => (others => 1.0)));
+
+   function Identity(Rows : Positive;
+                     UpLo : UpLo_Part) return Packed_Real_Matrix is
+      Index : Integer := 1;
+   begin
+      return R : Packed_Real_Matrix(M => Rows,
+                                    L => (Rows * (Rows + 1))/2) do
+         R.UpLo := UpLo;
+         R.Data := (others => 0.0);
+         for I in 1..Rows loop
+            if UpLo = Upper then
+               R.Data(Index) := 1.0;
+            else
+               R.Data(R.Data'Last-Index+1) := 1.0;
+            end if;
+            Index := Index + I + 1;
+         end loop;
+      end return;
+   end Identity;
+
    --
    -- Symmetric_Real_Matrix
    --
@@ -210,61 +266,26 @@ package body aBLAS is
       end if;
    end Variable_Reference;
 
-   function Make(A : Real_2D_Array; UpLo : UpLo_Part)
-                 return Symmetric_Real_Matrix is
-      K : Positive := 1;
-   begin
-      return R : Symmetric_Real_Matrix(M => A'Length(1),
-                                       L => (A'Length(1) * (A'Length(1) + 1)) / 2) do
-         R.UpLo := UpLo;
-         if UpLo = Upper then
-            for I in A'Range(2) loop
-               for J in A'First(1)..A'First(1)+(I-A'First(2)) loop
-                  R.Data(K) := A(J, I);
-                  K := K + 1;
-               end loop;
-            end loop;
-         else
-            for I in A'Range(2) loop
-               for J in A'First(1)+(I-A'First(2))..A'Last(1) loop
-                  R.Data(K) := A(J, I);
-                  K := K + 1;
-               end loop;
-            end loop;
-         end if;
-      end return;
-   end Make;
-
+   function Make(A : Real_2D_Array; UpLo : UpLo_Part) return Symmetric_Real_Matrix is
+     (Symmetric_Real_Matrix'(
+                             Packed_Real_Matrix'(Make(A, UpLo))
+                             with null record
+                            ));
    function Zeros(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix is
-     (Symmetric_Real_Matrix'(M => Rows,
-                             L => (Rows * (Rows + 1))/2,
-                             UpLo => UpLo,
-                             Data => (others => 0.0)));
-
+     (Symmetric_Real_Matrix'(
+                             Packed_Real_Matrix'(Zeros(Rows, UpLo))
+                             with null record
+                            ));
    function Ones(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix is
-     (Symmetric_Real_Matrix'(M => Rows,
-                             L => (Rows * (Rows + 1))/2,
-                             UpLo => UpLo,
-                             Data => (others => 1.0)));
-
-   function Identity(Rows : Positive;
-                     UpLo : UpLo_Part) return Symmetric_Real_Matrix is
-      Index : Integer := 1;
-   begin
-      return R : Symmetric_Real_Matrix(M => Rows,
-                                       L => (Rows * (Rows + 1))/2) do
-         R.UpLo := UpLo;
-         R.Data := (others => 0.0);
-         for I in 1..Rows loop
-            if UpLo = Upper then
-               R.Data(Index) := 1.0;
-            else
-               R.Data(R.Data'Last-Index+1) := 1.0;
-            end if;
-            Index := Index + I + 1;
-         end loop;
-      end return;
-   end Identity;
+     (Symmetric_Real_Matrix'(
+                             Packed_Real_Matrix'(Ones(Rows, UpLo))
+                             with null record
+                            ));
+   function Identity(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix is
+     (Symmetric_Real_Matrix'(
+                             Packed_Real_Matrix'(Identity(Rows, UpLo))
+                             with null record
+                            ));
 
    -- Some equality operators
 
