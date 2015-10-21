@@ -37,6 +37,7 @@ package aBLAS_Real_Level2 is
    procedure Check_Gemv (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Symv (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Spmv (T : in out Test_Cases.Test_Case'Class);
+   procedure Check_Trmv (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Ger (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Syr_Syr2 (T : in out Test_Cases.Test_Case'Class);
    procedure Check_Spr_Spr2 (T : in out Test_Cases.Test_Case'Class);
@@ -62,6 +63,7 @@ private
      ( (Check_Gemv'Access, +"Check real gemv routine."),
        (Check_Symv'Access, +"Check real symv routine."),
        (Check_Spmv'Access, +"Check real spmv routine."),
+       (Check_Trmv'Access, +"Check real trmv routine."),
        (Check_Ger'Access, +"Check real ger routine."),
        (Check_Syr_Syr2'Access, +"Check real syr and syr2 routines."),
        (Check_Spr_Spr2'Access, +"Check real spr and spr2 routines.")

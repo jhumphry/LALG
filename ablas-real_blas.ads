@@ -147,6 +147,14 @@ package aBLAS.Real_BLAS is
                  return Real_Vector'Class
      with Pre => (X.Length = AP.Columns);
 
+   -- x <- A*x or x <- AT*x
+   procedure trmv(A : in Real_Matrix'Class;
+                  UPLO : in UpLo_Part;
+                  TRANS : in Trans_Op;
+                  DIAG : in Diag_Unit;
+                  X : in out Real_Vector'Class)
+     with Inline;
+
    -- A <- alpha*x*yT + A
    procedure ger(X : in Real_Vector'Class;
                  Y : in Real_Vector'Class;

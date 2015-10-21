@@ -127,6 +127,52 @@ package body aBLAS_Real_Level2 is
              "Function version of SPMV not working (lower)");
    end Check_Spmv;
 
+   ----------------
+   -- Check_Trmv --
+   ----------------
+
+   procedure Check_Trmv (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
+      A : aliased constant Concrete_Real_Matrix := Make((
+                                                        (1.0, 2.0),
+                                                        (5.0, 6.0)
+                                                       ));
+      X : aliased Concrete_Real_Vector := Zeros(2);
+   begin
+      X := Make((1.0, 3.0));
+      trmv(A, Upper, No_Transpose, Non_Unit_Diag, X);
+      Assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by TRMV operation (Upper, No_Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(7.0, 18.0),
+             "X not set correctly by TRMV operation (Upper, No_Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 3.0));
+      trmv(A, Upper, Transpose, Non_Unit_Diag, X);
+      Assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by TRMV operation (Upper, Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 20.0),
+             "X not set correctly by TRMV operation (Upper, Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 3.0));
+      trmv(A, Lower, No_Transpose, Non_Unit_Diag, X);
+      Assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by TRMV operation (Lower, No_Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 23.0),
+             "X not set correctly by TRMV operation (Lower, No_Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 3.0));
+      trmv(A, Lower, No_Transpose, Unit_Diag, X);
+      Assert(A = Real_2D_Array'(
+             (1.0, 2.0),
+             (5.0, 6.0)), "A changed by TRMV operation (Lower, No_Transpose, Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 8.0),
+             "X not set correctly by TRMV operation (Lower, No_Transpose, Unit_Diag)");
+
+   end Check_Trmv;
+
    ---------------
    -- Check_Ger --
    ---------------
