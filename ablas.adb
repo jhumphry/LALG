@@ -245,7 +245,7 @@ package body aBLAS is
       T : constant Integer := Integer'Max(R, C);
    begin
       if V.UpLo = Upper then
-         return V.Data((T * (T-1)) / 2 + S);
+         return V.Data(S + (T * (T-1)) / 2);
       else
          -- Note - the BLAS technical report is WRONG about this
          -- the LAPACK user guide has the correct formula.
@@ -257,10 +257,9 @@ package body aBLAS is
                                return Real_Scalar is
       S : constant Integer := Integer'Min(R, C);
       T : constant Integer := Integer'Max(R, C);
-      U : constant Integer := (T * (T-1)) / 2 + S;
    begin
       if V.UpLo = Upper then
-         return Real_Scalar'(Element => V.Data(U)'Access);
+         return Real_Scalar'(Element => V.Data(S + (T * (T-1)) / 2)'Access);
       else
          return Real_Scalar'(Element => V.Data(T + (2 * V.M - S) * (S - 1) / 2)'Access);
       end if;
