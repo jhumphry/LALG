@@ -124,14 +124,14 @@ package body aBLAS_Real_Level2 is
 
       syr2(X, Y, A, Lower, 2.0);
       Assert(X = Real_1D_Array'(1.0, 2.0, 3.0),
-             "X changed by SYR operation (lower triangular)");
+             "X changed by SYR2 operation (lower triangular)");
       Assert(Y = Real_1D_Array'(-1.0, 2.0, -1.0),
-             "Y changed by SYR operation (lower triangular)");
+             "Y changed by SYR2 operation (lower triangular)");
       Assert(A = Real_2D_Array'((
              (-3.0, 2.0, 3.0),
              ( 0.0,20.0, 6.0),
              (-8.0, 8.0,-3.0))),
-             "A not set correctly by SYR operation (upper triangular)");
+             "A not set correctly by SYR2 operation (lower triangular)");
 
    end Check_Syr_Syr2;
 
