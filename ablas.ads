@@ -120,6 +120,9 @@ package aBLAS is
                                return Real_Scalar with Inline;
    function Make(A : Real_2D_Array) return Symmetric_Real_Matrix
      with Pre => (A'Length(1) = A'Length(2));
+   function Zeros(Rows : Positive) return Symmetric_Real_Matrix;
+   function Ones(Rows : Positive) return Symmetric_Real_Matrix;
+   function Identity(Rows : Positive) return Symmetric_Real_Matrix;
 
    -- Some equality operators
 

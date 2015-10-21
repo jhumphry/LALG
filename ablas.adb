@@ -215,6 +215,29 @@ package body aBLAS is
       end return;
    end Make;
 
+   function Zeros(Rows : Positive) return Symmetric_Real_Matrix is
+     (Symmetric_Real_Matrix'(M => Rows,
+                             L => (Rows * (Rows + 1))/2,
+                             Data => (others => 0.0)));
+
+   function Ones(Rows : Positive) return Symmetric_Real_Matrix is
+     (Symmetric_Real_Matrix'(M => Rows,
+                             L => (Rows * (Rows + 1))/2,
+                             Data => (others => 1.0)));
+
+   function Identity(Rows : Positive) return Symmetric_Real_Matrix is
+      Index : Integer := 1;
+   begin
+      return R : Symmetric_Real_Matrix(M => Rows,
+                                       L => (Rows * (Rows + 1))/2) do
+         R.Data := (others => 0.0);
+         for I in 1..Rows loop
+            R.Data(Index) := 1.0;
+            Index := Index + I + 1;
+         end loop;
+      end return;
+   end Identity;
+
    -- Some equality operators
 
    function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean is

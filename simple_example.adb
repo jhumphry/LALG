@@ -37,12 +37,16 @@ procedure Simple_Example is
 begin
 
    Put_Line("Test output");
+   Put_Line("(General) Real matrices");
    Put("Zero vector length 15: ");
    Put(BLAS.Concrete_Real_Vector'(BLAS.Zeros(15))); New_Line;
    Put("Identity matrix 3x3:");
-   Put(BLAS.Identity(3)); New_Line;
+   Put(BLAS.Concrete_Real_Matrix'(BLAS.Identity(3))); New_Line;
    Put("Identity matrix 10x10:");
-   Put(BLAS.Identity(10)); New_Line;
+   Put(BLAS.Concrete_Real_Matrix'(BLAS.Identity(10))); New_Line;
+   Put_Line("Symmetrical Packed Real matrices");
+   Put("SP => "); Put(SP); New_Line;
+   Put("I => "); Put(BLAS.Symmetric_Real_Matrix'(BLAS.Identity(3))); New_Line;
 
    New_Line;
    Put_Line("*** Level 1 ***");
@@ -100,9 +104,5 @@ begin
    gemm(A, B, C, ALPHA => 2.0, BETA => 1.0);
    Put("1.0*At*B => "); Put(gemm(A,B,1.0,Transpose,No_Transpose));
    New_Line;
-
-   New_Line;
-   Put_Line("Symmetrical Packed matrices");
-   Put("SP => "); Put(SP); New_Line;
 
 end Simple_Example;
