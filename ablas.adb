@@ -286,6 +286,68 @@ package body aBLAS is
                              with null record
                             ));
 
+   --
+   -- Triangular_Real_Matrix
+   --
+
+   function Item(V : aliased in Triangular_Real_Matrix; R, C : Integer) return Real is
+   begin
+      if V.UpLo = Upper then
+         if R <= C then
+            return V.Data(R + (C * (C-1)) / 2);
+         else
+            return 0.0;
+         end if;
+      else
+         if C <= R then
+         -- Note - the BLAS technical report is WRONG about this
+         -- the LAPACK user guide has the correct formula.
+            return V.Data(R + (2 * V.M - C) * (C - 1) / 2);
+         else
+            return 0.0;
+         end if;
+      end if;
+   end Item;
+
+   function Variable_Reference(V: aliased in out Triangular_Real_Matrix; R, C : Integer)
+                               return Real_Scalar is
+   begin
+      if V.UpLo = Upper then
+         if R <= C then
+            return Real_Scalar'(Element => V.Data(R + (C * (C-1)) / 2)'Access);
+         else
+            raise Constraint_Error;
+         end if;
+      else
+         if C <= R then
+            return Real_Scalar'(Element => V.Data(R + (2 * V.M - C) * (C - 1) / 2)'Access);
+         else
+            raise Constraint_Error;
+         end if;
+      end if;
+   end Variable_Reference;
+
+   function Make(A : Real_2D_Array; UpLo : UpLo_Part) return Triangular_Real_Matrix is
+     (Triangular_Real_Matrix'(
+                              Packed_Real_Matrix'(Make(A, UpLo))
+                              with null record
+                             ));
+   function Zeros(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix is
+     (Triangular_Real_Matrix'(
+                              Packed_Real_Matrix'(Zeros(Rows, UpLo))
+                              with null record
+                             ));
+   function Ones(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix is
+     (Triangular_Real_Matrix'(
+                              Packed_Real_Matrix'(Ones(Rows, UpLo))
+                              with null record
+                             ));
+   function Identity(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix is
+     (Triangular_Real_Matrix'(
+                              Packed_Real_Matrix'(Identity(Rows, UpLo))
+                              with null record
+                             ));
+
    -- Some equality operators
 
    function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean is

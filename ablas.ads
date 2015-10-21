@@ -128,6 +128,19 @@ package aBLAS is
    function Ones(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix;
    function Identity(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix;
 
+   type Triangular_Real_Matrix is new Packed_Real_Matrix and Abstract_Real_Matrix with private
+     with Constant_Indexing => Item_TRM,
+     Variable_Indexing => Variable_Reference_TRM;
+   function Item(V : aliased in Triangular_Real_Matrix; R, C : Integer)
+                 return Real with Inline;
+   function Variable_Reference(V : aliased in out Triangular_Real_Matrix; R, C : Integer)
+                               return Real_Scalar with Inline;
+   function Make(A : Real_2D_Array; UpLo : UpLo_Part) return Triangular_Real_Matrix
+     with Pre => (A'Length(1) = A'Length(2));
+   function Zeros(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix;
+   function Ones(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix;
+   function Identity(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix;
+
    -- Some equality operators
 
    function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean;
@@ -246,6 +259,14 @@ private
    function Item_SRM(V : aliased in Symmetric_Real_Matrix; R, C : Integer)
                      return Real renames Item;
    function Variable_Reference_SRM(V: aliased in out Symmetric_Real_Matrix; R, C : Integer)
+                                return Real_Scalar renames Variable_Reference;
+
+   type Triangular_Real_Matrix is new Packed_Real_Matrix and Abstract_Real_Matrix
+   with null record;
+
+   function Item_TRM(V : aliased in Triangular_Real_Matrix; R, C : Integer)
+                     return Real renames Item;
+   function Variable_Reference_TRM(V: aliased in out Triangular_Real_Matrix; R, C : Integer)
                                 return Real_Scalar renames Variable_Reference;
 
 end aBLAS;

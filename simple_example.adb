@@ -38,7 +38,15 @@ procedure Simple_Example is
                                                                   (4.0, 5.0, 6.0),
                                                                   (7.0, 8.0, 9.0)
                                                                  ), BLAS.Lower);
-
+   TPU : aliased constant BLAS.Triangular_Real_Matrix := BLAS.Make((
+                                                                   (1.0, 2.0),
+                                                                   (3.0, 4.0)
+                                                                  ), BLAS.Upper);
+   TPL : aliased constant BLAS.Triangular_Real_Matrix := BLAS.Make((
+                                                                   (1.0, 2.0, 3.0),
+                                                                   (4.0, 5.0, 6.0),
+                                                                   (7.0, 8.0, 9.0)
+                                                                  ), BLAS.Lower);
 begin
 
    Put_Line("Test output");
@@ -57,6 +65,15 @@ begin
    New_Line;
    Put("I (lower) => ");
    Put(BLAS.Symmetric_Real_Matrix'(BLAS.Identity(3, BLAS.Lower)));
+   New_Line;
+   Put_Line("Triangular Packed Real matrices");
+   Put("TPU => "); Put(TPU); New_Line;
+   Put("TPL => "); Put(TPL); New_Line;
+   Put("I (upper) => ");
+   Put(BLAS.Symmetric_Real_Matrix'(BLAS.Identity(2, BLAS.Upper)));
+   New_Line;
+   Put("I (lower) => ");
+   Put(BLAS.Symmetric_Real_Matrix'(BLAS.Identity(2, BLAS.Lower)));
    New_Line;
 
    New_Line;
