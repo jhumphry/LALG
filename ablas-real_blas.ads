@@ -173,6 +173,16 @@ package aBLAS.Real_BLAS is
                   X : in out Real_Vector'Class)
      with Inline;
 
+   -- B <- solve(A * X =  B) or
+   -- B <- solve(AT * X =  B)
+   -- A is an upper or lower packed triangular matrix, unit or non-unit diagonal
+   -- B is a vector
+   procedure tpsv(AP : in Triangular_Real_Matrix'Class;
+                  TRANS : in Real_Trans_Op;
+                  DIAG : in Diag_Unit;
+                  X : in out Real_Vector'Class)
+     with Inline;
+
    -- A <- alpha*x*yT + A
    procedure ger(X : in Real_Vector'Class;
                  Y : in Real_Vector'Class;

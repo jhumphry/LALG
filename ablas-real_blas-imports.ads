@@ -414,6 +414,30 @@ package aBLAS.Real_BLAS.Imports is
       Convention    => Fortran,
      External_Name => BLAS_Prefix & "dtrsv" & BLAS_Suffix;
 
+   procedure STPSV
+     (UPLO  : FC;
+      TRANS : FC;
+      DIAG  : FC;
+      N     : FP;
+      AP    : Real_Packed_Matrix_Constant_Handle;
+      X     : Real_Vector_Handle;
+      INCX  : FP) with
+      Import        => True,
+      Convention    => Fortran,
+      External_Name => BLAS_Prefix & "stpsv" & BLAS_Suffix;
+
+   procedure DTPSV
+     (UPLO  : FC;
+      TRANS : FC;
+      DIAG  : FC;
+      N     : FP;
+      AP    : Real_Packed_Matrix_Constant_Handle;
+      X     : Real_Vector_Handle;
+      INCX  : FP) with
+     Import        => True,
+     Convention    => Fortran,
+     External_Name => BLAS_Prefix & "dtpsv" & BLAS_Suffix;
+
    procedure SGER
      (M     : FI;
       N     : FI;

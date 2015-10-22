@@ -564,6 +564,35 @@ package body aBLAS.Real_BLAS is
       end case;
    end trsv;
 
+   ----------
+   -- tpsv --
+   ----------
+
+   procedure tpsv(AP : in Triangular_Real_Matrix'Class;
+                  TRANS : in Real_Trans_Op;
+                  DIAG : in Diag_Unit;
+                  X : in out Real_Vector'Class) is
+   begin
+      case Precision is
+         when Single =>
+            STPSV(UPLO  => Map_UpLo_Part(AP.UpLo),
+                  TRANS => Map_Trans_Op(TRANS),
+                  DIAG  => Map_Diag_Unit(DIAG),
+                  N     => FP(AP.Columns),
+                  AP    => AP.Constant_Handle,
+                  X     => X.Handle,
+                  INCX  => FP(X.Stride));
+         when Double =>
+            DTPSV(UPLO  => Map_UpLo_Part(AP.UpLo),
+                  TRANS => Map_Trans_Op(TRANS),
+                  DIAG  => Map_Diag_Unit(DIAG),
+                  N     => FP(AP.Columns),
+                  AP    => AP.Constant_Handle,
+                  X     => X.Handle,
+                  INCX  => FP(X.Stride));
+      end case;
+   end tpsv;
+
    ---------
    -- ger --
    ---------
