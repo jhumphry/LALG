@@ -314,7 +314,7 @@ package aBLAS.Real_BLAS.Imports is
      (UPLO  : FC;
       N     : FP;
       ALPHA : Real;
-      AP    : Real_Packed_Matrix_Constant_Handle;
+      AP    : Packed_Real_Matrix_Constant_Handle;
       X     : Real_Vector_Constant_Handle;
       INCX  : FP;
       BETA  : Real;
@@ -328,7 +328,7 @@ package aBLAS.Real_BLAS.Imports is
      (UPLO  : FC;
       N     : FP;
       ALPHA : Real;
-      AP    : Real_Packed_Matrix_Constant_Handle;
+      AP    : Packed_Real_Matrix_Constant_Handle;
       X     : Real_Vector_Constant_Handle;
       INCX  : FP;
       BETA  : Real;
@@ -369,7 +369,7 @@ package aBLAS.Real_BLAS.Imports is
       TRANS : FC;
       DIAG  : FC;
       N     : FP;
-      AP    : Real_Packed_Matrix_Constant_Handle;
+      AP    : Packed_Real_Matrix_Constant_Handle;
       X     : Real_Vector_Handle;
       INCX  : FP) with
      Import        => True,
@@ -381,7 +381,7 @@ package aBLAS.Real_BLAS.Imports is
       TRANS : FC;
       DIAG  : FC;
       N     : FP;
-      AP    : Real_Packed_Matrix_Constant_Handle;
+      AP    : Packed_Real_Matrix_Constant_Handle;
       X     : Real_Vector_Handle;
       INCX  : FP) with
      Import        => True,
@@ -419,7 +419,7 @@ package aBLAS.Real_BLAS.Imports is
       TRANS : FC;
       DIAG  : FC;
       N     : FP;
-      AP    : Real_Packed_Matrix_Constant_Handle;
+      AP    : Packed_Real_Matrix_Constant_Handle;
       X     : Real_Vector_Handle;
       INCX  : FP) with
       Import        => True,
@@ -431,7 +431,7 @@ package aBLAS.Real_BLAS.Imports is
       TRANS : FC;
       DIAG  : FC;
       N     : FP;
-      AP    : Real_Packed_Matrix_Constant_Handle;
+      AP    : Packed_Real_Matrix_Constant_Handle;
       X     : Real_Vector_Handle;
       INCX  : FP) with
      Import        => True,

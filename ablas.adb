@@ -177,7 +177,7 @@ package body aBLAS is
    function Columns(V : Packed_Real_Matrix) return Positive is (V.M);
    function Handle(V : in out Packed_Real_Matrix) return Packed_Real_Matrix_Handle is
      (V.Data(1)'Unchecked_Access);
-   function Constant_Handle(V : in Packed_Real_Matrix) return Real_Packed_Matrix_Constant_Handle is
+   function Constant_Handle(V : in Packed_Real_Matrix) return Packed_Real_Matrix_Constant_Handle is
      (V.Data(1)'Unchecked_Access);
 
    function Make(A : Real_2D_Array; UpLo : UpLo_Part)

@@ -26,7 +26,7 @@ package aBLAS is
    type Real_Matrix_Handle is limited private;
    type Real_Matrix_Constant_Handle is limited private;
    type Packed_Real_Matrix_Handle is limited private;
-   type Real_Packed_Matrix_Constant_Handle is limited private;
+   type Packed_Real_Matrix_Constant_Handle is limited private;
 
    type Real_Vector is interface;
    function Length(V : Real_Vector) return Positive is abstract;
@@ -113,7 +113,7 @@ package aBLAS is
    function Rows(V : Packed_Real_Matrix) return Positive;
    function Columns(V : Packed_Real_Matrix) return Positive;
    function Handle(V : in out Packed_Real_Matrix) return Packed_Real_Matrix_Handle;
-   function Constant_Handle(V : in Packed_Real_Matrix) return Real_Packed_Matrix_Constant_Handle;
+   function Constant_Handle(V : in Packed_Real_Matrix) return Packed_Real_Matrix_Constant_Handle;
 
    type Symmetric_Real_Matrix is new Packed_Real_Matrix and Abstract_Real_Matrix with private
      with Constant_Indexing => Item_SRM,
@@ -183,7 +183,7 @@ private
    type Real_Matrix_Handle is new Real_Handle;
    type Real_Matrix_Constant_Handle is new Real_Constant_Handle;
    type Packed_Real_Matrix_Handle is new Real_Handle;
-   type Real_Packed_Matrix_Constant_Handle is new Real_Constant_Handle;
+   type Packed_Real_Matrix_Constant_Handle is new Real_Constant_Handle;
 
    type Concrete_Real_Vector(N : Positive) is new Real_Vector with
       record
