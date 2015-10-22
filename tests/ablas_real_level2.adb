@@ -174,6 +174,56 @@ package body aBLAS_Real_Level2 is
    end Check_Trmv;
 
    ----------------
+   -- Check_Tpmv --
+   ----------------
+
+   procedure Check_Tpmv (T : in out Test_Cases.Test_Case'Class) is
+      pragma Unreferenced (T);
+      AP : aliased Triangular_Real_Matrix := Make((
+                                                  (1.0, 2.0),
+                                                  (5.0, 6.0)
+                                                 ), Upper);
+      X : aliased Concrete_Real_Vector := Zeros(2);
+   begin
+      X := Make((1.0, 3.0));
+      tpmv(AP, No_Transpose, Non_Unit_Diag, X);
+      Assert(AP = Real_2D_Array'(
+             (1.0, 2.0),
+             (0.0, 6.0)), "AP (Upper) changed by TPMV operation (No_Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(7.0, 18.0),
+             "X not set correctly by TRMV operation (Upper, No_Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 3.0));
+      tpmv(AP, Transpose, Non_Unit_Diag, X);
+      Assert(AP = Real_2D_Array'(
+             (1.0, 2.0),
+             (0.0, 6.0)), "AP (Upper) changed by TPMV operation (Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 20.0),
+             "X not set correctly by TPMV operation (Upper, Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 3.0));
+      AP := Make((
+                 (1.0, 2.0),
+                 (5.0, 6.0)
+                ), Lower);
+      tpmv(AP, No_Transpose, Non_Unit_Diag, X);
+      Assert(AP = Real_2D_Array'(
+             (1.0, 0.0),
+             (5.0, 6.0)), "AP (Lower) changed by TPMV operation (No_Transpose, Non_Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 23.0),
+             "X not set correctly by TPMV operation (Lower, No_Transpose, Non_Unit_Diag)");
+
+      X := Make((1.0, 3.0));
+      tpmv(AP, No_Transpose, Unit_Diag, X);
+      Assert(AP = Real_2D_Array'(
+             (1.0, 0.0),
+             (5.0, 6.0)), "AP (Lower) changed by TPMV operation (No_Transpose, Unit_Diag)");
+      Assert(X = Real_1D_Array'(1.0, 8.0),
+             "X not set correctly by TPMV operation (Lower, No_Transpose, Unit_Diag)");
+
+   end Check_Tpmv;
+
+   ----------------
    -- Check_Trsv --
    ----------------
 
