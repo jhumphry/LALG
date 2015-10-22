@@ -150,7 +150,7 @@ package aBLAS.Real_BLAS is
    -- x <- A*x or x <- AT*x
    procedure trmv(A : in Real_Matrix'Class;
                   UPLO : in UpLo_Part;
-                  TRANS : in Trans_Op;
+                  TRANS : in Real_Trans_Op;
                   DIAG : in Diag_Unit;
                   X : in out Real_Vector'Class)
      with Inline;
@@ -161,7 +161,7 @@ package aBLAS.Real_BLAS is
    -- B is a vector
    procedure trsv(A : in Real_Matrix'Class;
                   UPLO : in UpLo_Part;
-                  TRANS : in Trans_Op;
+                  TRANS : in Real_Trans_Op;
                   DIAG : in Diag_Unit;
                   X : in out Real_Vector'Class)
      with Inline;
@@ -304,7 +304,7 @@ package aBLAS.Real_BLAS is
    procedure trmm(A : in Real_Matrix'Class;
                   SIDE : in Side_Op;
                   UPLO : in UpLo_Part;
-                  TRANSA : in Trans_Op;
+                  TRANSA : in Real_Trans_Op;
                   DIAG : in Diag_Unit;
                   B : in out Real_Matrix'Class;
                   ALPHA : in Real := 1.0)
@@ -317,7 +317,7 @@ package aBLAS.Real_BLAS is
    procedure trsm(A : in Real_Matrix'Class;
                   SIDE : in Side_Op;
                   UPLO : in UpLo_Part;
-                  TRANSA : in Trans_Op;
+                  TRANSA : in Real_Trans_Op;
                   DIAG : in Diag_Unit;
                   B : in out Real_Matrix'Class;
                   ALPHA : in Real := 1.0)
@@ -330,7 +330,7 @@ package aBLAS.Real_BLAS is
    procedure trsm(A : in Real_Matrix'Class;
                   SIDE : in Side_Op;
                   UPLO : in UpLo_Part;
-                  TRANSA : in Trans_Op;
+                  TRANSA : in Real_Trans_Op;
                   DIAG : in Diag_Unit;
                   B : in out Real_Vector'Class;
                   ALPHA : in Real := 1.0)
