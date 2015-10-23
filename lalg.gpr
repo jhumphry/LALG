@@ -11,7 +11,7 @@ project LALG is
    for Exec_Dir use "exec/";
    for Main use ("simple_example.adb", "lalg_tests.adb");
 
-   type BLAS_Type is ("netlib", "openblas");
+   type BLAS_Type is ("netlib", "openblas", "system");
    BLAS : BLAS_Type := external ("blas", "netlib");
 
    type Mode_Type is ("debug", "optimize");
@@ -50,6 +50,8 @@ project LALG is
             for Default_Switches ("ada") use ("-g", "-lblas_LINUX", "-lm", "-lgfortran");
          when "openblas" =>
             for Default_Switches ("ada") use ("-g", "-lopenblas", "-lm", "-lpthread");
+         when "system" =>
+            for Default_Switches ("ada") use ("-g", "-lblas");
       end case;
    end Linker;
 
