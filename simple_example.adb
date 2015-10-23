@@ -3,7 +3,7 @@
 with Ada.Text_IO, Ada.Float_Text_IO;
 use Ada.Text_IO, Ada.Float_Text_IO;
 
-with LALG, LALG.Real_BLAS, LALG.Real_BLAS.Util;
+with LALG, LALG.Real_BLAS, LALG.Text_IO;
 
 procedure Simple_Example is
 
@@ -11,8 +11,8 @@ procedure Simple_Example is
    package Real_BLAS is new BLAS.Real_BLAS;
    use Real_BLAS;
 
-   package BLAS_Util is new Real_BLAS.Util(Default_Aft => 3, Default_Exp => 0);
-   use BLAS_Util;
+   package BLAS_Text_IO is new BLAS.Text_IO(Default_Aft => 3, Default_Exp => 0);
+   use BLAS_Text_IO;
 
    P : aliased BLAS.Concrete_Real_Vector := BLAS.Make((1.0, 2.0, 3.0, 4.0, 5.0));
    P_View1 : aliased BLAS.Real_Vector_View := BLAS.Make(V => P'Access,

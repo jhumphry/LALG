@@ -3,7 +3,7 @@
 
 with Ada.Strings.Fixed;
 
-package body LALG.Real_BLAS.Util is
+package body LALG.Text_IO is
 
    package Real_Text_IO is new Ada.Text_IO.Float_IO(Num => Real);
    use Real_Text_IO;
@@ -178,4 +178,4 @@ package body LALG.Real_BLAS.Util is
       Put(Standard_Output, Item, Columns, Rows, Fore, Aft, Exp);
    end Put;
 
-end LALG.Real_BLAS.Util;
+end LALG.Text_IO;

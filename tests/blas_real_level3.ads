@@ -5,7 +5,8 @@
 with AUnit; use AUnit;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-with LALG.Real_BLAS.Util;
+with LALG, LALG.Real_BLAS;
+
 private with Ada.Strings.Unbounded;
 
 generic
@@ -20,9 +21,6 @@ package BLAS_Real_Level3 is
    pragma Unreferenced(Soft_Epsilon);
 
    use BLAS_Base, BLAS;
-
-   package BLAS_Util is new BLAS.Util;
-   use BLAS_Util;
 
    type Level3_Test is new Test_Cases.Test_Case with null record;
 
