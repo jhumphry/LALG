@@ -1,8 +1,8 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 
 generic
-package aBLAS.Real_BLAS is
+package LALG.Real_BLAS is
 
    -- Enumeration types for operation specifications
 
@@ -353,4 +353,4 @@ package aBLAS.Real_BLAS is
                   ALPHA : in Real := 1.0)
      with Inline;
 
-end aBLAS.Real_BLAS;
+end LALG.Real_BLAS;

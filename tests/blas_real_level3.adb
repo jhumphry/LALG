@@ -1,10 +1,10 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 -- Unit tests for Level 3 BLAS routines
 
 with AUnit.Assertions; use AUnit.Assertions;
 
-package body aBLAS_Real_Level3 is
+package body BLAS_Real_Level3 is
 
    --------------------
    -- Register_Tests --
@@ -555,4 +555,4 @@ package body aBLAS_Real_Level3 is
              "X_V not set correctly by vector TRSM operation (Left, Upper, No_Transpose, Non_Unit_Diag)");
    end Check_Trsm;
 
-end aBLAS_Real_Level3;
+end BLAS_Real_Level3;

@@ -1,10 +1,10 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 -- Unit tests for Level 1 BLAS routines
 
 with AUnit.Assertions; use AUnit.Assertions;
 
-package body aBLAS_Real_Level1 is
+package body BLAS_Real_Level1 is
 
    --------------------
    -- Register_Tests --
@@ -224,4 +224,4 @@ package body aBLAS_Real_Level1 is
       Assert(iamax(Y2) = 2, "iamax(Y2) not working on view");
    end Check_Iamax;
 
-end aBLAS_Real_Level1;
+end BLAS_Real_Level1;

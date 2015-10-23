@@ -1,5 +1,5 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 
 with Ada.Text_IO;
 
@@ -9,7 +9,7 @@ generic
    Default_Fore : Ada.Text_IO.Field := 2;
    Default_Aft : Ada.Text_IO.Field := Real'Digits-1;
    Default_Exp : Ada.Text_IO.Field := 3;
-package aBLAS.Real_BLAS.Util is
+package LALG.Real_BLAS.Util is
 
    use Ada.Text_IO;
    subtype Row_Column_Count is Count range 3..Count'Last;
@@ -42,4 +42,4 @@ package aBLAS.Real_BLAS.Util is
                  Aft : in Field := Default_Aft;
                  Exp : in Field := Default_Exp);
 
-end aBLAS.Real_BLAS.Util;
+end LALG.Real_BLAS.Util;

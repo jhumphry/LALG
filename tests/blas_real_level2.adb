@@ -1,10 +1,10 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 -- Unit tests for Level 2 BLAS routines
 
 with AUnit.Assertions; use AUnit.Assertions;
 
-package body aBLAS_Real_Level2 is
+package body BLAS_Real_Level2 is
 
    --------------------
    -- Register_Tests --
@@ -416,4 +416,4 @@ package body aBLAS_Real_Level2 is
 
    end Check_Spr_Spr2;
 
-end aBLAS_Real_Level2;
+end BLAS_Real_Level2;

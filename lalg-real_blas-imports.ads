@@ -1,8 +1,8 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 
 private generic
-package aBLAS.Real_BLAS.Imports is
+package LALG.Real_BLAS.Imports is
 
    subtype FI is IntFort.Fortran_Integer;
    subtype FP is FI range 1 .. FI'Last;
@@ -770,4 +770,4 @@ package aBLAS.Real_BLAS.Imports is
       Convention    => Fortran,
       External_Name => BLAS_Prefix & "dtrsm" & BLAS_Suffix;
 
-end aBLAS.Real_BLAS.Imports;
+end LALG.Real_BLAS.Imports;

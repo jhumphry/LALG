@@ -1,7 +1,7 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 
-package body aBLAS is
+package body LALG is
 
    --
    -- Concrete_Real_Vector
@@ -397,4 +397,4 @@ package body aBLAS is
       end if;
    end Approx_Equal;
 
-end aBLAS;
+end LALG;

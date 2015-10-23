@@ -1,13 +1,13 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 
-with aBLAS.Real_BLAS.Imports;
+with LALG.Real_BLAS.Imports;
 
 with Interfaces.Fortran;
 
-package body aBLAS.Real_BLAS is
+package body LALG.Real_BLAS is
 
-   package Fortran_Imports is new aBLAS.Real_BLAS.Imports;
+   package Fortran_Imports is new LALG.Real_BLAS.Imports;
    use Fortran_Imports;
 
    function TF(Item : in Character) return Interfaces.Fortran.Character_Set
@@ -1117,4 +1117,4 @@ package body aBLAS.Real_BLAS is
       end case;
    end trsm;
 
-end aBLAS.Real_BLAS;
+end LALG.Real_BLAS;

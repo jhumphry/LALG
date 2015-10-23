@@ -1,9 +1,9 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 
 with Ada.Strings.Fixed;
 
-package body aBLAS.Real_BLAS.Util is
+package body LALG.Real_BLAS.Util is
 
    package Real_Text_IO is new Ada.Text_IO.Float_IO(Num => Real);
    use Real_Text_IO;
@@ -178,4 +178,4 @@ package body aBLAS.Real_BLAS.Util is
       Put(Standard_Output, Item, Columns, Rows, Fore, Aft, Exp);
    end Put;
 
-end aBLAS.Real_BLAS.Util;
+end LALG.Real_BLAS.Util;

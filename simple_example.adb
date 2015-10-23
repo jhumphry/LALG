@@ -1,12 +1,13 @@
+-- An example of the use of the LALG packages
 
 with Ada.Text_IO, Ada.Float_Text_IO;
 use Ada.Text_IO, Ada.Float_Text_IO;
 
-with aBLAS, aBLAS.Real_BLAS, aBLAS.Real_BLAS.Util;
+with LALG, LALG.Real_BLAS, LALG.Real_BLAS.Util;
 
 procedure Simple_Example is
 
-   package BLAS is new aBLAS(Real => Float);
+   package BLAS is new LALG(Real => Float);
    package Real_BLAS is new BLAS.Real_BLAS;
    use Real_BLAS;
 

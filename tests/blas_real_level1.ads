@@ -1,21 +1,21 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 -- Unit tests for Level 1 BLAS routines
 
 with AUnit; use AUnit;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-with aBLAS, aBLAS.Real_BLAS;
+with LALG, LALG.Real_BLAS;
 
 private with Ada.Strings.Unbounded;
 
 generic
-   with package BLAS_Base is new aBLAS(<>);
+   with package BLAS_Base is new LALG(<>);
    with package BLAS is new BLAS_Base.Real_BLAS;
    Real_Type_Name : String := "<Unknown>";
    Epsilon : BLAS_Base.Real := BLAS_Base."*"(2.0, BLAS_Base.Real'Model_Epsilon);
    Soft_Epsilon : BLAS_Base.Real := BLAS_Base."*"(1000.0, BLAS_Base.Real'Model_Epsilon);
-package aBLAS_Real_Level1 is
+package BLAS_Real_Level1 is
 
    use BLAS_Base, BLAS;
 
@@ -69,4 +69,4 @@ private
        (Check_Asum'Access, +"Check real asum routine."),
        (Check_Iamax'Access, +"Check real iamax routine.") );
 
-end aBLAS_Real_Level1;
+end BLAS_Real_Level1;

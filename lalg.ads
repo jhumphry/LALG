@@ -1,11 +1,11 @@
--- aBLAS
--- An Ada 2012 binding to BLAS
+-- LALG
+-- An Ada 2012 binding to BLAS and other linear algebra routines
 
 private with Interfaces.Fortran;
 
 generic
    type Real is digits <>;
-package aBLAS is
+package LALG is
 
    -- Use the upper or lower part of a matrix
    -- Store the upper of lower part of a packed symmetrical matrix
@@ -269,4 +269,4 @@ private
    function Variable_Reference_TRM(V: aliased in out Triangular_Real_Matrix; R, C : Integer)
                                 return Real_Scalar renames Variable_Reference;
 
-end aBLAS;
+end LALG;

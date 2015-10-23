@@ -1,13 +1,15 @@
+-- LALG
+-- Linear Algebra routines for Ada
 
 with "aunit";
 
-project ABLAS is
+project LALG is
 
    for Languages use ("Ada");
    for Source_Dirs use ("./", "tests");
    for Object_Dir use "build/";
    for Exec_Dir use "exec/";
-   for Main use ("simple_example.adb", "ablas_tests.adb");
+   for Main use ("simple_example.adb", "lalg_tests.adb");
 
    type BLAS_Type is ("netlib", "openblas");
    BLAS : BLAS_Type := external ("blas", "netlib");
@@ -51,5 +53,5 @@ project ABLAS is
       end case;
    end Linker;
 
-end ABLAS;
+end LALG;
 
