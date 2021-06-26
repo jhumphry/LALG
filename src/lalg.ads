@@ -159,7 +159,6 @@ package LALG is
 private
 
    package IntFort renames Interfaces.Fortran;
-   use type Interfaces.Fortran.Fortran_Integer;
 
    -- Fortran precision corresponding to the float type used
    type Precision_Specification is (Single, Double);
