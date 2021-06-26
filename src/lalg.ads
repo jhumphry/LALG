@@ -50,6 +50,9 @@ package LALG is
    function Make(A : Real_1D_Array) return Concrete_Real_Vector;
    function Zeros(Length : Positive) return Concrete_Real_Vector;
    function Ones(Length : Positive) return Concrete_Real_Vector;
+   function Item_CRV(V : aliased in Concrete_Real_Vector; I : Integer) return Real;
+   function Variable_Reference_CRV(V: aliased in out Concrete_Real_Vector; I : Integer)
+                               return Real_Scalar;
 
    type Real_Vector_View(Base : access Concrete_Real_Vector'Class) is new Real_Vector
    with private
@@ -63,6 +66,10 @@ package LALG is
                  Start : Positive;
                  Stride : Positive;
                  Length : Natural := 0) return Real_Vector_View;
+   function Item_RVV(V : aliased in Real_Vector_View; I : Integer)
+                 return Real;
+   function Variable_Reference_RVV(V: aliased in out Real_Vector_View; I : Integer)
+                               return Real_Scalar;
 
    type Abstract_Real_Matrix is interface;
    function Rows(V : Abstract_Real_Matrix) return Positive is abstract;
@@ -92,6 +99,10 @@ package LALG is
    function Zeros(Rows, Columns : Positive) return Concrete_Real_Matrix;
    function Ones(Rows, Columns : Positive) return Concrete_Real_Matrix;
    function Identity(Rows : Positive) return Concrete_Real_Matrix;
+   function Item_CRM(V : aliased in Concrete_Real_Matrix; R, C : Integer)
+                     return Real;
+   function Variable_Reference_CRM(V: aliased in out Concrete_Real_Matrix; R, C : Integer)
+                                return Real_Scalar;
 
    type Real_Matrix_Vector(Base : access Concrete_Real_Matrix'Class) is new Real_Vector
    with private
@@ -108,6 +119,10 @@ package LALG is
      with Pre => C <= V.Columns;
    function Diagonal(V : in out Concrete_Real_Matrix'Class) return Real_Matrix_Vector
      with Pre => V.Rows = V.Columns;
+   function Item_RMV(V : aliased in Real_Matrix_Vector; I : Integer)
+                 return Real;
+   function Variable_Reference_RMV(V: aliased in out Real_Matrix_Vector; I : Integer)
+                               return Real_Scalar;
 
    type Packed_Real_Matrix(<>) is abstract tagged private;
    function Rows(V : Packed_Real_Matrix) return Positive;
@@ -127,6 +142,10 @@ package LALG is
    function Zeros(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix;
    function Ones(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix;
    function Identity(Rows : Positive; UpLo : UpLo_Part) return Symmetric_Real_Matrix;
+   function Item_SRM(V : aliased in Symmetric_Real_Matrix; R, C : Integer)
+                     return Real;
+   function Variable_Reference_SRM(V: aliased in out Symmetric_Real_Matrix; R, C : Integer)
+                                return Real_Scalar;
 
    type Triangular_Real_Matrix is new Packed_Real_Matrix and Abstract_Real_Matrix with private
      with Constant_Indexing => Item_TRM,
@@ -140,6 +159,10 @@ package LALG is
    function Zeros(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix;
    function Ones(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix;
    function Identity(Rows : Positive; UpLo : UpLo_Part) return Triangular_Real_Matrix;
+   function Item_TRM(V : aliased in Triangular_Real_Matrix; R, C : Integer)
+                     return Real;
+   function Variable_Reference_TRM(V: aliased in out Triangular_Real_Matrix; R, C : Integer)
+                                return Real_Scalar;
 
    -- Some equality operators
 
