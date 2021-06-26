@@ -350,17 +350,58 @@ package body LALG is
 
    -- Some equality operators
 
+   --  function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean is
+   --    (Left.Length = Right'Length and then
+   --       (for all I in 1..Left.Length =>
+   --             Left.Item(I) = Right(Right'First+I-1)));
+
+   -- GNAT Community 2021 rejects the reference to Left.Item(I) with the
+   -- argument "actual for explicitly aliased formal is too short-lived" which
+   -- seems to me to be an error. However, it accepts what I believe to be
+   -- the equivalent code, provided it does not use the expression function
+   -- syntax...
+
    function "="(Left : Real_Vector'Class; Right : Real_1D_Array) return Boolean is
-     (Left.Length = Right'Length and then
-        (for all I in 1..Left.Length => Left.Item(I) = Right(Right'First+I-1)));
+   begin
+      if Left.Length /= Right'Length then
+         return False;
+      end if;
+      for I in 1..Left.Length loop
+         if Left.Item(I) /= Right(Right'First+I-1) then
+            return False;
+         end if;
+      end loop;
+      return True;
+   end "=";
+
+   --  function Approx_Equal(Left : Real_Vector'Class;
+   --                        Right : Real_1D_Array;
+   --                        Epsilon : Real := 0.001) return Boolean is
+   --    (
+   --     Left.Length = Right'Length and then
+   --       (for all I in 1..Left.Length => abs(Left.Item(I)-Right(Right'First+I-1)) <= Epsilon)
+   --    );
+
+   -- GNAT Community 2021 rejects the reference to Left.Item(I) with the
+   -- argument "actual for explicitly aliased formal is too short-lived" which
+   -- seems to me to be an error. However, it accepts what I believe to be
+   -- the equivalent code, provided it does not use the expression function
+   -- syntax...
 
    function Approx_Equal(Left : Real_Vector'Class;
                          Right : Real_1D_Array;
                          Epsilon : Real := 0.001) return Boolean is
-     (
-      Left.Length = Right'Length and then
-        (for all I in 1..Left.Length => abs(Left.Item(I)-Right(Right'First+I-1)) <= Epsilon)
-     );
+   begin
+      if Left.Length /= Right'Length then
+         return False;
+      end if;
+      for I in 1..Left.Length loop
+         if abs(Left.Item(I)-Right(Right'First+I-1)) > Epsilon then
+            return False;
+         end if;
+      end loop;
+      return True;
+   end Approx_Equal;
 
    function "="(Left : Abstract_Real_Matrix'Class;
                 Right : Real_2D_Array) return Boolean is
