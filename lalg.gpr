@@ -13,7 +13,8 @@ library project LALG is
 
    for Library_Interface use ("LALG",
                               "LALG.Text_IO",
-                              "LALG.Real_BLAS"
+                              "LALG.Real_BLAS",
+                              "LALG.Real_BLAS.Imports"
                              );
 
    for Source_Dirs use ("src/");
