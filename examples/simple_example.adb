@@ -24,10 +24,10 @@ procedure Simple_Example is
                                                                  Length => 3);
 
    A : aliased BLAS.Concrete_Real_Matrix := BLAS.Make(((3.0, 4.0), (5.0, 6.0)));
-   B : aliased BLAS.Concrete_Real_Matrix := BLAS.Make(((1.0, 2.0), (3.0, 4.0)));
+   B : aliased constant BLAS.Concrete_Real_Matrix := BLAS.Make(((1.0, 2.0), (3.0, 4.0)));
    C : aliased BLAS.Concrete_Real_Matrix := BLAS.Zeros(2,2);
 
-   X : aliased BLAS.Concrete_Real_Vector := BLAS.Make((1.0, 2.0));
+   X : aliased constant BLAS.Concrete_Real_Vector := BLAS.Make((1.0, 2.0));
    Y : aliased BLAS.Concrete_Real_Vector := BLAS.Make((5.0, 5.0));
 
    SPU : aliased constant BLAS.Symmetric_Real_Matrix := BLAS.Make((

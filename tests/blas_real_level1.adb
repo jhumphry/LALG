@@ -35,7 +35,7 @@ package body BLAS_Real_Level1 is
 
    procedure Check_Rot (T : in out Test_Cases.Test_Case'Class) is
       pragma Unreferenced (T);
-      A : Concrete_Real_Matrix := Make((
+      A : constant Concrete_Real_Matrix := Make((
                                        (6.0, 5.0, 0.0),
                                        (5.0, 1.0, 4.0),
                                        (0.0, 4.0, 3.0)
