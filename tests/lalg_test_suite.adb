@@ -2,6 +2,9 @@
 -- An Ada 2012 binding to BLAS and other linear algebra routines
 -- Unit tests
 
+-- Copyright (c) 2015-2021, James Humphry - see LICENSE file for details
+-- SPDX-License-Identifier: ISC
+
 with LALG, LALG.Real_BLAS;
 
 pragma Elaborate_All(LALG, LALG.Real_BLAS);

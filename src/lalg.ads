@@ -1,6 +1,9 @@
 -- LALG
 -- An Ada 2012 binding to BLAS and other linear algebra routines
 
+-- Copyright (c) 2015-2021, James Humphry - see LICENSE file for details
+-- SPDX-License-Identifier: ISC
+
 private with Interfaces.Fortran;
 
 generic

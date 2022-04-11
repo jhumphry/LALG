@@ -1,5 +1,8 @@
 -- An example of the use of the LALG packages
 
+-- Copyright (c) 2015-2021, James Humphry - see LICENSE file for details
+-- SPDX-License-Identifier: ISC
+
 with Ada.Text_IO, Ada.Float_Text_IO;
 use Ada.Text_IO, Ada.Float_Text_IO;
 

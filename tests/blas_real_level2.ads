@@ -2,6 +2,9 @@
 -- An Ada 2012 binding to BLAS and other linear algebra routines
 -- Unit tests for Level 2 BLAS routines
 
+-- Copyright (c) 2015-2021, James Humphry - see LICENSE file for details
+-- SPDX-License-Identifier: ISC
+
 with AUnit; use AUnit;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
 
